@@ -2,12 +2,13 @@
 đồ án .Net
 
 ## Thành Viên
-| MSSV | Tên |
+| MSSV | Họ tên |
 | :---: | :---: |
 | 2001190791 | Từ Huệ Sơn |
 | 2001190794 | Lê Đức Tài |
 
 ## Khái quát
+### Lý do chọn đề tài
 ### Quản lý bán hàng (POS)
 > [Link tham khảo](https://tuvanphanmem.vn/phan-mem-quan-ly-ban-hang)
 ### Quản lý hệ khách hàng (CRM)
@@ -32,8 +33,15 @@
     - [ ] Xử lý việc xác nhận đơn hàng từ khách hàng
     - [ ] Số lượng tồn kho của sản phẩm
 - [ ] Xuất hóa đơn
-    - aa
 ### Chức năng quản lý kho
+- Giúp cho chủ cửa hàng có thể nắm bắt được số lượng tồn kho của sản phẩm để có kế hoạch xuất nhập cho hợp lý
+### Chức năng xuất báo cáo
+- Các loại báo cáo như: 
+    - [ ] Báo cáo doanh thu
+    - [ ] Báo cáo số lượng tồn kho
+
+## Công việc
+
 
 ## Link tham khảo
 - [Khái quát về phần mềm quản lý](https://tuvanphanmem.vn/phan-mem-quan-ly-cua-hang-dien-thoai)
