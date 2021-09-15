@@ -1,6 +1,12 @@
 # QlyBanDT
 đồ án .Net
 
+## Thành Viên
+| MSSV | Tên |
+| :---: | :---: |
+| 2001190791 | Từ Huệ Sơn |
+| 2001190794 | Lê Đức Tài |
+
 ## Khái quát
 ### Quản lý bán hàng (POS)
 > [Link tham khảo](https://tuvanphanmem.vn/phan-mem-quan-ly-ban-hang)
