@@ -2,10 +2,10 @@
 đồ án .Net
 
 ## Thành Viên
-| MSSV | Họ tên |
-| :---: | :---: |
-| 2001190791 | Từ Huệ Sơn |
-| 2001190794 | Lê Đức Tài |
+| MSSV          | Họ tên       |
+| :---:         | :---:        |
+| 2001190791    | Từ Huệ Sơn   |
+| 2001190794    | Lê Đức Tài   |
 
 ## Khái quát
 ### Lý do chọn đề tài
@@ -25,7 +25,7 @@
     1. [ ] Số lượng
     2. [ ] Những sản phẩm đi kèm phù hợp
 
-## Các chức năng cơ bản
+## Chức năng
 ### Chức năng quản lý bán hàng
 - [ ] Tạo phiếu đặt hàng(hóa đơn)
     - > Có trạng thái hóa đơn: Phiếu tạm, đang giao hàng, hoàn thành và đã hủy.
@@ -35,6 +35,9 @@
 - [ ] Xuất hóa đơn
 ### Chức năng quản lý kho
 - Giúp cho chủ cửa hàng có thể nắm bắt được số lượng tồn kho của sản phẩm để có kế hoạch xuất nhập cho hợp lý
+### Chức năng quản lý nhân viên
+- [ ] Doanh thu nhân viên đạt được
+- [ ] thêm, xóa, sửa nhân viên
 ### Chức năng xuất báo cáo
 - Các loại báo cáo như: 
     - [ ] Báo cáo doanh thu
