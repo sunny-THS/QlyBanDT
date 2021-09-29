@@ -23,7 +23,7 @@
     - Theo doi tương tác với khách hàng
     - Tự động hóa luồng công việc
     - Các đầu mục báo cáo
-<img src="http://tuvanphanmem.vn/image/data/Industries/CRM/phan-mem-quan-ly-quan-he-khach-hang-crm.png" alt="CRM" width="200"/><br/>
+<br/><img src="http://tuvanphanmem.vn/image/data/Industries/CRM/phan-mem-quan-ly-quan-he-khach-hang-crm.png" alt="CRM" width="200"/><br/>
 
 > [Link tham khảo](https://tuvanphanmem.vn/crm-quan-ly-quan-he-khach-hang)
 ## Mục tiêu (trước mắt)
