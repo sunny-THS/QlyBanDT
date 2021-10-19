@@ -66,7 +66,7 @@ CREATE TABLE CHITIETDANHMUC (
 )
 CREATE TABLE SANPHAM ( -- _________________________________
     ID VARCHAR(5) NOT NULL, -- CREATE AUTO
-    TENSP NVARCHAR(50), -- TÊN SẢN PHẨM
+    TENSP NVARCHAR(MAX), -- TÊN SẢN PHẨM
     MOTA NVARCHAR(MAX), -- MÔ TẢ
     SOLUONG INT, -- SỐ LƯỢNG TỒN KHO
     -- DONGIA FLOAT, -- ĐƠN GIÁ
@@ -192,9 +192,9 @@ BEGIN
     DECLARE @stt VARCHAR(5) = CONVERT(VARCHAR, CONVERT(INT, @ID) + 1)
 
 	SELECT @ID = CASE
-		WHEN @ID >=  0 and @ID < 9 THEN @ngayTao + @maCodeGr + '00' + @stt
-		WHEN @ID >=  9 THEN @ngayTao + @maCodeGr + '0' + @stt
 		WHEN @ID >= 99 THEN @ngayTao + @maCodeGr + @stt
+		WHEN @ID >=  9 THEN @ngayTao + @maCodeGr + '0' + @stt
+		WHEN @ID >=  0 and @ID < 9 THEN @ngayTao + @maCodeGr + '00' + @stt
 	END
 
 	RETURN @ID
@@ -216,9 +216,9 @@ BEGIN
     DECLARE @maCode CHAR(2) = 'KH'
 
 	SELECT @ID = CASE
-		WHEN @ID >=  0 and @ID < 9 THEN @maCode + '00' + @stt
-		WHEN @ID >=  9 THEN @maCode + '0' + @stt
 		WHEN @ID >= 99 THEN @maCode + @stt
+		WHEN @ID >=  9 THEN @maCode + '0' + @stt
+		WHEN @ID >=  0 and @ID < 9 THEN @maCode + '00' + @stt
 	END
 
 	RETURN @ID
@@ -240,9 +240,9 @@ BEGIN
     DECLARE @maCode CHAR(2) = 'NV'
 
 	SELECT @ID = CASE
-		WHEN @ID >=  0 and @ID < 9 THEN @maCode + '00' + @stt
-		WHEN @ID >=  9 THEN @maCode + '0' + @stt
 		WHEN @ID >= 99 THEN @maCode + @stt
+		WHEN @ID >=  9 THEN @maCode + '0' + @stt
+		WHEN @ID >=  0 and @ID < 9 THEN @maCode + '00' + @stt
 	END
 
 	RETURN @ID
@@ -264,9 +264,9 @@ BEGIN
     DECLARE @maCode CHAR(2) = 'HD'
 
 	SELECT @ID = CASE
-		WHEN @ID >=  0 and @ID < 9 THEN @maCode + '00' + @stt
-		WHEN @ID >=  9 THEN @maCode + '0' + @stt
 		WHEN @ID >= 99 THEN @maCode + @stt
+		WHEN @ID >=  9 THEN @maCode + '0' + @stt
+		WHEN @ID >=  0 and @ID < 9 THEN @maCode + '00' + @stt
 	END
 
 	RETURN @ID
@@ -288,9 +288,9 @@ BEGIN
     DECLARE @maCode CHAR(3) = 'LSP'
 
 	SELECT @ID = CASE
-		WHEN @ID >=  0 and @ID < 9 THEN @maCode + '00' + @stt
-		WHEN @ID >=  9 THEN @maCode + '0' + @stt
 		WHEN @ID >= 99 THEN @maCode + @stt
+		WHEN @ID >=  9 THEN @maCode + '0' + @stt
+		WHEN @ID >=  0 and @ID < 9 THEN @maCode + '00' + @stt
 	END
 
 	RETURN @ID
@@ -309,14 +309,14 @@ BEGIN
 		SELECT @ID = MAX(RIGHT(ID, 3)) FROM SANPHAM
 
     DECLARE @stt VARCHAR(3) = CONVERT(VARCHAR, CONVERT(INT, @ID) + 1)
+	
     DECLARE @maCode CHAR(2) = 'SP'
-
+	
 	SELECT @ID = CASE
-		WHEN @ID >=  0 and @ID < 9 THEN @maCode + '00' + @stt
-		WHEN @ID >=  9 THEN @maCode + '0' + @stt
 		WHEN @ID >= 99 THEN @maCode + @stt
+		WHEN @ID >=  9 THEN @maCode + '0' + @stt
+		WHEN @ID >=  0 and @ID < 9 THEN @maCode + '00' + @stt
 	END
-
 	RETURN @ID
 END
 GO
@@ -413,7 +413,7 @@ GO
 --HINHANH VARCHAR(50),
 --ID_LOAI VARCHAR(6) REFERENCES LOAISP(ID),
 CREATE PROC sp_AddSP
-@tenSP NVARCHAR(50),
+@tenSP NVARCHAR(MAX),
 @moTa NVARCHAR(MAX),
 @soLuong INT,
 @gia FLOAT,
@@ -423,7 +423,7 @@ CREATE PROC sp_AddSP
 AS
 	BEGIN TRY
 		DECLARE @IDSP VARCHAR(15) = DBO.fn_autoIDSP() -- id SP
-
+		-- select DBO.fn_autoIDSP() select * from sanpham
 		IF EXISTS(SELECT * FROM SANPHAM WHERE TENSP = @tenSP)
 			THROW 51000, N'Sản phẩm đã tồn tại.', 1;
 
