@@ -55,6 +55,7 @@
 ## Chức năng quản lý nhân viên
 - [ ] Doanh thu nhân viên đạt được
 - [ ] thêm, xóa, sửa nhân viên
+- [ ] phân quyền
 ## Chức năng xuất báo cáo
 - Các loại báo cáo: 
     - [ ] Báo cáo doanh thu
