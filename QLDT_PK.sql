@@ -584,6 +584,11 @@ EXEC N'iPhone 12 64GB', N'iPhone', 20, 20490000, null, 'iPhone12_64.jpg', N'iPho
 EXEC N'iPhone 13 Pro Max 1TB', N'iPhone', 20, 49990000, null, 'iPhone13ProMax_1.jpg', N'iPhone(iOS)', N'Điện Thoại'
 EXEC N'iPhone 13 Pro 1TB', N'iPhone', 20, 46990000, null, 'iPhone13Pro_1.jpg', N'iPhone(iOS)', N'Điện Thoại'
 EXEC N'iPhone 13 Pro Max 512GB', N'iPhone', 20, 43990000, null, 'iPhone13ProMax_512.jpg', N'iPhone(iOS)', N'Điện Thoại'
+EXEC N'iPhone 13 Pro 512GB', N'iPhone', 20, 40990000, null, 'iPhone13Pro_512.jpg', N'iPhone(iOS)', N'Điện Thoại'
+EXEC N'iPhone 12 Pro Max 512GB', N'iPhone', 20, 39990000, null, 'iPhone12Pro_512.jpg', N'iPhone(iOS)', N'Điện Thoại'
+EXEC N'iPhone 13 mini 256GB', N'iPhone', 20, 24990000, null, 'iPhone13Mini_256.jpg', N'iPhone(iOS)', N'Điện Thoại'
+EXEC N'iPhone 11 128GB', N'iPhone', 20, 18990000, null, 'iPhone11_128.jpg', N'iPhone(iOS)', N'Điện Thoại'
+EXEC N'iPhone XR 128GB', N'iPhone', 20, 18990000, null, 'iPhoneXR_128.jpg', N'iPhone(iOS)', N'Điện Thoại'
 
 -- Bảng cấu hình
 EXEC sp_AddCauHinh N'iPhone 12 64GB', N'Màn hình', N'OLED, 6.1", Super Retina XDR'
