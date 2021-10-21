@@ -50,6 +50,11 @@ CREATE TABLE NHANVIEN (
     CONSTRAINT PK_NV PRIMARY KEY (ID),
     CONSTRAINT FK_NV_TK FOREIGN KEY (ID_TK) REFERENCES TAIKHOAN(ID)
 )
+CREATE TABLE DANHMUC (
+    ID INT IDENTITY NOT NULL,
+    TENDANHMUC NVARCHAR(50),
+    CONSTRAINT PK_DMUC PRIMARY KEY (ID)
+)
 CREATE TABLE LOAISP ( 
     ID VARCHAR(6) NOT NULL,
     TENLOAI NVARCHAR(50), -- android, iphone, điện thoại phổ thông
@@ -67,6 +72,7 @@ CREATE TABLE SANPHAM ( -- _________________________________
     NSX NVARCHAR(30), -- NHÀ SẢN XUẤT
     HINHANH VARCHAR(50),
     ID_LOAI VARCHAR(6) REFERENCES LOAISP(ID),
+    ID_DANHMUC INT REFERENCES DANHMUC(ID),
     ID_HANG INT REFERENCES HANG(ID), -- HÃNG SP
     CONSTRAINT PK_SP PRIMARY KEY (ID)
 )
@@ -361,12 +367,11 @@ CREATE PROC sp_AddLSP -- THÊM LOẠI SP
 @tenLSP NVARCHAR(50)
 AS 
     BEGIN TRY
-
-        IF EXISTS(SELECT * FROM CHITIETDANHMUC WHERE ID_LOAISP = (SELECT ID FROM LOAISP WHERE TENLOAI = @tenLSP))
+        IF EXISTS(SELECT * FROM LOAISP WHERE ID = (SELECT ID FROM LOAISP WHERE TENLOAI = @tenLSP))
 			THROW 51000, N'Loại sản phẩm đã tồn tại.', 1;
-		
+
 		INSERT LOAISP(TENLOAI)
-		SELECT @tenLSP; 
+		SELECT @tenLSP 
 
 	END TRY
 	BEGIN CATCH
@@ -385,12 +390,13 @@ GO
 -- HÃNG SP
 CREATE PROC sp_AddSP
 @tenSP NVARCHAR(MAX),
-@tenHang NVARCHAR(20),
+@tenHang NVARCHAR(20), -- tên hãng sản phẩm
 @soLuong INT,
 @gia FLOAT,
 @nxs NVARCHAR(30),
 @urlImage VARCHAR(50),
-@tenLSP NVARCHAR(50)
+@tenLSP NVARCHAR(50),
+@tenDanhMuc NVARCHAR(50)
 AS
 	BEGIN TRY
 		DECLARE @IDSP VARCHAR(15) = DBO.fn_autoIDSP() -- id SP
@@ -401,14 +407,33 @@ AS
 		DECLARE @IDLSP VARCHAR(6)
 		SELECT @IDLSP = ID FROM LOAISP WHERE TENLOAI = @tenLSP
 
-        DECLARE @IDHANG INT
+        DECLARE @IDHANG INT -- lấy id hãng sản phẩm
         SELECT @IDHANG = ID FROM HANG WHERE TENHANG = @tenHang
+
+        DECLARE @idDanhMuc INT
+        SELECT @idDanhMuc = ID FROM DANHMUC WHERE TENDANHMUC = @tenDanhMuc
 		
-		INSERT SANPHAM(ID, TENSP, SOLUONG, NSX, HINHANH, ID_LOAI, ID_HANG)
-		VALUES (@IDSP, @tenSP, @soLuong, @nxs, @urlImage, @IDLSP, @IDHANG)
+		INSERT SANPHAM(ID, TENSP, SOLUONG, NSX, HINHANH, ID_LOAI, ID_HANG, ID_DANHMUC)
+		VALUES (@IDSP, @tenSP, @soLuong, @nxs, @urlImage, @IDLSP, @IDHANG, @idDanhMuc)
 
 		INSERT DONGIA(ID_SP, GIA)
 		VALUES (@IDSP, @gia)
+	END TRY
+	BEGIN CATCH
+		EXEC sp_GetErrorInfo;
+	END CATCH
+GO
+
+CREATE PROC sp_AddCauHinh
+@tenSP NVARCHAR(Max),
+@tenCH NVARCHAR(30),
+@noiDungCH NVARCHAR(40)
+AS
+BEGIN TRY
+		DECLARE @idSP VARCHAR(5)
+        SELECT @idSP = ID FROM SANPHAM WHERE TENSP = @tenSP
+
+        INSERT CAUHINH SELECT @idSP, @tenCH, @noiDungCH
 	END TRY
 	BEGIN CATCH
 		EXEC sp_GetErrorInfo;
@@ -531,6 +556,11 @@ EXEC sp_AddAcc 'admin', 'admin@123456789', N'ADMIN', N'Admin', '2-5-2001', N'nam
 EXEC sp_AddAcc 'tuhueson', 'tuhueson@123456789', N'Nhân viên', N'Từ Huệ Sơn', '2-5-2001', N'nam', 'tuhueson@gmail.com', '000000000', null
 EXEC sp_AddAcc 'leductai', 'leductai@123456789', N'Nhân viên', N'Lê Đức Tài', '12-4-2001', N'nam', 'leductai@gmail.com', '000000000', null
 
+-- BẢNG DANH MỤC
+INSERT DANHMUC SELECT N'Điện Thoại'
+INSERT DANHMUC SELECT N'Tablet'
+INSERT DANHMUC SELECT N'Phụ kiện'
+
 -- BẢNG LOẠI SẢN PHẨM
 EXEC sp_AddLSP N'Android'
 EXEC sp_AddLSP N'iPhone(iOS)'
@@ -548,3 +578,20 @@ INSERT HANG (TENHANG) SELECT N'MOBELL'
 INSERT HANG (TENHANG) SELECT N'INTEL'
 INSERT HANG (TENHANG) SELECT N'MASSTEL'
 INSERT HANG (TENHANG) SELECT N'Energizer'
+
+-- BẢNG SẢN PHẨM
+EXEC N'iPhone 12 64GB', N'iPhone', 20, 20490000, null, 'iPhone12_64.jpg', N'iPhone(iOS)', N'Điện Thoại'
+EXEC N'iPhone 13 Pro Max 1TB', N'iPhone', 20, 49990000, null, 'iPhone13ProMax_1.jpg', N'iPhone(iOS)', N'Điện Thoại'
+EXEC N'iPhone 13 Pro 1TB', N'iPhone', 20, 46990000, null, 'iPhone13Pro_1.jpg', N'iPhone(iOS)', N'Điện Thoại'
+EXEC N'iPhone 13 Pro Max 512GB', N'iPhone', 20, 43990000, null, 'iPhone13ProMax_512.jpg', N'iPhone(iOS)', N'Điện Thoại'
+
+-- Bảng cấu hình
+EXEC sp_AddCauHinh N'iPhone 12 64GB', N'Màn hình', N'OLED, 6.1", Super Retina XDR'
+EXEC sp_AddCauHinh N'iPhone 12 64GB', N'Hệ điều hành', N'iOS 14'
+EXEC sp_AddCauHinh N'iPhone 12 64GB', N'Camera sau', N'2 camera 12 MP'
+EXEC sp_AddCauHinh N'iPhone 12 64GB', N'Camera trước', N'12 MP'
+EXEC sp_AddCauHinh N'iPhone 12 64GB', N'Chip', N'Apple A14 Bionic'
+EXEC sp_AddCauHinh N'iPhone 12 64GB', N'RAM', N'4 GB'
+EXEC sp_AddCauHinh N'iPhone 12 64GB', N'Bộ nhớ trong', N'64 GB'
+EXEC sp_AddCauHinh N'iPhone 12 64GB', N'SIM', N'1 Nano SIM & 1 eSIM, Hỗ trợ 5G'
+EXEC sp_AddCauHinh N'iPhone 12 64GB', N'Pin, Sạc', N'2815 mAh, 20 W'
