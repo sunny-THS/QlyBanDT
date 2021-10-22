@@ -580,15 +580,15 @@ INSERT HANG (TENHANG) SELECT N'MASSTEL'
 INSERT HANG (TENHANG) SELECT N'Energizer'
 
 -- BẢNG SẢN PHẨM
-EXEC N'iPhone 12 64GB', N'iPhone', 20, 20490000, null, 'iPhone12_64.jpg', N'iPhone(iOS)', N'Điện Thoại'
-EXEC N'iPhone 13 Pro Max 1TB', N'iPhone', 20, 49990000, null, 'iPhone13ProMax_1.jpg', N'iPhone(iOS)', N'Điện Thoại'
-EXEC N'iPhone 13 Pro 1TB', N'iPhone', 20, 46990000, null, 'iPhone13Pro_1.jpg', N'iPhone(iOS)', N'Điện Thoại'
-EXEC N'iPhone 13 Pro Max 512GB', N'iPhone', 20, 43990000, null, 'iPhone13ProMax_512.jpg', N'iPhone(iOS)', N'Điện Thoại'
-EXEC N'iPhone 13 Pro 512GB', N'iPhone', 20, 40990000, null, 'iPhone13Pro_512.jpg', N'iPhone(iOS)', N'Điện Thoại'
-EXEC N'iPhone 12 Pro Max 512GB', N'iPhone', 20, 39990000, null, 'iPhone12Pro_512.jpg', N'iPhone(iOS)', N'Điện Thoại'
-EXEC N'iPhone 13 mini 256GB', N'iPhone', 20, 24990000, null, 'iPhone13Mini_256.jpg', N'iPhone(iOS)', N'Điện Thoại'
-EXEC N'iPhone 11 128GB', N'iPhone', 20, 18990000, null, 'iPhone11_128.jpg', N'iPhone(iOS)', N'Điện Thoại'
-EXEC N'iPhone XR 128GB', N'iPhone', 20, 18990000, null, 'iPhoneXR_128.jpg', N'iPhone(iOS)', N'Điện Thoại'
+EXEC N'iPhone 12 64GB', N'iPhone', 20, 20490000, null, 'iPhone12_64.jpg', N'iPhone(iOS)', N'Điện Thoại' --
+EXEC N'iPhone 13 Pro Max 1TB', N'iPhone', 20, 49990000, null, 'iPhone13ProMax_1.jpg', N'iPhone(iOS)', N'Điện Thoại' --
+EXEC N'iPhone 13 Pro 1TB', N'iPhone', 20, 46990000, null, 'iPhone13Pro_1.jpg', N'iPhone(iOS)', N'Điện Thoại' --
+EXEC N'iPhone 13 Pro Max 512GB', N'iPhone', 20, 43990000, null, 'iPhone13ProMax_512.jpg', N'iPhone(iOS)', N'Điện Thoại' --
+EXEC N'iPhone 13 Pro 512GB', N'iPhone', 20, 40990000, null, 'iPhone13Pro_512.jpg', N'iPhone(iOS)', N'Điện Thoại' --
+EXEC N'iPhone 12 Pro Max 512GB', N'iPhone', 20, 39990000, null, 'iPhone12Pro_512.jpg', N'iPhone(iOS)', N'Điện Thoại' --
+EXEC N'iPhone 13 mini 256GB', N'iPhone', 20, 24990000, null, 'iPhone13Mini_256.jpg', N'iPhone(iOS)', N'Điện Thoại' --
+EXEC N'iPhone 11 128GB', N'iPhone', 20, 18990000, null, 'iPhone11_128.jpg', N'iPhone(iOS)', N'Điện Thoại' --
+EXEC N'iPhone XR 128GB', N'iPhone', 20, 16490000, null, 'iPhoneXR_128.jpg', N'iPhone(iOS)', N'Điện Thoại'
 
 -- Bảng cấu hình
 EXEC sp_AddCauHinh N'iPhone 12 64GB', N'Màn hình', N'OLED, 6.1", Super Retina XDR'
@@ -610,3 +610,73 @@ EXEC sp_AddCauHinh N'iPhone 13 Pro Max 1TB', N'RAM', N'6 GB'
 EXEC sp_AddCauHinh N'iPhone 13 Pro Max 1TB', N'Bộ nhớ trong', N'1 TB'
 EXEC sp_AddCauHinh N'iPhone 13 Pro Max 1TB', N'SIM', N'1 Nano SIM & 1 eSIM, Hỗ trợ 5G'
 EXEC sp_AddCauHinh N'iPhone 13 Pro Max 1TB', N'Pin, Sạc', N'20 W'
+
+EXEC sp_AddCauHinh N'iPhone 13 Pro 1TB', N'Màn hình', N'OLED, 6.1", Super Retina XDR'
+EXEC sp_AddCauHinh N'iPhone 13 Pro 1TB', N'Hệ điều hành', N'iOS 15'
+EXEC sp_AddCauHinh N'iPhone 13 Pro 1TB', N'Camera sau', N'3 camera 12 MP'
+EXEC sp_AddCauHinh N'iPhone 13 Pro 1TB', N'Camera trước', N'12 MP'
+EXEC sp_AddCauHinh N'iPhone 13 Pro 1TB', N'Chip', N'Apple A15 Bionic'
+EXEC sp_AddCauHinh N'iPhone 13 Pro 1TB', N'RAM', N'6 GB'
+EXEC sp_AddCauHinh N'iPhone 13 Pro 1TB', N'Bộ nhớ trong', N'1 TB'
+EXEC sp_AddCauHinh N'iPhone 13 Pro 1TB', N'SIM', N'1 Nano SIM & 1 eSIM, Hỗ trợ 5G'
+EXEC sp_AddCauHinh N'iPhone 13 Pro 1TB', N'Pin, Sạc', N'20 W'
+
+EXEC sp_AddCauHinh N'iPhone 13 Pro Max 512GB', N'Màn hình', N'OLED, 6.7", Super Retina XDR'
+EXEC sp_AddCauHinh N'iPhone 13 Pro Max 512GB', N'Hệ điều hành', N'iOS 15'
+EXEC sp_AddCauHinh N'iPhone 13 Pro Max 512GB', N'Camera sau', N'3 camera 12 MP'
+EXEC sp_AddCauHinh N'iPhone 13 Pro Max 512GB', N'Camera trước', N'12 MP'
+EXEC sp_AddCauHinh N'iPhone 13 Pro Max 512GB', N'Chip', N'Apple A15 Bionic'
+EXEC sp_AddCauHinh N'iPhone 13 Pro Max 512GB', N'RAM', N'6 GB'
+EXEC sp_AddCauHinh N'iPhone 13 Pro Max 512GB', N'Bộ nhớ trong', N'512 GB'
+EXEC sp_AddCauHinh N'iPhone 13 Pro Max 512GB', N'SIM', N'1 Nano SIM & 1 eSIM, Hỗ trợ 5G'
+EXEC sp_AddCauHinh N'iPhone 13 Pro Max 512GB', N'Pin, Sạc', N'20 W'
+
+EXEC sp_AddCauHinh N'iPhone 13 Pro 512GB', N'Màn hình', N'OLED, 6.1", Super Retina XDR'
+EXEC sp_AddCauHinh N'iPhone 13 Pro 512GB', N'Hệ điều hành', N'iOS 15'
+EXEC sp_AddCauHinh N'iPhone 13 Pro 512GB', N'Camera sau', N'3 camera 12 MP'
+EXEC sp_AddCauHinh N'iPhone 13 Pro 512GB', N'Camera trước', N'12 MP'
+EXEC sp_AddCauHinh N'iPhone 13 Pro 512GB', N'Chip', N'Apple A15 Bionic'
+EXEC sp_AddCauHinh N'iPhone 13 Pro 512GB', N'RAM', N'6 GB'
+EXEC sp_AddCauHinh N'iPhone 13 Pro 512GB', N'Bộ nhớ trong', N'512 GB'
+EXEC sp_AddCauHinh N'iPhone 13 Pro 512GB', N'SIM', N'1 Nano SIM & 1 eSIM, Hỗ trợ 5G'
+EXEC sp_AddCauHinh N'iPhone 13 Pro 512GB', N'Pin, Sạc', N'20 W'
+
+EXEC sp_AddCauHinh N'iPhone 12 Pro Max 512GB', N'Màn hình', N'OLED, 6.7", Super Retina XDR'
+EXEC sp_AddCauHinh N'iPhone 12 Pro Max 512GB', N'Hệ điều hành', N'iOS 14'
+EXEC sp_AddCauHinh N'iPhone 12 Pro Max 512GB', N'Camera sau', N'3 camera 12 MP'
+EXEC sp_AddCauHinh N'iPhone 12 Pro Max 512GB', N'Camera trước', N'12 MP'
+EXEC sp_AddCauHinh N'iPhone 12 Pro Max 512GB', N'Chip', N'Apple A14 Bionic'
+EXEC sp_AddCauHinh N'iPhone 12 Pro Max 512GB', N'RAM', N'6 GB'
+EXEC sp_AddCauHinh N'iPhone 12 Pro Max 512GB', N'Bộ nhớ trong', N'512 GB'
+EXEC sp_AddCauHinh N'iPhone 12 Pro Max 512GB', N'SIM', N'1 Nano SIM & 1 eSIM, Hỗ trợ 5G'
+EXEC sp_AddCauHinh N'iPhone 12 Pro Max 512GB', N'Pin, Sạc', N'3687 mAh, 20 W'
+
+EXEC sp_AddCauHinh N'iPhone 13 mini 256GB', N'Màn hình', N'OLED, 5.4", Super Retina XDR'
+EXEC sp_AddCauHinh N'iPhone 13 mini 256GB', N'Hệ điều hành', N'iOS 15'
+EXEC sp_AddCauHinh N'iPhone 13 mini 256GB', N'Camera sau', N'2 camera 12 MP'
+EXEC sp_AddCauHinh N'iPhone 13 mini 256GB', N'Camera trước', N'12 MP'
+EXEC sp_AddCauHinh N'iPhone 13 mini 256GB', N'Chip', N'Apple A15 Bionic'
+EXEC sp_AddCauHinh N'iPhone 13 mini 256GB', N'RAM', N'4 GB'
+EXEC sp_AddCauHinh N'iPhone 13 mini 256GB', N'Bộ nhớ trong', N'256 GB'
+EXEC sp_AddCauHinh N'iPhone 13 mini 256GB', N'SIM', N'1 Nano SIM & 1 eSIM, Hỗ trợ 5G'
+EXEC sp_AddCauHinh N'iPhone 13 mini 256GB', N'Pin, Sạc', N'2438 mAh, 20 W'
+
+EXEC sp_AddCauHinh N'iPhone 11 128GB', N'Màn hình', N'IPS LCD, 6.1", Liquid Retina'
+EXEC sp_AddCauHinh N'iPhone 11 128GB', N'Hệ điều hành', N'iOS 14'
+EXEC sp_AddCauHinh N'iPhone 11 128GB', N'Camera sau', N'2 camera 12 MP'
+EXEC sp_AddCauHinh N'iPhone 11 128GB', N'Camera trước', N'12 MP'
+EXEC sp_AddCauHinh N'iPhone 11 128GB', N'Chip', N'Apple A13 Bionic'
+EXEC sp_AddCauHinh N'iPhone 11 128GB', N'RAM', N'4 GB'
+EXEC sp_AddCauHinh N'iPhone 11 128GB', N'Bộ nhớ trong', N'128 GB'
+EXEC sp_AddCauHinh N'iPhone 11 128GB', N'SIM', N'1 Nano SIM & 1 eSIM, Hỗ trợ 4G'
+EXEC sp_AddCauHinh N'iPhone 11 128GB', N'Pin, Sạc', N'3110 mAh, 18 W'
+
+EXEC sp_AddCauHinh N'iPhone XR 128GB', N'Màn hình', N'IPS LCD, 6.1", Liquid Retina'
+EXEC sp_AddCauHinh N'iPhone XR 128GB', N'Hệ điều hành', N'iOS 14'
+EXEC sp_AddCauHinh N'iPhone XR 128GB', N'Camera sau', N'12 MP'
+EXEC sp_AddCauHinh N'iPhone XR 128GB', N'Camera trước', N'7 MP'
+EXEC sp_AddCauHinh N'iPhone XR 128GB', N'Chip', N'Apple A12 Bionic'
+EXEC sp_AddCauHinh N'iPhone XR 128GB', N'RAM', N'3 GB'
+EXEC sp_AddCauHinh N'iPhone XR 128GB', N'Bộ nhớ trong', N'128 GB'
+EXEC sp_AddCauHinh N'iPhone XR 128GB', N'SIM', N'1 Nano SIM & 1 eSIM, Hỗ trợ 4G'
+EXEC sp_AddCauHinh N'iPhone XR 128GB', N'Pin, Sạc', N'2942 mAh, 15 W'
