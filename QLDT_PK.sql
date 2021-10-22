@@ -589,6 +589,7 @@ EXEC N'iPhone 12 Pro Max 512GB', N'iPhone', 20, 39990000, null, 'iPhone12Pro_512
 EXEC N'iPhone 13 mini 256GB', N'iPhone', 20, 24990000, null, 'iPhone13Mini_256.jpg', N'iPhone(iOS)', N'Điện Thoại' --
 EXEC N'iPhone 11 128GB', N'iPhone', 20, 18990000, null, 'iPhone11_128.jpg', N'iPhone(iOS)', N'Điện Thoại' --
 EXEC N'iPhone XR 128GB', N'iPhone', 20, 16490000, null, 'iPhoneXR_128.jpg', N'iPhone(iOS)', N'Điện Thoại'
+EXEC N'Samsung Galaxy Z Fold3 5G 512GB', N'SAMSUNG', 20, 16490000, null, 'iPhoneXR_128.jpg', N'Android', N'Điện Thoại'
 
 -- Bảng cấu hình
 EXEC sp_AddCauHinh N'iPhone 12 64GB', N'Màn hình', N'OLED, 6.1", Super Retina XDR'
