@@ -505,6 +505,7 @@ AS
 	END CATCH
 GO
 
+<<<<<<< HEAD
 CREATE PROC sp_CKAcc
 @userName VARCHAR(50), -- THÔNG TIN TÀI KHOẢN
 @pw VARCHAR(50),
@@ -529,6 +530,8 @@ AS
 	END CATCH
 GO
 
+=======
+>>>>>>> 7ab1a3a0d78252646d33b67b41f6cb86e972a0c6
 -- TẠO RÀNG BUỘC
 ALTER TABLE THONGTINTAIKHOAN
 ADD CONSTRAINT DF_NGTAO_TTTK DEFAULT GETDATE() FOR NGTAO
@@ -605,16 +608,16 @@ INSERT HANG (TENHANG) SELECT N'MASSTEL'
 INSERT HANG (TENHANG) SELECT N'Energizer'
 
 -- BẢNG SẢN PHẨM
-EXEC sp_AddSP N'iPhone 12 64GB', N'iPhone', 20, 20490000, null, 'iPhone12_64.jpg', N'iPhone(iOS)', N'Điện Thoại' --
-EXEC sp_AddSP N'iPhone 13 Pro Max 1TB', N'iPhone', 20, 49990000, null, 'iPhone13ProMax_1.jpg', N'iPhone(iOS)', N'Điện Thoại' --
-EXEC sp_AddSP N'iPhone 13 Pro 1TB', N'iPhone', 20, 46990000, null, 'iPhone13Pro_1.jpg', N'iPhone(iOS)', N'Điện Thoại' --
-EXEC sp_AddSP N'iPhone 13 Pro Max 512GB', N'iPhone', 20, 43990000, null, 'iPhone13ProMax_512.jpg', N'iPhone(iOS)', N'Điện Thoại' --
-EXEC sp_AddSP N'iPhone 13 Pro 512GB', N'iPhone', 20, 40990000, null, 'iPhone13Pro_512.jpg', N'iPhone(iOS)', N'Điện Thoại' --
-EXEC sp_AddSP N'iPhone 12 Pro Max 512GB', N'iPhone', 20, 39990000, null, 'iPhone12Pro_512.jpg', N'iPhone(iOS)', N'Điện Thoại' --
-EXEC sp_AddSP N'iPhone 13 mini 256GB', N'iPhone', 20, 24990000, null, 'iPhone13Mini_256.jpg', N'iPhone(iOS)', N'Điện Thoại' --
-EXEC sp_AddSP N'iPhone 11 128GB', N'iPhone', 20, 18990000, null, 'iPhone11_128.jpg', N'iPhone(iOS)', N'Điện Thoại' --
-EXEC sp_AddSP N'iPhone XR 128GB', N'iPhone', 20, 16490000, null, 'iPhoneXR_128.jpg', N'iPhone(iOS)', N'Điện Thoại'
-EXEC sp_AddSP N'Samsung Galaxy Z Fold3 5G 512GB', N'SAMSUNG', 20, 16490000, null, 'iPhoneXR_128.jpg', N'Android', N'Điện Thoại'
+EXEC N'iPhone 12 64GB', N'iPhone', 20, 20490000, null, 'iPhone12_64.jpg', N'iPhone(iOS)', N'Điện Thoại' --
+EXEC N'iPhone 13 Pro Max 1TB', N'iPhone', 20, 49990000, null, 'iPhone13ProMax_1.jpg', N'iPhone(iOS)', N'Điện Thoại' --
+EXEC N'iPhone 13 Pro 1TB', N'iPhone', 20, 46990000, null, 'iPhone13Pro_1.jpg', N'iPhone(iOS)', N'Điện Thoại' --
+EXEC N'iPhone 13 Pro Max 512GB', N'iPhone', 20, 43990000, null, 'iPhone13ProMax_512.jpg', N'iPhone(iOS)', N'Điện Thoại' --
+EXEC N'iPhone 13 Pro 512GB', N'iPhone', 20, 40990000, null, 'iPhone13Pro_512.jpg', N'iPhone(iOS)', N'Điện Thoại' --
+EXEC N'iPhone 12 Pro Max 512GB', N'iPhone', 20, 39990000, null, 'iPhone12Pro_512.jpg', N'iPhone(iOS)', N'Điện Thoại' --
+EXEC N'iPhone 13 mini 256GB', N'iPhone', 20, 24990000, null, 'iPhone13Mini_256.jpg', N'iPhone(iOS)', N'Điện Thoại' --
+EXEC N'iPhone 11 128GB', N'iPhone', 20, 18990000, null, 'iPhone11_128.jpg', N'iPhone(iOS)', N'Điện Thoại' --
+EXEC N'iPhone XR 128GB', N'iPhone', 20, 16490000, null, 'iPhoneXR_128.jpg', N'iPhone(iOS)', N'Điện Thoại'
+EXEC N'Samsung Galaxy Z Fold3 5G 512GB', N'SAMSUNG', 20, 16490000, null, 'iPhoneXR_128.jpg', N'Android', N'Điện Thoại'
 
 -- Bảng cấu hình
 EXEC sp_AddCauHinh N'iPhone 12 64GB', N'Màn hình', N'OLED, 6.1", Super Retina XDR'
@@ -706,7 +709,10 @@ EXEC sp_AddCauHinh N'iPhone XR 128GB', N'RAM', N'3 GB'
 EXEC sp_AddCauHinh N'iPhone XR 128GB', N'Bộ nhớ trong', N'128 GB'
 EXEC sp_AddCauHinh N'iPhone XR 128GB', N'SIM', N'1 Nano SIM & 1 eSIM, Hỗ trợ 4G'
 EXEC sp_AddCauHinh N'iPhone XR 128GB', N'Pin, Sạc', N'2942 mAh, 15 W'
+<<<<<<< HEAD
 
 select * from TAIKHOAN
 select * from GRTK
 EXEC sp_CKAcc 'tuhueson', 'tuhueson@123456789', N'Nhân Viên'
+=======
+>>>>>>> 7ab1a3a0d78252646d33b67b41f6cb86e972a0c6
