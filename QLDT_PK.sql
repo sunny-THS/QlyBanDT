@@ -360,7 +360,7 @@ SELECT
     ,ERROR_STATE() AS ErrorState  
     ,ERROR_PROCEDURE() AS ErrorProcedure  
     ,ERROR_LINE() AS ErrorLine  
-    ,ERROR_MESSAGE() AS ErrorMessage;
+    ,ERROR_MESSAGE() AS 'Message';
 GO 
 
 CREATE PROC sp_AddLSP -- THÊM LOẠI SP
@@ -522,7 +522,7 @@ AS
 		IF NOT EXISTS(SELECT * FROM TAIKHOAN WHERE ID_GR = @IDGR AND USERNAME = @userName AND PW = @createPW)
 			THROW 51000, N'Thông tin đăng nhập không chính xác.', 1;
 
-		SELECT N'SUCCESS.' 'Message'
+		SELECT N'SUCCESS' 'Message'
 	END TRY
 	BEGIN CATCH
 		EXEC sp_GetErrorInfo;
@@ -579,6 +579,7 @@ INSERT GRTK VALUES(N'KHÁCH HÀNG', '02')
 EXEC sp_AddAcc 'admin', 'admin@123456789', N'ADMIN', N'Admin', '2-5-2001', N'nam', 'admin@gmail.com', '000000000', null
 EXEC sp_AddAcc 'tuhueson', 'tuhueson@123456789', N'Nhân viên', N'Từ Huệ Sơn', '2-5-2001', N'nam', 'tuhueson@gmail.com', '000000000', null
 EXEC sp_AddAcc 'leductai', 'leductai@123456789', N'Nhân viên', N'Lê Đức Tài', '12-4-2001', N'nam', 'leductai@gmail.com', '000000000', null
+EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 1', '12-4-2001', N'nam', 'khachHang@gmail.com', '000000000', null
 
 -- BẢNG DANH MỤC
 INSERT DANHMUC SELECT N'Điện Thoại'
@@ -707,5 +708,5 @@ EXEC sp_AddCauHinh N'iPhone XR 128GB', N'SIM', N'1 Nano SIM & 1 eSIM, Hỗ trợ
 EXEC sp_AddCauHinh N'iPhone XR 128GB', N'Pin, Sạc', N'2942 mAh, 15 W'
 
 select * from TAIKHOAN
-
+select * from GRTK
 EXEC sp_CKAcc 'tuhueson', 'tuhueson@123456789', N'Nhân Viên'
