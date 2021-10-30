@@ -80,7 +80,7 @@ CREATE TABLE CAUHINH (
     ID INT IDENTITY NOT NULL,
     ID_SP VARCHAR(5) REFERENCES SANPHAM(ID),
     TENCAUHINH NVARCHAR(30),
-    NOIDUNGCAUHINH NVARCHAR(40),
+    NOIDUNGCAUHINH NVARCHAR(100),
     CONSTRAINT PK_CH PRIMARY KEY (ID)
 )
 CREATE TABLE SALE (
@@ -432,7 +432,7 @@ AS
 		-- cập nhật lại số lượng sản phẩm
 		UPDATE SANPHAM SET SOLUONG = SOLUONG - @soLuong WHERE ID = @maSP
 
-		-- CẬP NHẬT ĐƠN GIÁ
+		-- CẬP NHẬT ĐƠN GIÁ ---------------------- kiểm tra ngày mới nhất trong đơn giá
 		DECLARE @donGia FLOAT
 		SELECT @donGia = SUM(SOLUONG * GIA)
 		FROM CHITIETHD CTHD JOIN DONGIA DG
@@ -510,7 +510,7 @@ GO
 CREATE PROC sp_AddCauHinh
 @tenSP NVARCHAR(Max),
 @tenCH NVARCHAR(30),
-@noiDungCH NVARCHAR(40)
+@noiDungCH NVARCHAR(100)
 AS
 BEGIN TRY
 		DECLARE @idSP VARCHAR(5)
@@ -667,6 +667,7 @@ EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 1', '12-4-2001', N'nam', 
 EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 2', '12-3-2001', N'nam', 'khachHang2@gmail.com', '000000000', null
 EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 3', '2-13-2001', N'Nữ', 'khachHang3@gmail.com', '000000000', null
 EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 4', '4-13-2001', N'Nữ', 'khachHang4@gmail.com', '000000000', null
+EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 5', '3-30-2001', N'Nữ', 'khachHang5@gmail.com', '000000000', null
 
 -- BẢNG DANH MỤC
 INSERT DANHMUC SELECT N'Điện Thoại'
@@ -701,7 +702,18 @@ EXEC sp_AddSP N'iPhone 12 Pro Max 512GB', N'iPhone', 20, 39990000, null, 'iPhone
 EXEC sp_AddSP N'iPhone 13 mini 256GB', N'iPhone', 20, 24990000, null, 'iPhone13Mini_256.jpg', N'iPhone(iOS)', N'Điện Thoại' --
 EXEC sp_AddSP N'iPhone 11 128GB', N'iPhone', 20, 18990000, null, 'iPhone11_128.jpg', N'iPhone(iOS)', N'Điện Thoại' --
 EXEC sp_AddSP N'iPhone XR 128GB', N'iPhone', 20, 16490000, null, 'iPhoneXR_128.jpg', N'iPhone(iOS)', N'Điện Thoại' --
-EXEC sp_AddSP N'Samsung Galaxy Z Fold3 5G 512GB', N'SAMSUNG', 20, 16490000, null, 'iPhoneXR_128.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Samsung Galaxy Z Fold3 5G 512GB', N'SAMSUNG', 20, 43990000, null, 'samsungGalaxyZFold3_512.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Samsung Galaxy A03s', N'SAMSUNG', 20, 3690000, null, 'samsungGalaxyA03s.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Samsung Galaxy M51', N'SAMSUNG', 20, 9490000, null, 'samsungGalaxyM51.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Samsung Galaxy Z Flip3 5G 256GB', N'SAMSUNG', 20, 25990000, null, 'samsungGalaxyZFlip3_256.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'OPPO Reno6 Z 5G', N'OPPO', 20, 9490000, null, 'oppoReno6Z.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'OPPO A74', N'OPPO', 20, 6690000, null, 'oppoA74.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'OPPO A55', N'OPPO', 20, 4990000, null, 'oppoA55.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'OPPO Reno5 Marvel', N'OPPO', 20, 9190000, null, 'oppoReno5Marvel.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Vivo Y21', N'VIVO', 20, 4290000, null, 'vivoY21.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Vivo X70 Pro 5G', N'VIVO', 20, 18990000, null, 'vivoX70Pro.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Vivo Y72 5G', N'VIVO', 20, 7590000, null, 'vivoY72.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Vivo V20 SE', N'VIVO', 20, 6490000, null, 'vivoV20SE.jpg', N'Android', N'Điện Thoại'
 
 -- Bảng cấu hình
 EXEC sp_AddCauHinh N'iPhone 12 64GB', N'Màn hình', N'OLED, 6.1", Super Retina XDR'
@@ -794,6 +806,126 @@ EXEC sp_AddCauHinh N'iPhone XR 128GB', N'Bộ nhớ trong', N'128 GB'
 EXEC sp_AddCauHinh N'iPhone XR 128GB', N'SIM', N'1 Nano SIM & 1 eSIM, Hỗ trợ 4G'
 EXEC sp_AddCauHinh N'iPhone XR 128GB', N'Pin, Sạc', N'2942 mAh, 15 W'
 
+EXEC sp_AddCauHinh N'Samsung Galaxy Z Fold3 5G 512GB', N'Màn hình', N'Dynamic AMOLED 2X, Chính 7.6" & Phụ 6.2", Full HD+'
+EXEC sp_AddCauHinh N'Samsung Galaxy Z Fold3 5G 512GB', N'Hệ điều hành', N'Android 11'
+EXEC sp_AddCauHinh N'Samsung Galaxy Z Fold3 5G 512GB', N'Camera sau', N'3 camera 12 MP'
+EXEC sp_AddCauHinh N'Samsung Galaxy Z Fold3 5G 512GB', N'Camera trước', N'10 MP & 4 MP'
+EXEC sp_AddCauHinh N'Samsung Galaxy Z Fold3 5G 512GB', N'Chip', N'Snapdragon 888'
+EXEC sp_AddCauHinh N'Samsung Galaxy Z Fold3 5G 512GB', N'RAM', N'12 GB'
+EXEC sp_AddCauHinh N'Samsung Galaxy Z Fold3 5G 512GB', N'Bộ nhớ trong', N'512 GB'
+EXEC sp_AddCauHinh N'Samsung Galaxy Z Fold3 5G 512GB', N'SIM', N'2 Nano SIM, Hỗ trợ 5G'
+EXEC sp_AddCauHinh N'Samsung Galaxy Z Fold3 5G 512GB', N'Pin, Sạc', N'4400 mAh, 25 W'
+
+EXEC sp_AddCauHinh N'Samsung Galaxy A03s', N'Màn hình', N'PLS LCD, 6.5", HD+'
+EXEC sp_AddCauHinh N'Samsung Galaxy A03s', N'Hệ điều hành', N'Android 11'
+EXEC sp_AddCauHinh N'Samsung Galaxy A03s', N'Camera sau', N'Chính 13 MP & Phụ 2 MP, 2 MP'
+EXEC sp_AddCauHinh N'Samsung Galaxy A03s', N'Camera trước', N'5 MP'
+EXEC sp_AddCauHinh N'Samsung Galaxy A03s', N'Chip', N'MediaTek MT6765'
+EXEC sp_AddCauHinh N'Samsung Galaxy A03s', N'RAM', N'4 GB'
+EXEC sp_AddCauHinh N'Samsung Galaxy A03s', N'Bộ nhớ trong', N'64 GB'
+EXEC sp_AddCauHinh N'Samsung Galaxy A03s', N'SIM', N'2 Nano SIM, Hỗ trợ 4G'
+EXEC sp_AddCauHinh N'Samsung Galaxy A03s', N'Pin, Sạc', N'5000 mAh, 7.75 W'
+
+EXEC sp_AddCauHinh N'Samsung Galaxy M51', N'Màn hình', N'Super AMOLED Plus, 6.7", Full HD+'
+EXEC sp_AddCauHinh N'Samsung Galaxy M51', N'Hệ điều hành', N'Android 10'
+EXEC sp_AddCauHinh N'Samsung Galaxy M51', N'Camera sau', N'Chính 64 MP & Phụ 12 MP, 5 MP, 5 MP'
+EXEC sp_AddCauHinh N'Samsung Galaxy M51', N'Camera trước', N'32 MP'
+EXEC sp_AddCauHinh N'Samsung Galaxy M51', N'Chip', N'Snapdragon 730'
+EXEC sp_AddCauHinh N'Samsung Galaxy M51', N'RAM', N'8 GB'
+EXEC sp_AddCauHinh N'Samsung Galaxy M51', N'Bộ nhớ trong', N'128 GB'
+EXEC sp_AddCauHinh N'Samsung Galaxy M51', N'SIM', N'2 Nano SIM, Hỗ trợ 4G'
+EXEC sp_AddCauHinh N'Samsung Galaxy M51', N'Pin, Sạc', N'7000 mAh, 25 W'
+
+EXEC sp_AddCauHinh N'Samsung Galaxy Z Flip3 5G 256GB', N'Màn hình', N'Dynamic AMOLED 2X, Chính 6.7" & Phụ 1.9", Full HD+'
+EXEC sp_AddCauHinh N'Samsung Galaxy Z Flip3 5G 256GB', N'Hệ điều hành', N'Android 11'
+EXEC sp_AddCauHinh N'Samsung Galaxy Z Flip3 5G 256GB', N'Camera sau', N'2 camera 12 MP'
+EXEC sp_AddCauHinh N'Samsung Galaxy Z Flip3 5G 256GB', N'Camera trước', N'10 MP'
+EXEC sp_AddCauHinh N'Samsung Galaxy Z Flip3 5G 256GB', N'Chip', N'Snapdragon 888'
+EXEC sp_AddCauHinh N'Samsung Galaxy Z Flip3 5G 256GB', N'RAM', N'8 GB'
+EXEC sp_AddCauHinh N'Samsung Galaxy Z Flip3 5G 256GB', N'Bộ nhớ trong', N'256 GB'
+EXEC sp_AddCauHinh N'Samsung Galaxy Z Flip3 5G 256GB', N'SIM', N'1 Nano SIM & 1 eSIM, Hỗ trợ 5G'
+EXEC sp_AddCauHinh N'Samsung Galaxy Z Flip3 5G 256GB', N'Pin, Sạc', N'3300 mAh, 15 W'
+
+EXEC sp_AddCauHinh N'OPPO Reno6 Z 5G', N'Màn hình', N'AMOLED, 6.43", Full HD+'
+EXEC sp_AddCauHinh N'OPPO Reno6 Z 5G', N'Hệ điều hành', N'Android 11'
+EXEC sp_AddCauHinh N'OPPO Reno6 Z 5G', N'Camera sau', N'Chính 64 MP & Phụ 8 MP, 2 MP'
+EXEC sp_AddCauHinh N'OPPO Reno6 Z 5G', N'Camera trước', N'32 MP'
+EXEC sp_AddCauHinh N'OPPO Reno6 Z 5G', N'Chip', N'MediaTek Dimensity 800U 5G'
+EXEC sp_AddCauHinh N'OPPO Reno6 Z 5G', N'RAM', N'8 GB'
+EXEC sp_AddCauHinh N'OPPO Reno6 Z 5G', N'Bộ nhớ trong', N'128 GB'
+EXEC sp_AddCauHinh N'OPPO Reno6 Z 5G', N'SIM', N'2 Nano SIM, Hỗ trợ 5G'
+EXEC sp_AddCauHinh N'OPPO Reno6 Z 5G', N'Pin, Sạc', N'4310 mAh, 30 W'
+
+EXEC sp_AddCauHinh N'OPPO A74', N'Màn hình', N'AMOLED, 6.43", Full HD+'
+EXEC sp_AddCauHinh N'OPPO A74', N'Hệ điều hành', N'Android 11'
+EXEC sp_AddCauHinh N'OPPO A74', N'Camera sau', N'Chính 48 MP & Phụ 2 MP, 2 MP'
+EXEC sp_AddCauHinh N'OPPO A74', N'Camera trước', N'16 MP'
+EXEC sp_AddCauHinh N'OPPO A74', N'Chip', N'Snapdragon 662'
+EXEC sp_AddCauHinh N'OPPO A74', N'RAM', N'8 GB'
+EXEC sp_AddCauHinh N'OPPO A74', N'Bộ nhớ trong', N'128 GB'
+EXEC sp_AddCauHinh N'OPPO A74', N'SIM', N'2 Nano SIM, Hỗ trợ 4G'
+EXEC sp_AddCauHinh N'OPPO A74', N'Pin, Sạc', N'5000 mAh, 33 W'
+
+EXEC sp_AddCauHinh N'OPPO A55', N'Màn hình', N'IPS LCD, 6.5", HD+'
+EXEC sp_AddCauHinh N'OPPO A55', N'Hệ điều hành', N'Android 11'
+EXEC sp_AddCauHinh N'OPPO A55', N'Camera sau', N'Chính 50 MP & Phụ 2 MP, 2 MP'
+EXEC sp_AddCauHinh N'OPPO A55', N'Camera trước', N'16 MP'
+EXEC sp_AddCauHinh N'OPPO A55', N'Chip', N'MediaTek Helio G35'
+EXEC sp_AddCauHinh N'OPPO A55', N'RAM', N'4 GB'
+EXEC sp_AddCauHinh N'OPPO A55', N'Bộ nhớ trong', N'64 GB'
+EXEC sp_AddCauHinh N'OPPO A55', N'SIM', N'2 Nano SIM, Hỗ trợ 4G'
+EXEC sp_AddCauHinh N'OPPO A55', N'Pin, Sạc', N'5000 mAh, 18 W'
+
+EXEC sp_AddCauHinh N'OPPO Reno5 Marvel', N'Màn hình', N'AMOLED, 6.43", HD+'
+EXEC sp_AddCauHinh N'OPPO Reno5 Marvel', N'Hệ điều hành', N'Android 11'
+EXEC sp_AddCauHinh N'OPPO Reno5 Marvel', N'Camera sau', N'Chính 64 MP & Phụ 8 MP, 2 MP, 2 MP'
+EXEC sp_AddCauHinh N'OPPO Reno5 Marvel', N'Camera trước', N'44 MP'
+EXEC sp_AddCauHinh N'OPPO Reno5 Marvel', N'Chip', N'Snapdragon 720G'
+EXEC sp_AddCauHinh N'OPPO Reno5 Marvel', N'RAM', N'8 GB'
+EXEC sp_AddCauHinh N'OPPO Reno5 Marvel', N'Bộ nhớ trong', N'128 GB'
+EXEC sp_AddCauHinh N'OPPO Reno5 Marvel', N'SIM', N'2 Nano SIM, Hỗ trợ 4G'
+EXEC sp_AddCauHinh N'OPPO Reno5 Marvel', N'Pin, Sạc', N'4310 mAh, 50 W'
+
+EXEC sp_AddCauHinh N'Vivo Y21', N'Màn hình', N'IPS LCD, 6.51", HD+'
+EXEC sp_AddCauHinh N'Vivo Y21', N'Hệ điều hành', N'Android 11'
+EXEC sp_AddCauHinh N'Vivo Y21', N'Camera sau', N'Chính 13 MP & Phụ 2 MP'
+EXEC sp_AddCauHinh N'Vivo Y21', N'Camera trước', N'8 MP'
+EXEC sp_AddCauHinh N'Vivo Y21', N'Chip', N'MediaTek Helio P35'
+EXEC sp_AddCauHinh N'Vivo Y21', N'RAM', N'4 GB'
+EXEC sp_AddCauHinh N'Vivo Y21', N'Bộ nhớ trong', N'64 GB'
+EXEC sp_AddCauHinh N'Vivo Y21', N'SIM', N'2 Nano SIM, Hỗ trợ 4G'
+EXEC sp_AddCauHinh N'Vivo Y21', N'Pin, Sạc', N'5000 mAh, 18 W'
+
+EXEC sp_AddCauHinh N'Vivo X70 Pro 5G', N'Màn hình', N'AMOLED, 6.56", Full HD+'
+EXEC sp_AddCauHinh N'Vivo X70 Pro 5G', N'Hệ điều hành', N'Android 11'
+EXEC sp_AddCauHinh N'Vivo X70 Pro 5G', N'Camera sau', N'Chính 50 MP & Phụ 12 MP, 12 MP, 8 MP'
+EXEC sp_AddCauHinh N'Vivo X70 Pro 5G', N'Camera trước', N'32 MP'
+EXEC sp_AddCauHinh N'Vivo X70 Pro 5G', N'Chip', N'MediaTek Dimensity 1200'
+EXEC sp_AddCauHinh N'Vivo X70 Pro 5G', N'RAM', N'12 GB'
+EXEC sp_AddCauHinh N'Vivo X70 Pro 5G', N'Bộ nhớ trong', N'256 GB'
+EXEC sp_AddCauHinh N'Vivo X70 Pro 5G', N'SIM', N'2 Nano SIM, Hỗ trợ 5G'
+EXEC sp_AddCauHinh N'Vivo X70 Pro 5G', N'Pin, Sạc', N'4450 mAh, 44 W'
+
+EXEC sp_AddCauHinh N'Vivo Y72 5G', N'Màn hình', N'IPS LCD, 6.58", Full HD+'
+EXEC sp_AddCauHinh N'Vivo Y72 5G', N'Hệ điều hành', N'Android 11'
+EXEC sp_AddCauHinh N'Vivo Y72 5G', N'Camera sau', N'Chính 64 MP & Phụ 8 MP, 2 MP'
+EXEC sp_AddCauHinh N'Vivo Y72 5G', N'Camera trước', N'16 MP'
+EXEC sp_AddCauHinh N'Vivo Y72 5G', N'Chip', N'MediaTek Dimensity 700'
+EXEC sp_AddCauHinh N'Vivo Y72 5G', N'RAM', N'8 GB'
+EXEC sp_AddCauHinh N'Vivo Y72 5G', N'Bộ nhớ trong', N'128 GB'
+EXEC sp_AddCauHinh N'Vivo Y72 5G', N'SIM', N'2 Nano SIM (SIM 2 chung khe thẻ nhớ), Hỗ trợ 5G'
+EXEC sp_AddCauHinh N'Vivo Y72 5G', N'Pin, Sạc', N'5000 mAh, 18 W'
+
+EXEC sp_AddCauHinh N'Vivo V20 SE', N'Màn hình', N'AMOLED, 6.44", Full HD+'
+EXEC sp_AddCauHinh N'Vivo V20 SE', N'Hệ điều hành', N'Android 10'
+EXEC sp_AddCauHinh N'Vivo V20 SE', N'Camera sau', N'Chính 48 MP & Phụ 8 MP, 2 MP'
+EXEC sp_AddCauHinh N'Vivo V20 SE', N'Camera trước', N'32 MP'
+EXEC sp_AddCauHinh N'Vivo V20 SE', N'Chip', N'Snapdragon 665'
+EXEC sp_AddCauHinh N'Vivo V20 SE', N'RAM', N'8 GB'
+EXEC sp_AddCauHinh N'Vivo V20 SE', N'Bộ nhớ trong', N'128 GB'
+EXEC sp_AddCauHinh N'Vivo V20 SE', N'SIM', N'2 Nano SIM, Hỗ trợ 4G'
+EXEC sp_AddCauHinh N'Vivo V20 SE', N'Pin, Sạc', N'4100 mAh, 33 W'
+
 -- BẢNG HÓA ĐƠN VÀ CHITIETHD
 DECLARE @maHD_ VARCHAR(10)
 
@@ -812,6 +944,9 @@ EXEC sp_AddHD @maHD_, N'Khách hàng 2', N'Lê Đức Tài', N'iPhone 13 Pro 1TB
 ------------------------------    DEBUG     ----------------------------------------------------------
 ------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------
+/* 
 SELECT * FROM SANPHAM
 SELECT * FROM HOADON
 SELECT * FROM KHACHHANG
+
+*/
