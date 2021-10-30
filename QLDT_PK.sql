@@ -363,6 +363,89 @@ SELECT
     ,ERROR_MESSAGE() AS 'Message';
 GO 
 
+--ID INT IDENTITY NOT NULL,
+--ID_SP VARCHAR(5) REFERENCES SANPHAM(ID),
+--GIA FLOAT, -- GIÁ
+--NGCAPNHAT DATETIME, -- NGÀY CẬP NHẬT - LẤY NGÀY MỚI NHẤT
+CREATE PROC sp_SetDG -- SET ĐƠN GIÁ
+@tenSP NVARCHAR(50),
+@gia FLOAT
+AS
+	BEGIN
+		DECLARE @maSP VARCHAR(10)
+		SELECT @maSP = ID FROM SANPHAM WHERE TENSP = @tenSP
+
+		INSERT DONGIA(ID_SP, GIA)
+		VALUES (@maSP, @gia)
+	END
+GO
+CREATE PROC sp_GetMaHD
+@maHD VARCHAR(10) OUTPUT
+AS
+	SELECT @maHD = DBO.fn_autoIDHD()
+GO
+--ID VARCHAR(10) NOT NULL, -- CREATE AUTO
+--NGTAO DATE, -- NGÀY TẠO HÓA ĐƠN
+--DONGIA FLOAT, -- TỔNG (SỐ LƯỢNG * ĐƠN GIÁ)
+--TINHTRANG NVARCHAR(50), -- CHƯA GIAO, ĐÃ GIAO
+--ID_KH VARCHAR(10) REFERENCES KHACHHANG(ID),
+--ID_NV VARCHAR(10) REFERENCES NHANVIEN(ID)
+
+--ID INT IDENTITY NOT NULL,
+--ID_HD VARCHAR(10) REFERENCES HOADON(ID),
+--ID_SP VARCHAR(5) REFERENCES SANPHAM(ID),
+--SOLUONG INT, -- SỐ LƯỢNG > 0, số lượng bán
+CREATE PROC sp_AddHD
+@maHD VARCHAR(10),
+@tenKH NVARCHAR(50),
+@tenNV NVARCHAR(50),
+@tenSP NVARCHAR(50),
+@soLuong INT
+AS
+	BEGIN TRY
+		DECLARE @maNV VARCHAR(10), @maKH VARCHAR(10), @maSP VARCHAR(5)
+
+		IF NOT EXISTS (SELECT * FROM HOADON WHERE ID = @maHD)
+		BEGIN
+			INSERT HOADON(ID) SELECT @maHD
+
+			-- LẤY MÃ NHÂN VIÊN
+			SELECT @maNV = ID FROM NHANVIEN WHERE ID_TK = (SELECT ID_TAIKHOAN FROM THONGTINTAIKHOAN WHERE HOTEN = @tenNV)
+			-- LẤY MÃ KHÁCH HÀNG
+			SELECT @maKH = ID FROM KHACHHANG WHERE ID_TK = (SELECT ID_TAIKHOAN FROM THONGTINTAIKHOAN WHERE HOTEN = @tenKH)
+
+			-- ADD MÃ KHÁCH HÀNG VÀ NHÂN VIÊN VÀO HÓA ĐƠN
+			UPDATE HOADON SET ID_KH = @maKH, ID_NV = @maNV WHERE ID = @maHD
+		END
+
+		-- LẤY MÃ SẢN PHẨM 
+		SELECT @maSP = ID FROM SANPHAM WHERE TENSP = @tenSP
+
+		-- kiểm tra kho
+		DECLARE @MESSAGE NVARCHAR(70) = @tenSP + N' đã hết hàng'
+		IF @soLuong > (SELECT SOLUONG FROM SANPHAM WHERE TENSP = @tenSP)
+			THROW 51000, @MESSAGE, 1;
+
+		-- THÊM THÔNG TIN CHO HÓA ĐƠN
+		INSERT CHITIETHD(ID_HD, ID_SP, SOLUONG) SELECT @maHD, @maSP, @soLuong
+
+		-- cập nhật lại số lượng sản phẩm
+		UPDATE SANPHAM SET SOLUONG = SOLUONG - @soLuong WHERE ID = @maSP
+
+		-- CẬP NHẬT ĐƠN GIÁ
+		DECLARE @donGia FLOAT
+		SELECT @donGia = SUM(SOLUONG * GIA)
+		FROM CHITIETHD CTHD JOIN DONGIA DG
+			ON CTHD.ID_SP = DG.ID_SP 
+		WHERE ID_HD = @maHD
+
+		UPDATE HOADON SET DONGIA = @donGia WHERE ID = @maHD
+	END TRY
+	BEGIN CATCH
+		EXEC sp_GetErrorInfo;
+	END CATCH
+GO
+
 CREATE PROC sp_AddLSP -- THÊM LOẠI SP
 @tenLSP NVARCHAR(50)
 AS 
@@ -406,7 +489,7 @@ AS
 
 		DECLARE @IDLSP VARCHAR(6)
 		SELECT @IDLSP = ID FROM LOAISP WHERE TENLOAI = @tenLSP
-
+		
         DECLARE @IDHANG INT -- lấy id hãng sản phẩm
         SELECT @IDHANG = ID FROM HANG WHERE TENHANG = @tenHang
 
@@ -552,7 +635,8 @@ ADD CONSTRAINT DF_ID_NV DEFAULT DBO.fn_autoIDNV() FOR ID
 ALTER TABLE HOADON 
 ADD CONSTRAINT DF_NGTAO_HD DEFAULT GETDATE() FOR NGTAO,
     CONSTRAINT DF_TT DEFAULT N'CHƯA GIAO' FOR TINHTRANG,
-    CONSTRAINT DF_ID DEFAULT DBO.fn_autoIDHD() FOR ID
+    CONSTRAINT DF_ID DEFAULT DBO.fn_autoIDHD() FOR ID,
+	CONSTRAINT DF_DONGIA DEFAULT 0 FOR DONGIA
 
 ALTER TABLE CHITIETHD
 ADD CONSTRAINT CK_SL CHECK (SOLUONG > 0)
@@ -579,7 +663,10 @@ INSERT GRTK VALUES(N'KHÁCH HÀNG', '02')
 EXEC sp_AddAcc 'admin', 'admin@123456789', N'ADMIN', N'Admin', '2-5-2001', N'nam', 'admin@gmail.com', '000000000', null
 EXEC sp_AddAcc 'tuhueson', 'tuhueson@123456789', N'Nhân viên', N'Từ Huệ Sơn', '2-5-2001', N'nam', 'tuhueson@gmail.com', '000000000', null
 EXEC sp_AddAcc 'leductai', 'leductai@123456789', N'Nhân viên', N'Lê Đức Tài', '12-4-2001', N'nam', 'leductai@gmail.com', '000000000', null
-EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 1', '12-4-2001', N'nam', 'khachHang@gmail.com', '000000000', null
+EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 1', '12-4-2001', N'nam', 'khachHang1@gmail.com', '000000000', null
+EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 2', '12-3-2001', N'nam', 'khachHang2@gmail.com', '000000000', null
+EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 3', '2-13-2001', N'Nữ', 'khachHang3@gmail.com', '000000000', null
+EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 4', '4-13-2001', N'Nữ', 'khachHang4@gmail.com', '000000000', null
 
 -- BẢNG DANH MỤC
 INSERT DANHMUC SELECT N'Điện Thoại'
@@ -613,7 +700,7 @@ EXEC sp_AddSP N'iPhone 13 Pro 512GB', N'iPhone', 20, 40990000, null, 'iPhone13Pr
 EXEC sp_AddSP N'iPhone 12 Pro Max 512GB', N'iPhone', 20, 39990000, null, 'iPhone12Pro_512.jpg', N'iPhone(iOS)', N'Điện Thoại' --
 EXEC sp_AddSP N'iPhone 13 mini 256GB', N'iPhone', 20, 24990000, null, 'iPhone13Mini_256.jpg', N'iPhone(iOS)', N'Điện Thoại' --
 EXEC sp_AddSP N'iPhone 11 128GB', N'iPhone', 20, 18990000, null, 'iPhone11_128.jpg', N'iPhone(iOS)', N'Điện Thoại' --
-EXEC sp_AddSP N'iPhone XR 128GB', N'iPhone', 20, 16490000, null, 'iPhoneXR_128.jpg', N'iPhone(iOS)', N'Điện Thoại'
+EXEC sp_AddSP N'iPhone XR 128GB', N'iPhone', 20, 16490000, null, 'iPhoneXR_128.jpg', N'iPhone(iOS)', N'Điện Thoại' --
 EXEC sp_AddSP N'Samsung Galaxy Z Fold3 5G 512GB', N'SAMSUNG', 20, 16490000, null, 'iPhoneXR_128.jpg', N'Android', N'Điện Thoại'
 
 -- Bảng cấu hình
@@ -707,6 +794,24 @@ EXEC sp_AddCauHinh N'iPhone XR 128GB', N'Bộ nhớ trong', N'128 GB'
 EXEC sp_AddCauHinh N'iPhone XR 128GB', N'SIM', N'1 Nano SIM & 1 eSIM, Hỗ trợ 4G'
 EXEC sp_AddCauHinh N'iPhone XR 128GB', N'Pin, Sạc', N'2942 mAh, 15 W'
 
-select * from TAIKHOAN
-select * from GRTK
-EXEC sp_CKAcc 'tuhueson', 'tuhu4eson@123456789', N'Nhân Viên'
+-- BẢNG HÓA ĐƠN VÀ CHITIETHD
+DECLARE @maHD_ VARCHAR(10)
+
+EXEC sp_GetMaHD @maHD_ OUTPUT
+EXEC sp_AddHD @maHD_, N'Khách hàng 1', N'Từ Huệ Sơn', N'iPhone XR 128GB', 2
+EXEC sp_AddHD @maHD_, N'Khách hàng 1', N'Từ Huệ Sơn', N'iPhone 11 128GB', 1
+EXEC sp_AddHD @maHD_, N'Khách hàng 1', N'Từ Huệ Sơn', N'iPhone 13 Pro Max 1TB', 2
+
+EXEC sp_GetMaHD @maHD_ OUTPUT
+EXEC sp_AddHD @maHD_, N'Khách hàng 2', N'Lê Đức Tài', N'iPhone 13 Pro Max 512GB', 1
+EXEC sp_AddHD @maHD_, N'Khách hàng 2', N'Lê Đức Tài', N'iPhone 12 Pro Max 512GB', 1
+EXEC sp_AddHD @maHD_, N'Khách hàng 2', N'Lê Đức Tài', N'iPhone 13 Pro 1TB', 1
+
+------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
+------------------------------    DEBUG     ----------------------------------------------------------
+------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
+SELECT * FROM SANPHAM
+SELECT * FROM HOADON
+SELECT * FROM KHACHHANG
