@@ -433,13 +433,15 @@ AS
 		UPDATE SANPHAM SET SOLUONG = SOLUONG - @soLuong WHERE ID = @maSP
 
 		-- CẬP NHẬT ĐƠN GIÁ ---------------------- kiểm tra ngày mới nhất trong đơn giá
-		DECLARE @donGia FLOAT
-		SELECT @donGia = SUM(SOLUONG * GIA)
-		FROM CHITIETHD CTHD JOIN DONGIA DG
-			ON CTHD.ID_SP = DG.ID_SP 
-		WHERE ID_HD = @maHD
+		DECLARE @donGia FLOAT -- đơn giá của sản phẩm x
 
-		UPDATE HOADON SET DONGIA = @donGia WHERE ID = @maHD
+		SELECT TOP 1 @donGia = SUM(@soLuong * GIA)
+		FROM DONGIA
+		WHERE ID_SP = @maSP
+		GROUP BY NGCAPNHAT
+		ORDER BY NGCAPNHAT DESC
+		
+		UPDATE HOADON SET DONGIA = DONGIA + @donGia WHERE ID = @maHD
 	END TRY
 	BEGIN CATCH
 		EXEC sp_GetErrorInfo;
@@ -668,6 +670,7 @@ EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 2', '12-3-2001', N'nam', 
 EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 3', '2-13-2001', N'Nữ', 'khachHang3@gmail.com', '000000000', null
 EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 4', '4-13-2001', N'Nữ', 'khachHang4@gmail.com', '000000000', null
 EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 5', '3-30-2001', N'Nữ', 'khachHang5@gmail.com', '000000000', null
+EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 6', '7-24-2001', N'Nữ', 'khachHang6@gmail.com', '000000000', null
 
 -- BẢNG DANH MỤC
 INSERT DANHMUC SELECT N'Điện Thoại'
@@ -931,7 +934,7 @@ DECLARE @maHD_ VARCHAR(10)
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
 EXEC sp_AddHD @maHD_, N'Khách hàng 1', N'Từ Huệ Sơn', N'iPhone XR 128GB', 2
-EXEC sp_AddHD @maHD_, N'Khách hàng 1', N'Từ Huệ Sơn', N'iPhone 11 128GB', 1
+EXEC sp_AddHD @maHD_, N'Khách hàng 1', N'Từ Huệ Sơn', N'iPhone 12 64GB', 1
 EXEC sp_AddHD @maHD_, N'Khách hàng 1', N'Từ Huệ Sơn', N'iPhone 13 Pro Max 1TB', 2
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
@@ -941,12 +944,23 @@ EXEC sp_AddHD @maHD_, N'Khách hàng 2', N'Lê Đức Tài', N'iPhone 13 Pro 1TB
 
 ------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------
-------------------------------    DEBUG     ----------------------------------------------------------
+-------------------------------------    DEBUG     ---------------------------------------------------
 ------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------
 /* 
 SELECT * FROM SANPHAM
 SELECT * FROM HOADON
+SELECT * FROM CHITIETHD
 SELECT * FROM KHACHHANG
+SELECT * FROM DONGIA
+select * from THONGTINTAIKHOAN
 
+		/*-------------------------------------- debug lấy đơn giá ---------------------------------------
+		SELECT SUM(GIA)
+		FROM DONGIA
+			WHERE id_sp = 'sp001'
+			GROUP BY NGCAPNHAT
+			ORDER BY NGCAPNHAT DESC
+			select * from dongia
+		-------------------------------------- debug ---------------------------------------*/
 */
