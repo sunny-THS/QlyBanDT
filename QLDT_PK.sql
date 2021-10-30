@@ -681,6 +681,14 @@ INSERT DANHMUC SELECT N'Phụ kiện'
 EXEC sp_AddLSP N'Android'
 EXEC sp_AddLSP N'iPhone(iOS)'
 EXEC sp_AddLSP N'Điện thoại phổ thông'
+-- phụ kiện
+EXEC sp_AddLSP N'Pin sạc dự phòng'
+EXEC sp_AddLSP N'Sạc, cáp'
+EXEC sp_AddLSP N'Miếng dán màn hình'
+EXEC sp_AddLSP N'Ốp lưng điện thoại'
+EXEC sp_AddLSP N'Gậy tự sướng'
+EXEC sp_AddLSP N'Đế móc điện thoại'
+EXEC sp_AddLSP N'Túi chống nước'
 
 -- BẢNG HÃNG SP
 INSERT HANG (TENHANG) SELECT N'iPhone'
@@ -717,8 +725,57 @@ EXEC sp_AddSP N'Vivo Y21', N'VIVO', 20, 4290000, null, 'vivoY21.jpg', N'Android'
 EXEC sp_AddSP N'Vivo X70 Pro 5G', N'VIVO', 20, 18990000, null, 'vivoX70Pro.jpg', N'Android', N'Điện Thoại'
 EXEC sp_AddSP N'Vivo Y72 5G', N'VIVO', 20, 7590000, null, 'vivoY72.jpg', N'Android', N'Điện Thoại'
 EXEC sp_AddSP N'Vivo V20 SE', N'VIVO', 20, 6490000, null, 'vivoV20SE.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Xiaomi 11T 5G 256GB', N'XIAOMI', 20, 11990000, null, 'xiaomi11T_256.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Xiaomi 11 Lite 5G NE', N'XIAOMI', 20, 9490000, null, 'xiaomi11Lite.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Xiaomi Redmi Note 10S', N'XIAOMI', 20, 6490000, null, 'xiaomiRedmiNote10s.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Xiaomi Redmi Note 9', N'XIAOMI', 20, 4490000, null, 'xiaomiRedmiNote9.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Realme C21Y 4GB', N'REALME', 20, 3990000, null, 'realmeC21Y.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Realme 7 Pro', N'REALME', 20, 8540000, null, 'realme7Pro.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Realme 8 Pro Vàng Rực Rỡ', N'REALME', 20, 8240000, null, 'realme8ProVang.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Realme 6 Pro', N'REALME', 20, 6990000, null, 'realme6Pro.jpg', N'Android', N'Điện Thoại'
 
+-- thêm phụ kiện
 -- Bảng cấu hình
+EXEC sp_AddCauHinh N'Realme 6 Pro', N'Màn hình', N'IPS LCD, 6.6", Full HD+'
+EXEC sp_AddCauHinh N'Realme 6 Pro', N'Hệ điều hành', N'Android 10'
+EXEC sp_AddCauHinh N'Realme 6 Pro', N'Camera sau', N'Chính 64 MP & Phụ 12 MP, 8 MP, 2 MP'
+EXEC sp_AddCauHinh N'Realme 6 Pro', N'Camera trước', N'Chính 16 MP & Phụ 8 MP'
+EXEC sp_AddCauHinh N'Realme 6 Pro', N'Chip', N'Snapdragon 720G'
+EXEC sp_AddCauHinh N'Realme 6 Pro', N'RAM', N'8 GB'
+EXEC sp_AddCauHinh N'Realme 6 Pro', N'Bộ nhớ trong', N'128 GB'
+EXEC sp_AddCauHinh N'Realme 6 Pro', N'SIM', N'2 Nano SIM, Hỗ trợ 4G'
+EXEC sp_AddCauHinh N'Realme 6 Pro', N'Pin, Sạc', N'4300 mAh, 30 W'
+
+EXEC sp_AddCauHinh N'Realme 8 Pro Vàng Rực Rỡ', N'Màn hình', N'Super AMOLED, 6.4", Full HD+'
+EXEC sp_AddCauHinh N'Realme 8 Pro Vàng Rực Rỡ', N'Hệ điều hành', N'Android 11'
+EXEC sp_AddCauHinh N'Realme 8 Pro Vàng Rực Rỡ', N'Camera sau', N'Chính 108 MP & Phụ 8 MP, 2 MP, 2 MP'
+EXEC sp_AddCauHinh N'Realme 8 Pro Vàng Rực Rỡ', N'Camera trước', N'16 MP'
+EXEC sp_AddCauHinh N'Realme 8 Pro Vàng Rực Rỡ', N'Chip', N'Snapdragon 720G'
+EXEC sp_AddCauHinh N'Realme 8 Pro Vàng Rực Rỡ', N'RAM', N'8 GB'
+EXEC sp_AddCauHinh N'Realme 8 Pro Vàng Rực Rỡ', N'Bộ nhớ trong', N'128 GB'
+EXEC sp_AddCauHinh N'Realme 8 Pro Vàng Rực Rỡ', N'SIM', N'2 Nano SIM, Hỗ trợ 4G'
+EXEC sp_AddCauHinh N'Realme 8 Pro Vàng Rực Rỡ', N'Pin, Sạc', N'4500 mAh, 50 W'
+
+EXEC sp_AddCauHinh N'Realme 7 Pro', N'Màn hình', N'Super AMOLED, 6.4", Full HD+'
+EXEC sp_AddCauHinh N'Realme 7 Pro', N'Hệ điều hành', N'Android 10'
+EXEC sp_AddCauHinh N'Realme 7 Pro', N'Camera sau', N'Chính 64 MP & Phụ 8 MP, 2 MP, 2 MP'
+EXEC sp_AddCauHinh N'Realme 7 Pro', N'Camera trước', N'32 MP'
+EXEC sp_AddCauHinh N'Realme 7 Pro', N'Chip', N'Snapdragon 720G'
+EXEC sp_AddCauHinh N'Realme 7 Pro', N'RAM', N'8 GB'
+EXEC sp_AddCauHinh N'Realme 7 Pro', N'Bộ nhớ trong', N'128 GB'
+EXEC sp_AddCauHinh N'Realme 7 Pro', N'SIM', N'2 Nano SIM, Hỗ trợ 4G'
+EXEC sp_AddCauHinh N'Realme 7 Pro', N'Pin, Sạc', N'4500 mAh, 65 W'
+
+EXEC sp_AddCauHinh N'Realme C21Y 4GB', N'Màn hình', N'IPS LCD, 6.5", HD+'
+EXEC sp_AddCauHinh N'Realme C21Y 4GB', N'Hệ điều hành', N'Android 11'
+EXEC sp_AddCauHinh N'Realme C21Y 4GB', N'Camera sau', N'Chính 13 MP & Phụ 2 MP, 2 MP'
+EXEC sp_AddCauHinh N'Realme C21Y 4GB', N'Camera trước', N'5 MP'
+EXEC sp_AddCauHinh N'Realme C21Y 4GB', N'Chip', N'Spreadtrum T610 8 nhân'
+EXEC sp_AddCauHinh N'Realme C21Y 4GB', N'RAM', N'4 GB'
+EXEC sp_AddCauHinh N'Realme C21Y 4GB', N'Bộ nhớ trong', N'64 GB'
+EXEC sp_AddCauHinh N'Realme C21Y 4GB', N'SIM', N'2 Nano SIM, Hỗ trợ 4G'
+EXEC sp_AddCauHinh N'Realme C21Y 4GB', N'Pin, Sạc', N'5000 mAh, 10 W'
+
 EXEC sp_AddCauHinh N'iPhone 12 64GB', N'Màn hình', N'OLED, 6.1", Super Retina XDR'
 EXEC sp_AddCauHinh N'iPhone 12 64GB', N'Hệ điều hành', N'iOS 14'
 EXEC sp_AddCauHinh N'iPhone 12 64GB', N'Camera sau', N'2 camera 12 MP'
@@ -929,6 +986,46 @@ EXEC sp_AddCauHinh N'Vivo V20 SE', N'Bộ nhớ trong', N'128 GB'
 EXEC sp_AddCauHinh N'Vivo V20 SE', N'SIM', N'2 Nano SIM, Hỗ trợ 4G'
 EXEC sp_AddCauHinh N'Vivo V20 SE', N'Pin, Sạc', N'4100 mAh, 33 W'
 
+EXEC sp_AddCauHinh N'Xiaomi 11T 5G 256GB', N'Màn hình', N'AMOLED, 6.67", Full HD+'
+EXEC sp_AddCauHinh N'Xiaomi 11T 5G 256GB', N'Hệ điều hành', N'Android 11'
+EXEC sp_AddCauHinh N'Xiaomi 11T 5G 256GB', N'Camera sau', N'Chính 108 MP & Phụ 8 MP, 5 MP'
+EXEC sp_AddCauHinh N'Xiaomi 11T 5G 256GB', N'Camera trước', N'16 MP'
+EXEC sp_AddCauHinh N'Xiaomi 11T 5G 256GB', N'Chip', N'MediaTek Dimensity 1200'
+EXEC sp_AddCauHinh N'Xiaomi 11T 5G 256GB', N'RAM', N'8 GB'
+EXEC sp_AddCauHinh N'Xiaomi 11T 5G 256GB', N'Bộ nhớ trong', N'256 GB'
+EXEC sp_AddCauHinh N'Xiaomi 11T 5G 256GB', N'SIM', N'2 Nano SIM, Hỗ trợ 5G'
+EXEC sp_AddCauHinh N'Xiaomi 11T 5G 256GB', N'Pin, Sạc', N'5000 mAh, 67 W'
+
+EXEC sp_AddCauHinh N'Xiaomi 11 Lite 5G NE', N'Màn hình', N'AMOLED, 6.55", Full HD+'
+EXEC sp_AddCauHinh N'Xiaomi 11 Lite 5G NE', N'Hệ điều hành', N'Android 11'
+EXEC sp_AddCauHinh N'Xiaomi 11 Lite 5G NE', N'Camera sau', N'Chính 64 MP & Phụ 8 MP, 5 MP'
+EXEC sp_AddCauHinh N'Xiaomi 11 Lite 5G NE', N'Camera trước', N'20 MP'
+EXEC sp_AddCauHinh N'Xiaomi 11 Lite 5G NE', N'Chip', N'Snapdragon 778G 5G 8 nhân'
+EXEC sp_AddCauHinh N'Xiaomi 11 Lite 5G NE', N'RAM', N'8 GB'
+EXEC sp_AddCauHinh N'Xiaomi 11 Lite 5G NE', N'Bộ nhớ trong', N'128 GB'
+EXEC sp_AddCauHinh N'Xiaomi 11 Lite 5G NE', N'SIM', N'2 Nano SIM (SIM 2 chung khe thẻ nhớ), Hỗ trợ 5G'
+EXEC sp_AddCauHinh N'Xiaomi 11 Lite 5G NE', N'Pin, Sạc', N'4250 mAh, 33 W'
+
+EXEC sp_AddCauHinh N'Xiaomi Redmi Note 9', N'Màn hình', N'IPS LCD, 6.53", Full HD+'
+EXEC sp_AddCauHinh N'Xiaomi Redmi Note 9', N'Hệ điều hành', N'Android 10'
+EXEC sp_AddCauHinh N'Xiaomi Redmi Note 9', N'Camera sau', N'Chính 48 MP & Phụ 8 MP, 2 MP, 2 MP'
+EXEC sp_AddCauHinh N'Xiaomi Redmi Note 9', N'Camera trước', N'13 MP'
+EXEC sp_AddCauHinh N'Xiaomi Redmi Note 9', N'Chip', N'MediaTek Helio G85'
+EXEC sp_AddCauHinh N'Xiaomi Redmi Note 9', N'RAM', N'4 GB'
+EXEC sp_AddCauHinh N'Xiaomi Redmi Note 9', N'Bộ nhớ trong', N'128 GB'
+EXEC sp_AddCauHinh N'Xiaomi Redmi Note 9', N'SIM', N'2 Nano SIM, Hỗ trợ 4G'
+EXEC sp_AddCauHinh N'Xiaomi Redmi Note 9', N'Pin, Sạc', N'5020 mAh, 18 W'
+
+EXEC sp_AddCauHinh N'Xiaomi Redmi Note 10S', N'Màn hình', N'AMOLED, 6.43", Full HD+'
+EXEC sp_AddCauHinh N'Xiaomi Redmi Note 10S', N'Hệ điều hành', N'Android 11'
+EXEC sp_AddCauHinh N'Xiaomi Redmi Note 10S', N'Camera sau', N'Chính 64 MP & Phụ 8 MP, 2 MP, 2 MP'
+EXEC sp_AddCauHinh N'Xiaomi Redmi Note 10S', N'Camera trước', N'13 MP'
+EXEC sp_AddCauHinh N'Xiaomi Redmi Note 10S', N'Chip', N'MediaTek Helio G95'
+EXEC sp_AddCauHinh N'Xiaomi Redmi Note 10S', N'RAM', N'8 GB'
+EXEC sp_AddCauHinh N'Xiaomi Redmi Note 10S', N'Bộ nhớ trong', N'128 GB'
+EXEC sp_AddCauHinh N'Xiaomi Redmi Note 10S', N'SIM', N'2 Nano SIM, Hỗ trợ 4G'
+EXEC sp_AddCauHinh N'Xiaomi Redmi Note 10S', N'Pin, Sạc', N'5000 mAh, 33 W'
+
 -- BẢNG HÓA ĐƠN VÀ CHITIETHD
 DECLARE @maHD_ VARCHAR(10)
 
@@ -955,12 +1052,12 @@ SELECT * FROM KHACHHANG
 SELECT * FROM DONGIA
 select * from THONGTINTAIKHOAN
 
-		/*-------------------------------------- debug lấy đơn giá ---------------------------------------
+		-------------------------------------- debug lấy đơn giá ---------------------------------------
 		SELECT SUM(GIA)
 		FROM DONGIA
 			WHERE id_sp = 'sp001'
 			GROUP BY NGCAPNHAT
 			ORDER BY NGCAPNHAT DESC
 			select * from dongia
-		-------------------------------------- debug ---------------------------------------*/
+		-------------------------------------- debug ---------------------------------------
 */
