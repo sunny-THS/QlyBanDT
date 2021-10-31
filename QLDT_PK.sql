@@ -1244,6 +1244,11 @@ EXEC sp_AddHD @maHD_, N'Khách hàng 2', N'Lê Đức Tài', N'iPhone 13 Pro Max
 EXEC sp_AddHD @maHD_, N'Khách hàng 2', N'Lê Đức Tài', N'iPhone 12 Pro Max 512GB', 1
 EXEC sp_AddHD @maHD_, N'Khách hàng 2', N'Lê Đức Tài', N'iPhone 13 Pro 1TB', 1
 
+EXEC sp_GetMaHD @maHD_ OUTPUT
+EXEC sp_AddHD @maHD_, N'Khách hàng 3', N'Lê Đức Tài', N'Samsung Galaxy Z Flip3 5G 256GB', 1
+EXEC sp_AddHD @maHD_, N'Khách hàng 3', N'Lê Đức Tài', N'Samsung Galaxy A03s', 1
+EXEC sp_AddHD @maHD_, N'Khách hàng 3', N'Lê Đức Tài', N'iPhone 13 Pro 1TB', 1
+
 ------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------
 -------------------------------------    DEBUG     ---------------------------------------------------
