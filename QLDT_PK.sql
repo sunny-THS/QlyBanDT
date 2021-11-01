@@ -753,6 +753,48 @@ EXEC sp_AddSP N'Energizer E20', N'Energizer', 20, 650000, null, 'energizerE20.jp
 EXEC sp_AddSP N'Energizer P20', N'Energizer', 20, 590000, null, 'energizerP20.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
 EXEC sp_AddSP N'Energizer E100', N'Energizer', 20, 490000, null, 'energizerE100.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
 
+--SẠC DỰ PHÒNG
+EXEC sp_AddSP N'Pin sạc dự phòng Polymer 10.000 mAh Type C Xiaomi Power Bank 3 Ultra Compact', N'XIAOMI', 20, 474000, N'Trung Quốc', '.jpg', N'Pin sạc dự phòng', N'Phụ kiện'
+EXEC sp_AddSP N'Pin sạc dự phòng Polymer 10.000mAh Type C Fast Charge Xiaomi Mi Power Bank 3', N'XIAOMI', 20, 374000, N'Trung Quốc', '.jpg', N'Pin sạc dự phòng', N'Phụ kiện'
+EXEC sp_AddSP N'Pin sạc dự phòng Polymer 10.000 mAh Type C PD Samsung EB-P3300', N'SAMSUNG', 20, 693000, N'Trung Quốc', '.jpg', N'Pin sạc dự phòng', N'Phụ kiện'
+EXEC sp_AddSP N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ', N'Energizer', 20, 770000, N'Trung Quốc', '.jpg', N'Pin sạc dự phòng', N'Phụ kiện'
+
+--Sạc, cáp
+EXEC sp_AddSP N'Adapter Sạc Type C PD 25W Samsung EP-TA800N', N'SAMSUNG', 20, 490000, N'Việt Nam', '.jpg', N'Sạc, cáp', N'Phụ kiện'
+EXEC sp_AddSP N'Cáp chuyển đổi Type C sang 3.5mm Samsung EE-UC10JUW Trắng', N'SAMSUNG', 20, 220000, N'Việt Nam', '.jpg', N'Sạc, cáp', N'Phụ kiện'
+EXEC sp_AddSP N'Cáp Type-C 1.2 m Energizer C41C2AGBKT Đen', N'Energizer', 20, 175000, N'Trung Quốc', '.jpg', N'Sạc, cáp', N'Phụ kiện'
+EXEC sp_AddSP N'Sạc không dây xe hơi 20W Xiaomi GDS4127GL Đen', N'XIAOMI', 20, 774000, N'Trung Quốc', '.jpg', N'Sạc, cáp', N'Phụ kiện'
+
+--Miếng dán màn hình
+EXEC sp_AddSP N'Miếng dán màn hình iPhone 13 Pro Max', N'iPhone', 20, 50000, null, '.jpg', N'Miếng dán màn hình', N'Phụ kiện'
+EXEC sp_AddSP N'Miếng dán kính iPhone 13 Pro Max JCPAL', N'iPhone', 20, 390000, null, '.jpg', N'Miếng dán màn hình', N'Phụ kiện'
+EXEC sp_AddSP N'Miếng dán full màn hình TA SHT31 Galaxy S21 Ultra', N'SAMSUNG', 20, 100000, null, '.jpg', N'Miếng dán màn hình', N'Phụ kiện'
+EXEC sp_AddSP N'Miếng dán màn hình Galaxy S21', N'SAMSUNG', 20, 50000, null, '.jpg', N'Miếng dán màn hình', N'Phụ kiện'
+
+--Ốp lưng điện thoại
+EXEC sp_AddSP N'Ốp lưng iPhone 13 Silicon OSMIA Cam', null, 20, 70000, null, '.jpg', N'Ốp lưng điện thoại', N'Phụ kiện'
+EXEC sp_AddSP N'Ốp lưng iPhone 13 Pro Max Nhựa cứng viền dẻo Magnets KingxBar Trắng', null, 20, 245000, null, '.jpg', N'Ốp lưng điện thoại', N'Phụ kiện'
+EXEC sp_AddSP N'Ốp lưng Galaxy A71 nhựa dẻo Woven OSMIA Xanh Đậm', null, 20, 49000, null, '.jpg', N'Ốp lưng điện thoại', N'Phụ kiện'
+EXEC sp_AddSP N'Ốp lưng Galaxy A71 nhựa dẻo TPU Electroplating Triple COSANO Bạc', null, 20, 70000, null, '.jpg', N'Ốp lưng điện thoại', N'Phụ kiện'
+
+--Gậy tự sướng
+EXEC sp_AddSP N'Gậy chụp ảnh Bluetooth Tripod Xmobile K06 Đen', null, 20, 240000, null, '.jpg', N'Gậy tự sướng', N'Phụ kiện'
+EXEC sp_AddSP N'Gậy Chụp Ảnh Bluetooth Cosano HD-P7', null, 20, 120000, null, '.jpg', N'Gậy tự sướng', N'Phụ kiện'
+EXEC sp_AddSP N'Gậy Chụp Ảnh Xmobile Hình Cô gái CSA005 ', null, 20, 72000, null, '.jpg', N'Gậy tự sướng', N'Phụ kiện'
+EXEC sp_AddSP N'Gậy Chụp Ảnh Osmia OW5', null, 20, 70000, null, '.jpg', N'Gậy tự sướng', N'Phụ kiện'
+
+--Đế móc điện thoại
+EXEC sp_AddSP N'Dây đeo điện thoại OSMIA silicon CRS', null, 20, 24000, null, '.jpg', N'Đế móc điện thoại', N'Phụ kiện'
+EXEC sp_AddSP N'Bộ 2 móc điện thoại OSMIA CK-CRS10 Mèo cá heo xanh', null, 20, 48000, null, '.jpg', N'Đế móc điện thoại', N'Phụ kiện'
+EXEC sp_AddSP N'Bộ 2 móc điện thoại OSMIA CK-CRS11 Hươu cánh cụt vàng', null, 20, 48000, null, '.jpg', N'Đế móc điện thoại', N'Phụ kiện'
+EXEC sp_AddSP N'Bộ 2 móc điện thoại nhựa dẻo OSMIA CK-CRS3 Nai Mèo Đen', null, 20, 32000, null, '.jpg', N'Đế móc điện thoại', N'Phụ kiện'
+
+--Túi chống nước
+EXEC sp_AddSP N'Túi chống nước Cosano JMG-C-20 Xanh lá', null, 20, 40000, null, '.jpg', N'Túi chống nước', N'Phụ kiện'
+EXEC sp_AddSP N'Túi chống nước Cosano JMG-C-21 Xanh biển', null, 20, 40000, null, '.jpg', N'Túi chống nước', N'Phụ kiện'
+EXEC sp_AddSP N'Túi chống nước Cosano 5 inch Vàng Chanh', null, 20, 40000, null, '.jpg', N'Túi chống nước', N'Phụ kiện'
+EXEC sp_AddSP N'Túi chống nước 5 inch Cosano Hình Chú mèo', null, 20, 40000, null, '.jpg', N'Túi chống nước', N'Phụ kiện'
+
 -- thêm phụ kiện
 -- Bảng cấu hình(thông tin sản phẩm)
 EXEC sp_AddCauHinh N'Energizer E100', N'TFT LCD, 2.4", 65.536 màu'
@@ -1230,6 +1272,47 @@ EXEC sp_AddCauHinh N'Xiaomi Redmi Note 10S', N'RAM', N'8 GB'
 EXEC sp_AddCauHinh N'Xiaomi Redmi Note 10S', N'Bộ nhớ trong', N'128 GB'
 EXEC sp_AddCauHinh N'Xiaomi Redmi Note 10S', N'SIM', N'2 Nano SIM, Hỗ trợ 4G'
 EXEC sp_AddCauHinh N'Xiaomi Redmi Note 10S', N'Pin, Sạc', N'5000 mAh, 33 W'
+
+--SẠC DỰ PHÒNG
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000 mAh Type C Xiaomi Power Bank 3 Ultra Compact', N'Hiệu suất sạc', N'55%'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000 mAh Type C Xiaomi Power Bank 3 Ultra Compact', N'Dung lượng pin', N'10.000 mAh'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000 mAh Type C Xiaomi Power Bank 3 Ultra Compact', N'Thời gian sạc đầy pin', N'10 - 11 giờ (dùng Adapter 1A)6 - 8 giờ (dùng Adapter 2A)'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000 mAh Type C Xiaomi Power Bank 3 Ultra Compact', N'Nguồn vào', N'Type C: 5V - 3A, 9V - 2.5A, 12V - 1.85AMicro USB: 5V - 2A, 9V - 2A'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000 mAh Type C Xiaomi Power Bank 3 Ultra Compact', N'Nguồn ra', N'Type C: 5V - 3A, 9V - 2.5A, 12V - 1.85AUSB: 5V - 2.4A, 9V - 2.5A, 12V - 1.85A'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000 mAh Type C Xiaomi Power Bank 3 Ultra Compact', N'Lõi pin', N'Polymer'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000 mAh Type C Xiaomi Power Bank 3 Ultra Compact', N'Công nghệ/Tiện ích', N'Đèn LED báo hiệu Power Delivery'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000 mAh Type C Xiaomi Power Bank 3 Ultra Compact', N'Kích thước', N'Dài 9 cm - Rộng 6.5 cm - Dày 2.5 cm'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000 mAh Type C Xiaomi Power Bank 3 Ultra Compact', N'Trọng lượng', N'200 g'
+
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000mAh Type C Fast Charge Xiaomi Mi Power Bank 3', N'Hiệu suất sạc', N'55%'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000mAh Type C Fast Charge Xiaomi Mi Power Bank 3 ', N'Dung lượng pin', N'10.000 mAh'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000mAh Type C Fast Charge Xiaomi Mi Power Bank 3 ', N'10 - 11 giờ (dùng Adapter 1A)3 - 4 giờ (dùng 9V/2A hoặc 12V/1.5A)5 - 6 giờ (dùng Adapter 2A)'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000mAh Type C Fast Charge Xiaomi Mi Power Bank 3 ', N'Nguồn vào', N'Micro USB/ Type C: 5V - 2.6A, 9V - 2.1A, 12V - 1.5A (18W MAX)'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000mAh Type C Fast Charge Xiaomi Mi Power Bank 3 ', N'Nguồn ra', N'USB: 5V - 2.6A, 9V - 2.1A, 12V - 1.5AUSB: 5V - 2.6A'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000mAh Type C Fast Charge Xiaomi Mi Power Bank 3 ', N'Lõi pin', N'Polymer'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000mAh Type C Fast Charge Xiaomi Mi Power Bank 3 ', N'Công nghệ/Tiện ích', N'Quick Charge 3.0. Đèn LED báo hiệu'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000mAh Type C Fast Charge Xiaomi Mi Power Bank 3 ', N'Kích thước', N'Dài 14.8cm - Rộng 7.4cm - Dày 1.5cm'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000mAh Type C Fast Charge Xiaomi Mi Power Bank 3 ', N'Trọng lượng', N'343g'
+
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000 mAh Type C PD Samsung EB-P3300', N'Hiệu suất sạc', N'55%'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000 mAh Type C PD Samsung EB-P3300', N'Dung lượng pin', N'10.000 mAh'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000 mAh Type C PD Samsung EB-P3300', N'Thời gian sạc đầy pin', N'10 - 11 giờ (dùng Adapter 1A)6 - 8 giờ (dùng Adapter 2A)'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000 mAh Type C PD Samsung EB-P3300', N'Nguồn vào', N'Type C: 5V - 2A, 9V - 1.67A, 12V - 2.1A (Adaptive Fast Charging)Type C: 5V - 3A, 9V - 2.77A (Power Delivery)'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000 mAh Type C PD Samsung EB-P3300', N'Nguồn ra', N'USB: 5V - 2A, 9V - 1.7A, 12V - 2.1AType C: 5V - 2A, 9V - 2A, 12V - 2.1A'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000 mAh Type C PD Samsung EB-P3300', N'Lõi pin', N'Polymer'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000 mAh Type C PD Samsung EB-P3300', N'Công nghệ/Tiện ích', N'Super Fast Charging. Đèn LED báo hiệu Power Delivery'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000 mAh Type C PD Samsung EB-P3300', N'Kích thước', N'Dài 14 cm - Ngang 7 cm - Dày 1.3 cm'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000 mAh Type C PD Samsung EB-P3300', N'Trọng lượng', N'240 g'
+
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ ', N'Hiệu suất sạc', N'64%'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ ', N'Dung lượng pin', N'20.000 mAh'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ ', N'Thời gian sạc đầy pin', N'12 - 14 giờ (dùng Adapter 2A)'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ ', N'Nguồn vào', N'Micro USB: 5V - 2AType-C: 5V - 2A, 9V - 2A'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ ', N'Nguồn ra', N'Type C: 5V - 2A, 9V - 2A, 12V - 1.5AUSB: 5V - 4.5A, 9V - 2A, 12V - 1.5A'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ ', N'Lõi pin', N'Polymer'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ ', N'Công nghệ/Tiện ích', N'Auto Voltage Sensing Power Delivery'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ ', N'Kích thước', N'Dài 14 cm - Rộng 6.9 cm - Dày 2.8 cm'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ ', N'Trọng lượng', N'415 g'
 
 -- BẢNG HÓA ĐƠN VÀ CHITIETHD
 DECLARE @maHD_ VARCHAR(10)
