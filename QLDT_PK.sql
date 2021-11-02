@@ -665,16 +665,16 @@ INSERT GRTK VALUES(N'KHÁCH HÀNG', '02')
 EXEC sp_AddAcc 'admin', 'admin@123456789', N'ADMIN', N'Admin', '2-5-2001', N'nam', 'admin@gmail.com', '000000000', null
 EXEC sp_AddAcc 'tuhueson', 'tuhueson@123456789', N'Nhân viên', N'Từ Huệ Sơn', '2-5-2001', N'nam', 'tuhueson@gmail.com', '000000000', null
 EXEC sp_AddAcc 'leductai', 'leductai@123456789', N'Nhân viên', N'Lê Đức Tài', '12-4-2001', N'nam', 'leductai@gmail.com', '000000000', null
-EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 1', '12-4-2001', N'nam', 'khachHang1@gmail.com', '000000000', null
-EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 2', '12-3-2001', N'nam', 'khachHang2@gmail.com', '000000000', null
-EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 3', '2-13-2001', N'Nữ', 'khachHang3@gmail.com', '000000000', null
-EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 4', '4-13-2001', N'Nữ', 'khachHang4@gmail.com', '000000000', null
-EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 5', '3-30-2001', N'Nữ', 'khachHang5@gmail.com', '000000000', null
-EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 6', '7-24-2001', N'Nữ', 'khachHang6@gmail.com', '000000000', null
-EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 7', '13-4-2001', N'nam', 'khachHang7@gmail.com', '000000000', null
-EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 8', '12-3-2001', N'nam', 'khachHang8@gmail.com', '000000000', null
-EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 9', '2-13-2001', N'Nữ', 'khachHang9@gmail.com', '000000000', null
-EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 10', '4-13-2001', N'Nữ', 'khachHang10@gmail.com', '000000000', null
+EXEC sp_AddAcc 'khachhang1', 'khachHang1@gmail.com', N'Khách hàng', N'Khách hàng 1', '12-4-2001', N'nam', 'khachHang1@gmail.com', '000000000', null
+EXEC sp_AddAcc 'khachhang2', 'khachHang2@gmail.com', N'Khách hàng', N'Khách hàng 2', '12-3-2001', N'nam', 'khachHang2@gmail.com', '000000000', null
+EXEC sp_AddAcc 'khachhang3', 'khachHang3@gmail.com', N'Khách hàng', N'Khách hàng 3', '2-13-2001', N'Nữ', 'khachHang3@gmail.com', '000000000', null
+EXEC sp_AddAcc 'khachhang4', 'khachHang4@gmail.com', N'Khách hàng', N'Khách hàng 4', '4-13-2001', N'Nữ', 'khachHang4@gmail.com', '000000000', null
+EXEC sp_AddAcc 'khachhang5', 'khachHang5@gmail.com', N'Khách hàng', N'Khách hàng 5', '3-30-2001', N'Nữ', 'khachHang5@gmail.com', '000000000', null
+EXEC sp_AddAcc 'khachhang6', 'khachHang6@gmail.com', N'Khách hàng', N'Khách hàng 6', '7-24-2001', N'Nữ', 'khachHang6@gmail.com', '000000000', null
+EXEC sp_AddAcc 'khachhang7', 'khachHang7@gmail.com', N'Khách hàng', N'Khách hàng 7', '13-4-2001', N'nam', 'khachHang7@gmail.com', '000000000', null
+EXEC sp_AddAcc 'khachhang8', 'khachHang8@gmail.com', N'Khách hàng', N'Khách hàng 8', '12-3-2001', N'nam', 'khachHang8@gmail.com', '000000000', null
+EXEC sp_AddAcc 'khachhang9', 'khachHang9@gmail.com', N'Khách hàng', N'Khách hàng 9', '2-13-2001', N'Nữ', 'khachHang9@gmail.com', '000000000', null
+EXEC sp_AddAcc 'khachhang10', 'khachHang10@gmail.com', N'Khách hàng', N'Khách hàng 10', '4-13-2001', N'Nữ', 'khachHang10@gmail.com', '000000000', null
 
 -- BẢNG DANH MỤC
 INSERT DANHMUC SELECT N'Điện Thoại'
