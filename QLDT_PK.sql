@@ -1336,6 +1336,41 @@ EXEC sp_AddHD @maHD_, N'Khách hàng 3', N'Lê Đức Tài', N'Samsung Galaxy Z 
 EXEC sp_AddHD @maHD_, N'Khách hàng 3', N'Lê Đức Tài', N'Samsung Galaxy A03s', 1
 EXEC sp_AddHD @maHD_, N'Khách hàng 3', N'Lê Đức Tài', N'iPhone 13 Pro 1TB', 1
 
+EXEC sp_GetMaHD @maHD_ OUTPUT
+EXEC sp_AddHD @maHD_, N'Khách hàng 4', N'Từ Huệ Sơn', N'Energizer E241S', 2
+EXEC sp_AddHD @maHD_, N'Khách hàng 4', N'Từ Huệ Sơn', N'Realme 6 Pro', 1
+EXEC sp_AddHD @maHD_, N'Khách hàng 4', N'Từ Huệ Sơn', N'Pin sạc dự phòng Polymer 10.000 mAh Type C Xiaomi Power Bank 3 Ultra Compact', 2
+
+EXEC sp_GetMaHD @maHD_ OUTPUT
+EXEC sp_AddHD @maHD_, N'Khách hàng 5', N'Lê Đức Tài', N'Adapter Sạc Type C PD 25W Samsung EP-TA800N', 1
+EXEC sp_AddHD @maHD_, N'Khách hàng 5', N'Lê Đức Tài', N'Samsung Galaxy Z Fold3 5G 512GB', 1
+EXEC sp_AddHD @maHD_, N'Khách hàng 5', N'Lê Đức Tài', N'OPPO Reno6 Z 5G', 1
+
+EXEC sp_GetMaHD @maHD_ OUTPUT
+EXEC sp_AddHD @maHD_, N'Khách hàng 6', N'Lê Đức Tài', N'Samsung Galaxy Z Flip3 5G 256GB', 1
+EXEC sp_AddHD @maHD_, N'Khách hàng 6', N'Lê Đức Tài', N'Ốp lưng iPhone 13 Silicon OSMIA Cam', 1
+EXEC sp_AddHD @maHD_, N'Khách hàng 6', N'Lê Đức Tài', N'Dây đeo điện thoại OSMIA silicon CRS', 1
+
+EXEC sp_GetMaHD @maHD_ OUTPUT
+EXEC sp_AddHD @maHD_, N'Khách hàng 7', N'Từ Huệ Sơn', N'Samsung Galaxy M51', 2
+EXEC sp_AddHD @maHD_, N'Khách hàng 7', N'Từ Huệ Sơn', N'Xiaomi Redmi Note 10S', 1
+EXEC sp_AddHD @maHD_, N'Khách hàng 7', N'Từ Huệ Sơn', N'Nokia 6300 4G', 2
+
+EXEC sp_GetMaHD @maHD_ OUTPUT
+EXEC sp_AddHD @maHD_, N'Khách hàng 8', N'Lê Đức Tài', N'OPPO A74', 1
+EXEC sp_AddHD @maHD_, N'Khách hàng 8', N'Lê Đức Tài', N'Túi chống nước Cosano 5 inch Vàng Chanh', 1
+EXEC sp_AddHD @maHD_, N'Khách hàng 8', N'Lê Đức Tài', N'Cáp Type-C 1.2 m Energizer C41C2AGBKT Đen', 1
+
+EXEC sp_GetMaHD @maHD_ OUTPUT
+EXEC sp_AddHD @maHD_, N'Khách hàng 9', N'Lê Đức Tài', N'Masstel Fami P20', 1
+EXEC sp_AddHD @maHD_, N'Khách hàng 9', N'Lê Đức Tài', N'Mobell Rock 3', 1
+EXEC sp_AddHD @maHD_, N'Khách hàng 9', N'Lê Đức Tài', N'Xiaomi Redmi Note 9', 1
+
+EXEC sp_GetMaHD @maHD_ OUTPUT
+EXEC sp_AddHD @maHD_, N'Khách hàng 10', N'Từ Huệ Sơn', N'Vivo X70 Pro 5G, 2
+EXEC sp_AddHD @maHD_, N'Khách hàng 10', N'Từ Huệ Sơn', N'Bộ 2 móc điện thoại OSMIA CK-CRS10 Mèo cá heo xanh', 1
+EXEC sp_AddHD @maHD_, N'Khách hàng 10', N'Từ Huệ Sơn', N'Túi chống nước Cosano JMG-C-20 Xanh lá', 2
+
 ------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------
 -------------------------------------    DEBUG     ---------------------------------------------------
