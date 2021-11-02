@@ -671,6 +671,10 @@ EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 3', '2-13-2001', N'Nữ',
 EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 4', '4-13-2001', N'Nữ', 'khachHang4@gmail.com', '000000000', null
 EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 5', '3-30-2001', N'Nữ', 'khachHang5@gmail.com', '000000000', null
 EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 6', '7-24-2001', N'Nữ', 'khachHang6@gmail.com', '000000000', null
+EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 7', '13-4-2001', N'nam', 'khachHang7@gmail.com', '000000000', null
+EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 8', '12-3-2001', N'nam', 'khachHang8@gmail.com', '000000000', null
+EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 9', '2-13-2001', N'Nữ', 'khachHang9@gmail.com', '000000000', null
+EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 10', '4-13-2001', N'Nữ', 'khachHang10@gmail.com', '000000000', null
 
 -- BẢNG DANH MỤC
 INSERT DANHMUC SELECT N'Điện Thoại'
