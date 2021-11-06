@@ -34,7 +34,7 @@ CREATE TABLE THONGTINTAIKHOAN (
     EMAIL VARCHAR(50), -- ĐỊA CHỈ EMAIL
     SDT VARCHAR(11), -- SDT
     DCHI NVARCHAR(50), -- ĐỊA CHỈ NHÀ / ĐỊA CHỈ GIAO
-    ID_TAIKHOAN VARCHAR(15) REFERENCES TAIKHOAN(ID),
+    ID_TAIKHOAN VARCHAR(15) REFERENCES TAIKHOAN(ID) ON DELETE CASCADE,
     CONSTRAINT PK_TTTK PRIMARY KEY (ID)
 )
 CREATE TABLE KHACHHANG (
@@ -47,8 +47,9 @@ CREATE TABLE KHACHHANG (
 CREATE TABLE NHANVIEN (
     ID VARCHAR(10) NOT NULL, -- CREATE AUTO
     ID_TK VARCHAR(15),
+	TINHTRANG NVARCHAR(50),
     CONSTRAINT PK_NV PRIMARY KEY (ID),
-    CONSTRAINT FK_NV_TK FOREIGN KEY (ID_TK) REFERENCES TAIKHOAN(ID)
+    CONSTRAINT FK_NV_TK FOREIGN KEY (ID_TK) REFERENCES TAIKHOAN(ID) ON DELETE CASCADE
 )
 CREATE TABLE DANHMUC (
     ID INT IDENTITY NOT NULL,
@@ -101,7 +102,6 @@ CREATE TABLE HOADON (
     ID VARCHAR(10) NOT NULL, -- CREATE AUTO
     NGTAO DATE, -- NGÀY TẠO HÓA ĐƠN
     DONGIA FLOAT, -- TỔNG (SỐ LƯỢNG * ĐƠN GIÁ)
-    TINHTRANG NVARCHAR(50), -- CHƯA GIAO, ĐÃ GIAO
     ID_KH VARCHAR(10) REFERENCES KHACHHANG(ID),
     ID_NV VARCHAR(10) REFERENCES NHANVIEN(ID),
     CONSTRAINT PK_HD PRIMARY KEY (ID)
@@ -177,6 +177,17 @@ BEGIN
     SELECT @CODEGR = CODEGR FROM GRTK WHERE TEN = @tenGr
 
     RETURN @CODEGR
+END
+GO
+
+CREATE FUNCTION fn_Ten(@idTK VARCHAR(15)) -- TRẢ VỀ CODE GR
+RETURNS NVARCHAR(50)
+AS
+BEGIN
+    DECLARE @TEN NVARCHAR(50)
+    SELECT @TEN = HOTEN FROM THONGTINTAIKHOAN WHERE ID_TAIKHOAN = @idTK
+
+    RETURN @TEN
 END
 GO
 
@@ -399,7 +410,7 @@ CREATE PROC sp_AddHD
 @maHD VARCHAR(10),
 @tenKH NVARCHAR(50),
 @tenNV NVARCHAR(50),
-@tenSP NVARCHAR(50),
+@tenSP NVARCHAR(MAX),
 @soLuong INT
 AS
 	BEGIN TRY
@@ -584,6 +595,105 @@ AS
         -- tạo thông tin người dùng
         INSERT THONGTINTAIKHOAN(ID, HOTEN, NGSINH, GTINH, EMAIL, SDT, DCHI, ID_TAIKHOAN)
         VALUES(DBO.fn_autoIDTTND(@ID), UPPER(@hoTen), @ngSinh, @GTINH, @email, @sdt, @dChi, @ID)
+
+		SELECT N'SUCCESS' 'Message'
+	END TRY
+	BEGIN CATCH
+		EXEC sp_GetErrorInfo;
+	END CATCH
+GO
+
+CREATE PROC sp_ChangeAcc
+@userName VARCHAR(50), -- THÔNG TIN TÀI KHOẢN
+@pw VARCHAR(50),
+@GRNAME NVARCHAR(50)
+AS
+	BEGIN TRY
+		DECLARE @IDGR INT
+		EXEC @IDGR = sp_getIDGR @GRNAME -- id gr
+
+		DECLARE @IDTK VARCHAR(15);
+		SELECT @IDTK = ID FROM TAIKHOAN WHERE USERNAME = @userName
+
+		DECLARE	@createPW VARBINARY(MAX) = SubString(DBO.fn_hash(@IDTK), 1, len(DBO.fn_hash(@IDTK))/2) + DBO.fn_hash(@pw + @IDTK)
+
+		UPDATE TAIKHOAN SET PW = @createPW WHERE ID = @IDTK AND ID_GR = @IDGR
+
+		SELECT N'SUCCESS' 'Message'
+	END TRY
+	BEGIN CATCH
+		EXEC sp_GetErrorInfo;
+	END CATCH
+GO
+
+CREATE PROC sp_DelAcc
+@userName VARCHAR(50), -- THÔNG TIN TÀI KHOẢN
+@pw VARCHAR(50),
+@GRNAME NVARCHAR(50)
+AS
+	BEGIN TRY
+		DECLARE @IDGR INT
+		EXEC @IDGR = sp_getIDGR @GRNAME -- id gr
+
+		DECLARE @IDTK VARCHAR(15);
+		SELECT @IDTK = ID FROM TAIKHOAN WHERE USERNAME = @userName
+
+		UPDATE TAIKHOAN SET PW = NULL, USERNAME = NULL WHERE ID = @IDTK AND ID_GR = @IDGR
+
+		UPDATE NHANVIEN SET TINHTRANG = N'Đã nghỉ' WHERE ID_TK = @IDTK
+
+		SELECT N'SUCCESS' 'Message'
+	END TRY
+	BEGIN CATCH
+		EXEC sp_GetErrorInfo;
+	END CATCH
+GO
+
+CREATE PROC sp_CKUsername
+@userName VARCHAR(50),
+@GRNAME NVARCHAR(50)
+AS
+	BEGIN TRY
+		DECLARE @IDGR INT
+		EXEC @IDGR = sp_getIDGR @GRNAME -- id gr
+
+		DECLARE @IDTK VARCHAR(15);
+		SELECT @IDTK = ID FROM TAIKHOAN WHERE USERNAME = @userName
+
+		IF EXISTS(SELECT * FROM TAIKHOAN WHERE ID_GR = @IDGR AND USERNAME = @userName)
+			THROW 51000, N'Username đã tồn tại.', 1;
+
+		SELECT N'ok' 'Message'
+	END TRY
+	BEGIN CATCH
+		EXEC sp_GetErrorInfo;
+	END CATCH
+GO
+
+CREATE PROC sp_UpTTTK
+@maTK VARCHAR(15),
+@hoTen NVARCHAR(50),
+@ngSinh DATE,
+@gioiTinh NVARCHAR(5),
+@email VARCHAR(50),
+@sdt VARCHAR(11),
+@dChi NVARCHAR(50)
+AS
+	BEGIN TRY
+		DECLARE @GTINH BIT = 0
+        IF (UPPER(@gioiTinh) = N'NAM')
+            SET @GTINH = 1;
+
+        -- tạo thông tin người dùng
+		UPDATE THONGTINTAIKHOAN SET HOTEN = @hoTen, 
+									NGSINH=@ngSinh, 
+									GTINH=@GTINH, 
+									EMAIL=@email,
+									SDT=@sdt,
+									DCHI=@dChi
+				WHERE ID_TAIKHOAN=@maTK
+
+		SELECT N'SUCCESS' 'Message'
 	END TRY
 	BEGIN CATCH
 		EXEC sp_GetErrorInfo;
@@ -614,6 +724,13 @@ AS
 	END CATCH
 GO
 
+CREATE PROC sp_ReportHD
+AS
+	SELECT HOADON.*, DBO.fn_Ten(NHANVIEN.ID_TK) TENNV, DBO.fn_Ten(KHACHHANG.ID_TK) TENNV FROM HOADON JOIN NHANVIEN 
+		ON HOADON.ID_NV=NHANVIEN.ID JOIN KHACHHANG
+		ON KHACHHANG.ID=HOADON.ID_KH
+GO
+
 -- TẠO RÀNG BUỘC
 ALTER TABLE THONGTINTAIKHOAN
 ADD CONSTRAINT DF_NGTAO_TTTK DEFAULT GETDATE() FOR NGTAO
@@ -632,11 +749,11 @@ ADD CONSTRAINT DF_ID_KH DEFAULT DBO.fn_autoIDKH() FOR ID,
     CONSTRAINT DF_DIEMTICHLUY DEFAULT 0 FOR DIEMTICHLUY
 
 ALTER TABLE NHANVIEN 
-ADD CONSTRAINT DF_ID_NV DEFAULT DBO.fn_autoIDNV() FOR ID
+ADD CONSTRAINT DF_ID_NV DEFAULT DBO.fn_autoIDNV() FOR ID,
+    CONSTRAINT DF_TT_NV DEFAULT N'Còn làm' FOR TINHTRANG
 
 ALTER TABLE HOADON 
 ADD CONSTRAINT DF_NGTAO_HD DEFAULT GETDATE() FOR NGTAO,
-    CONSTRAINT DF_TT DEFAULT N'CHƯA GIAO' FOR TINHTRANG,
     CONSTRAINT DF_ID DEFAULT DBO.fn_autoIDHD() FOR ID,
 	CONSTRAINT DF_DONGIA DEFAULT 0 FOR DONGIA
 
@@ -662,19 +779,30 @@ INSERT GRTK VALUES(N'NHÂN VIÊN', '01')
 INSERT GRTK VALUES(N'KHÁCH HÀNG', '02')
 
 -- BẢNG TAIKHOAN
-EXEC sp_AddAcc 'admin', 'admin@123456789', N'ADMIN', N'Admin', '2-5-2001', N'nam', 'admin@gmail.com', '000000000', null
-EXEC sp_AddAcc 'tuhueson', 'tuhueson@123456789', N'Nhân viên', N'Từ Huệ Sơn', '2-5-2001', N'nam', 'tuhueson@gmail.com', '000000000', null
-EXEC sp_AddAcc 'leductai', 'leductai@123456789', N'Nhân viên', N'Lê Đức Tài', '12-4-2001', N'nam', 'leductai@gmail.com', '000000000', null
-EXEC sp_AddAcc 'khachhang1', 'khachHang1@gmail.com', N'Khách hàng', N'Khách hàng 1', '12-4-2001', N'nam', 'khachHang1@gmail.com', '000000000', null
-EXEC sp_AddAcc 'khachhang2', 'khachHang2@gmail.com', N'Khách hàng', N'Khách hàng 2', '12-3-2001', N'nam', 'khachHang2@gmail.com', '000000000', null
-EXEC sp_AddAcc 'khachhang3', 'khachHang3@gmail.com', N'Khách hàng', N'Khách hàng 3', '2-13-2001', N'Nữ', 'khachHang3@gmail.com', '000000000', null
-EXEC sp_AddAcc 'khachhang4', 'khachHang4@gmail.com', N'Khách hàng', N'Khách hàng 4', '4-13-2001', N'Nữ', 'khachHang4@gmail.com', '000000000', null
-EXEC sp_AddAcc 'khachhang5', 'khachHang5@gmail.com', N'Khách hàng', N'Khách hàng 5', '3-30-2001', N'Nữ', 'khachHang5@gmail.com', '000000000', null
-EXEC sp_AddAcc 'khachhang6', 'khachHang6@gmail.com', N'Khách hàng', N'Khách hàng 6', '7-24-2001', N'Nữ', 'khachHang6@gmail.com', '000000000', null
-EXEC sp_AddAcc 'khachhang7', 'khachHang7@gmail.com', N'Khách hàng', N'Khách hàng 7', '13-4-2001', N'nam', 'khachHang7@gmail.com', '000000000', null
-EXEC sp_AddAcc 'khachhang8', 'khachHang8@gmail.com', N'Khách hàng', N'Khách hàng 8', '12-3-2001', N'nam', 'khachHang8@gmail.com', '000000000', null
-EXEC sp_AddAcc 'khachhang9', 'khachHang9@gmail.com', N'Khách hàng', N'Khách hàng 9', '2-13-2001', N'Nữ', 'khachHang9@gmail.com', '000000000', null
-EXEC sp_AddAcc 'khachhang10', 'khachHang10@gmail.com', N'Khách hàng', N'Khách hàng 10', '4-13-2001', N'Nữ', 'khachHang10@gmail.com', '000000000', null
+EXEC sp_AddAcc 'admin', 'admin@123456789', N'ADMIN', N'Admin', '2-5-2001', N'nam', 'admin@gmail.com', '000000000', ''
+--nhân viên
+EXEC sp_AddAcc 'tuhueson', 'tuhueson@123456789', N'Nhân viên', N'Từ Huệ Sơn', '2-5-2001', N'nam', 'tuhueson@gmail.com', '000000000', ''
+EXEC sp_AddAcc 'leductai', 'leductai@123456789', N'Nhân viên', N'Lê Đức Tài', '12-4-2001', N'nam', 'leductai@gmail.com', '000000000', ''
+EXEC sp_AddAcc 'nguyenvanteo', 'nguyenvanteo@123456789', N'Nhân viên', N'Nguyễn văn Tèo', '12-5-2001', N'nam', 'nguyenvanteo@gmail.com', '000000000', ''
+EXEC sp_AddAcc 'trannhattrung', 'trannhattrung@123456789', N'Nhân viên', N'Trần Nhật Trung', '2-14-2001', N'nam', 'trannhattrung@gmail.com', '000000000', ''
+EXEC sp_AddAcc 'dogianguyen', 'dogianguyen@123456789', N'Nhân viên', N'Đỗ Gia Nguyên', '12-4-2001', N'nữ', 'dogianguyen@gmail.com', '000000000', ''
+EXEC sp_AddAcc 'lytuong', 'lytuong@123456789', N'Nhân viên', N'Lý Tường', '2-4-2001', N'nữ', 'lytuong@gmail.com', '000000000', ''
+EXEC sp_AddAcc 'tranvu', 'tranvu@123456789', N'Nhân viên', N'Trần Vũ', '2-15-2001', N'nam', 'tranvu@gmail.com', '000000000', ''
+EXEC sp_AddAcc 'doquyen', 'doquyen@123456789', N'Nhân viên', N'Đỗ Quyên', '3-15-2001', N'nữ', 'doquyen@gmail.com', '000000000', ''
+EXEC sp_AddAcc 'daokimhue', 'daokimhue@123456789', N'Nhân viên', N'Đào kim huệ', '3-15-2001', N'nữ', 'daokimhue@gmail.com', '000000000', ''
+EXEC sp_AddAcc 'hogiacat', 'daokimhue@123456789', N'Nhân viên', N'hồ gia cát', '5-15-2001', N'nam', 'hogiacat@gmail.com', '000000000', ''
+EXEC sp_AddAcc 'vuthanhlong', 'vuthanhlong@123456789', N'Nhân viên', N'vũ thanh long', '3-15-2001', N'nam', 'vuthanhlong@gmail.com', '000000000', ''
+-- khách hàng
+EXEC sp_AddAcc 'khachhang1', 'khachHang1@gmail.com', N'Khách hàng', N'Khách hàng 1', '12-4-2001', N'nam', 'khachHang1@gmail.com', '000000000', ''
+EXEC sp_AddAcc 'khachhang2', 'khachHang2@gmail.com', N'Khách hàng', N'Khách hàng 2', '12-3-2001', N'nam', 'khachHang2@gmail.com', '000000000', ''
+EXEC sp_AddAcc 'khachhang3', 'khachHang3@gmail.com', N'Khách hàng', N'Khách hàng 3', '2-13-2001', N'Nữ', 'khachHang3@gmail.com', '000000000', ''
+EXEC sp_AddAcc 'khachhang4', 'khachHang4@gmail.com', N'Khách hàng', N'Khách hàng 4', '4-13-2001', N'Nữ', 'khachHang4@gmail.com', '000000000', ''
+EXEC sp_AddAcc 'khachhang5', 'khachHang5@gmail.com', N'Khách hàng', N'Khách hàng 5', '3-30-2001', N'Nữ', 'khachHang5@gmail.com', '000000000', ''
+EXEC sp_AddAcc 'khachhang6', 'khachHang6@gmail.com', N'Khách hàng', N'Khách hàng 6', '7-24-2001', N'Nữ', 'khachHang6@gmail.com', '000000000', ''
+EXEC sp_AddAcc 'khachhang7', 'khachHang7@gmail.com', N'Khách hàng', N'Khách hàng 7', '11-4-2001', N'nam', 'khachHang7@gmail.com', '000000000', ''
+EXEC sp_AddAcc 'khachhang8', 'khachHang8@gmail.com', N'Khách hàng', N'Khách hàng 8', '12-3-2001', N'nam', 'khachHang8@gmail.com', '000000000', ''
+EXEC sp_AddAcc 'khachhang9', 'khachHang9@gmail.com', N'Khách hàng', N'Khách hàng 9', '2-13-2001', N'Nữ', 'khachHang9@gmail.com', '000000000', ''
+EXEC sp_AddAcc 'khachhang10', 'khachHang10@gmail.com', N'Khách hàng', N'Khách hàng 10', '4-13-2001', N'Nữ', 'khachHang10@gmail.com', '000000000', ''
 
 -- BẢNG DANH MỤC
 INSERT DANHMUC SELECT N'Điện Thoại'
@@ -799,9 +927,8 @@ EXEC sp_AddSP N'Túi chống nước Cosano JMG-C-21 Xanh biển', null, 20, 400
 EXEC sp_AddSP N'Túi chống nước Cosano 5 inch Vàng Chanh', null, 20, 40000, null, '.jpg', N'Túi chống nước', N'Phụ kiện'
 EXEC sp_AddSP N'Túi chống nước 5 inch Cosano Hình Chú mèo', null, 20, 40000, null, '.jpg', N'Túi chống nước', N'Phụ kiện'
 
--- thêm phụ kiện
 -- Bảng cấu hình(thông tin sản phẩm)
-EXEC sp_AddCauHinh N'Energizer E100', N'TFT LCD, 2.4", 65.536 màu'
+EXEC sp_AddCauHinh N'Energizer E100', N'Màn hình', N'TFT LCD, 2.4", 65.536 màu'
 EXEC sp_AddCauHinh N'Energizer E100', N'Camera sau', N'0.3 MP'
 EXEC sp_AddCauHinh N'Energizer E100', N'SIM', N'2 SIM thường, Hỗ trợ 4G'
 EXEC sp_AddCauHinh N'Energizer E100', N'Pin', N'1500 mAh'
@@ -810,7 +937,7 @@ EXEC sp_AddCauHinh N'Energizer E100', N'Thẻ nhớ', N'MicroSD, hỗ trợ tố
 EXEC sp_AddCauHinh N'Energizer E100', N'Radio FM', N'Có'
 EXEC sp_AddCauHinh N'Energizer E100', N'Jack cắm tai nghe', N'3.5 mm'
 
-EXEC sp_AddCauHinh N'Energizer E20', N'TFT LCD, 2.8", 262.144 màu'
+EXEC sp_AddCauHinh N'Energizer E20', N'Màn hình', N'TFT LCD, 2.8", 262.144 màu'
 EXEC sp_AddCauHinh N'Energizer E20', N'Camera sau', N'0.3 MP'
 EXEC sp_AddCauHinh N'Energizer E20', N'SIM', N'2 SIM thường, Hỗ trợ 4G'
 EXEC sp_AddCauHinh N'Energizer E20', N'Pin', N'1000 mAh'
@@ -819,7 +946,7 @@ EXEC sp_AddCauHinh N'Energizer E20', N'Thẻ nhớ', N'MicroSD, hỗ trợ tối
 EXEC sp_AddCauHinh N'Energizer E20', N'Radio FM', N'Có'
 EXEC sp_AddCauHinh N'Energizer E20', N'Jack cắm tai nghe', N'3.5 mm'
 
-EXEC sp_AddCauHinh N'Energizer P20', N'TFT LCD, 2.8", 262.144 màu'
+EXEC sp_AddCauHinh N'Energizer P20', N'Màn hình', N'TFT LCD, 2.8", 262.144 màu'
 EXEC sp_AddCauHinh N'Energizer P20', N'Camera sau', N'0.3 MP'
 EXEC sp_AddCauHinh N'Energizer P20', N'SIM', N'2 SIM thường, Hỗ trợ 4G'
 EXEC sp_AddCauHinh N'Energizer P20', N'Pin', N'4000 mAh'
@@ -1290,7 +1417,7 @@ EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000 mAh Type C Xiaomi Powe
 
 EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000mAh Type C Fast Charge Xiaomi Mi Power Bank 3', N'Hiệu suất sạc', N'55%'
 EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000mAh Type C Fast Charge Xiaomi Mi Power Bank 3 ', N'Dung lượng pin', N'10.000 mAh'
-EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000mAh Type C Fast Charge Xiaomi Mi Power Bank 3 ', N'10 - 11 giờ (dùng Adapter 1A)3 - 4 giờ (dùng 9V/2A hoặc 12V/1.5A)5 - 6 giờ (dùng Adapter 2A)'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000mAh Type C Fast Charge Xiaomi Mi Power Bank 3 ', N'Thời gian sạc đầy pin', N'10 - 11 giờ (dùng Adapter 1A)3 - 4 giờ (dùng 9V/2A hoặc 12V/1.5A)5 - 6 giờ (dùng Adapter 2A)'
 EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000mAh Type C Fast Charge Xiaomi Mi Power Bank 3 ', N'Nguồn vào', N'Micro USB/ Type C: 5V - 2.6A, 9V - 2.1A, 12V - 1.5A (18W MAX)'
 EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000mAh Type C Fast Charge Xiaomi Mi Power Bank 3 ', N'Nguồn ra', N'USB: 5V - 2.6A, 9V - 2.1A, 12V - 1.5AUSB: 5V - 2.6A'
 EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000mAh Type C Fast Charge Xiaomi Mi Power Bank 3 ', N'Lõi pin', N'Polymer'
@@ -1337,7 +1464,7 @@ EXEC sp_AddHD @maHD_, N'Khách hàng 3', N'Lê Đức Tài', N'Samsung Galaxy A0
 EXEC sp_AddHD @maHD_, N'Khách hàng 3', N'Lê Đức Tài', N'iPhone 13 Pro 1TB', 1
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
-EXEC sp_AddHD @maHD_, N'Khách hàng 4', N'Từ Huệ Sơn', N'Energizer E241S', 2
+EXEC sp_AddHD @maHD_, N'Khách hàng 4', N'Từ Huệ Sơn', N'iPhone 13 Pro 1TB', 2
 EXEC sp_AddHD @maHD_, N'Khách hàng 4', N'Từ Huệ Sơn', N'Realme 6 Pro', 1
 EXEC sp_AddHD @maHD_, N'Khách hàng 4', N'Từ Huệ Sơn', N'Pin sạc dự phòng Polymer 10.000 mAh Type C Xiaomi Power Bank 3 Ultra Compact', 2
 
@@ -1367,7 +1494,7 @@ EXEC sp_AddHD @maHD_, N'Khách hàng 9', N'Lê Đức Tài', N'Mobell Rock 3', 1
 EXEC sp_AddHD @maHD_, N'Khách hàng 9', N'Lê Đức Tài', N'Xiaomi Redmi Note 9', 1
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
-EXEC sp_AddHD @maHD_, N'Khách hàng 10', N'Từ Huệ Sơn', N'Vivo X70 Pro 5G, 2
+EXEC sp_AddHD @maHD_, N'Khách hàng 10', N'Từ Huệ Sơn', N'Vivo X70 Pro 5G', 2
 EXEC sp_AddHD @maHD_, N'Khách hàng 10', N'Từ Huệ Sơn', N'Bộ 2 móc điện thoại OSMIA CK-CRS10 Mèo cá heo xanh', 1
 EXEC sp_AddHD @maHD_, N'Khách hàng 10', N'Từ Huệ Sơn', N'Túi chống nước Cosano JMG-C-20 Xanh lá', 2
 
@@ -1378,12 +1505,35 @@ EXEC sp_AddHD @maHD_, N'Khách hàng 10', N'Từ Huệ Sơn', N'Túi chống nư
 ------------------------------------------------------------------------------------------------------
 /* 
 SELECT * FROM SANPHAM
+SELECT * FROM CauHinh
+SELECT * FROM danhmuc
 SELECT * FROM HOADON
 SELECT * FROM CHITIETHD
 SELECT * FROM KHACHHANG
 SELECT * FROM DONGIA
-select * from THONGTINTAIKHOAN
+select * from thongtintaikhoan
 
+select * from sanpham join cauhinh on cauhinh.id_SP=sanpham.id
+
+select * from taikhoan
+select * from nhanvien nv join taikhoan tk on nv.id_tk=tk.id join thongtintaikhoan tttk on tttk.id_taikhoan=tk.id
+
+EXEC sp_UpTTTK 'NV001', N'Từ Huệ Sơn', '2-5-2001', N'nam', 'tuhueson@gmail.com', '0938252793', ''
+
+exec sp_CKAcc 'tuhueson', '123', N'Nhân Viên'
+EXEC sp_ChangeAcc 'admin', '123', N'Admin'
+
+select nv.id, tk.id idtk, hoten, tinhtrang, ngsinh, gtinh, ngtao, email, sdt, dchi from nhanvien nv join taikhoan tk on nv.id_tk=tk.id join thongtintaikhoan tttk on tttk.id_taikhoan=tk.id where hoten like '%T%'
+
+tìm kiếm nhân viên
+select nv.id, hoten, tinhtrang, ngsinh, gtinh, ngtao, email, sdt, dchi from nhanvien nv join taikhoan tk on nv.id_tk=tk.id join thongtintaikhoan tttk on tttk.id_taikhoan=tk.id where nv.id = 'nv001'
+
+delete taikhoan where username = 'abc'
+
+select * from hoadon
+exec sp_CKUsername 's', N'Nhân Viên'
+select * from sanpham
+select * from danhmuc
 		-------------------------------------- debug lấy đơn giá ---------------------------------------
 		SELECT SUM(GIA)
 		FROM DONGIA
