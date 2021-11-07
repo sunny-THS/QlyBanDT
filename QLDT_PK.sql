@@ -886,16 +886,16 @@ EXEC sp_AddSP N'Energizer P20', N'Energizer', 20, 590000, null, 'energizerP20.jp
 EXEC sp_AddSP N'Energizer E100', N'Energizer', 20, 490000, null, 'energizerE100.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
 
 --SẠC DỰ PHÒNG
-EXEC sp_AddSP N'Pin sạc dự phòng Polymer 10.000 mAh Type C Xiaomi Power Bank 3 Ultra Compact', N'XIAOMI', 20, 474000, N'Trung Quốc', '.jpg', N'Pin sạc dự phòng', N'Phụ kiện'
-EXEC sp_AddSP N'Pin sạc dự phòng Polymer 10.000mAh Type C Fast Charge Xiaomi Mi Power Bank 3', N'XIAOMI', 20, 374000, N'Trung Quốc', '.jpg', N'Pin sạc dự phòng', N'Phụ kiện'
-EXEC sp_AddSP N'Pin sạc dự phòng Polymer 10.000 mAh Type C PD Samsung EB-P3300', N'SAMSUNG', 20, 693000, N'Trung Quốc', '.jpg', N'Pin sạc dự phòng', N'Phụ kiện'
-EXEC sp_AddSP N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ', N'Energizer', 20, 770000, N'Trung Quốc', '.jpg', N'Pin sạc dự phòng', N'Phụ kiện'
+EXEC sp_AddSP N'Pin sạc dự phòng Polymer 10.000 mAh Type C Xiaomi Power Bank 3 Ultra Compact', N'XIAOMI', 20, 474000, N'Trung Quốc', 'polymerXiaomiUltraCompact.jpg', N'Pin sạc dự phòng', N'Phụ kiện'
+EXEC sp_AddSP N'Pin sạc dự phòng Polymer 10.000mAh Type C Fast Charge Xiaomi Mi Power Bank 3', N'XIAOMI', 20, 374000, N'Trung Quốc', 'pinsacduphongpolymer.jpg', N'Pin sạc dự phòng', N'Phụ kiện'
+EXEC sp_AddSP N'Pin sạc dự phòng Polymer 10.000 mAh Type C PD Samsung EB-P3300', N'SAMSUNG', 20, 693000, N'Trung Quốc', 'polymersamsungebP3300.jpg', N'Pin sạc dự phòng', N'Phụ kiện'
+EXEC sp_AddSP N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ', N'Energizer', 20, 770000, N'Trung Quốc', 'energizerfix2.jpg', N'Pin sạc dự phòng', N'Phụ kiện'
 
 --Sạc, cáp
-EXEC sp_AddSP N'Adapter Sạc Type C PD 25W Samsung EP-TA800N', N'SAMSUNG', 20, 490000, N'Việt Nam', '.jpg', N'Sạc, cáp', N'Phụ kiện'
-EXEC sp_AddSP N'Cáp chuyển đổi Type C sang 3.5mm Samsung EE-UC10JUW Trắng', N'SAMSUNG', 20, 220000, N'Việt Nam', '.jpg', N'Sạc, cáp', N'Phụ kiện'
-EXEC sp_AddSP N'Cáp Type-C 1.2 m Energizer C41C2AGBKT Đen', N'Energizer', 20, 175000, N'Trung Quốc', '.jpg', N'Sạc, cáp', N'Phụ kiện'
-EXEC sp_AddSP N'Sạc không dây xe hơi 20W Xiaomi GDS4127GL Đen', N'XIAOMI', 20, 774000, N'Trung Quốc', '.jpg', N'Sạc, cáp', N'Phụ kiện'
+EXEC sp_AddSP N'Adapter Sạc Type C PD 25W Samsung EP-TA800N', N'SAMSUNG', 20, 490000, N'Việt Nam', 'type-c-pdsamsungTa800n.jpg', N'Sạc, cáp', N'Phụ kiện'
+EXEC sp_AddSP N'Cáp chuyển đổi Type C sang 3.5mm Samsung EE-UC10JUW Trắng', N'SAMSUNG', 20, 220000, N'Việt Nam', 'capChuyenDoisamsungeeUc10juw.jpg', N'Sạc, cáp', N'Phụ kiện'
+EXEC sp_AddSP N'Cáp Type-C 1.2 m Energizer C41C2AGBKT Đen', N'Energizer', 20, 175000, N'Trung Quốc', 'captypecEnergizec41c2agbkt.jpg', N'Sạc, cáp', N'Phụ kiện'
+EXEC sp_AddSP N'Sạc không dây xe hơi 20W Xiaomi GDS4127GL Đen', N'XIAOMI', 20, 774000, N'Trung Quốc', 'sacKhongDayXiaomiGds4127gl.jpg', N'Sạc, cáp', N'Phụ kiện'
 
 --Miếng dán màn hình
 EXEC sp_AddSP N'Miếng dán màn hình iPhone 13 Pro Max', N'iPhone', 20, 50000, null, '.jpg', N'Miếng dán màn hình', N'Phụ kiện'
@@ -904,16 +904,16 @@ EXEC sp_AddSP N'Miếng dán full màn hình TA SHT31 Galaxy S21 Ultra', N'SAMSU
 EXEC sp_AddSP N'Miếng dán màn hình Galaxy S21', N'SAMSUNG', 20, 50000, null, '.jpg', N'Miếng dán màn hình', N'Phụ kiện'
 
 --Ốp lưng điện thoại
-EXEC sp_AddSP N'Ốp lưng iPhone 13 Silicon OSMIA Cam', null, 20, 70000, null, '.jpg', N'Ốp lưng điện thoại', N'Phụ kiện'
-EXEC sp_AddSP N'Ốp lưng iPhone 13 Pro Max Nhựa cứng viền dẻo Magnets KingxBar Trắng', null, 20, 245000, null, '.jpg', N'Ốp lưng điện thoại', N'Phụ kiện'
-EXEC sp_AddSP N'Ốp lưng Galaxy A71 nhựa dẻo Woven OSMIA Xanh Đậm', null, 20, 49000, null, '.jpg', N'Ốp lưng điện thoại', N'Phụ kiện'
-EXEC sp_AddSP N'Ốp lưng Galaxy A71 nhựa dẻo TPU Electroplating Triple COSANO Bạc', null, 20, 70000, null, '.jpg', N'Ốp lưng điện thoại', N'Phụ kiện'
+EXEC sp_AddSP N'Ốp lưng iPhone 13 Silicon OSMIA Cam', null, 20, 70000, null, 'oplungiphone13cam.jpg', N'Ốp lưng điện thoại', N'Phụ kiện'
+EXEC sp_AddSP N'Ốp lưng iPhone 13 Pro Max Nhựa cứng viền dẻo Magnets KingxBar Trắng', null, 20, 245000, null, 'iphone13proMaxNhuaCung.jpg', N'Ốp lưng điện thoại', N'Phụ kiện'
+EXEC sp_AddSP N'Ốp lưng Galaxy A71 nhựa dẻo Woven OSMIA Xanh Đậm', null, 20, 49000, null, 'oplunggalaxya71XanhDam.jpg', N'Ốp lưng điện thoại', N'Phụ kiện'
+EXEC sp_AddSP N'Ốp lưng Galaxy A71 nhựa dẻo TPU Electroplating Triple COSANO Bạc', null, 20, 70000, null, 'oplunggalaxy-a71nhuadeo.jpg', N'Ốp lưng điện thoại', N'Phụ kiện'
 
 --Gậy tự sướng
-EXEC sp_AddSP N'Gậy chụp ảnh Bluetooth Tripod Xmobile K06 Đen', null, 20, 240000, null, '.jpg', N'Gậy tự sướng', N'Phụ kiện'
-EXEC sp_AddSP N'Gậy Chụp Ảnh Bluetooth Cosano HD-P7', null, 20, 120000, null, '.jpg', N'Gậy tự sướng', N'Phụ kiện'
-EXEC sp_AddSP N'Gậy Chụp Ảnh Xmobile Hình Cô gái CSA005 ', null, 20, 72000, null, '.jpg', N'Gậy tự sướng', N'Phụ kiện'
-EXEC sp_AddSP N'Gậy Chụp Ảnh Osmia OW5', null, 20, 70000, null, '.jpg', N'Gậy tự sướng', N'Phụ kiện'
+EXEC sp_AddSP N'Gậy chụp ảnh Bluetooth Tripod Xmobile K06 Đen', null, 20, 240000, null, 'gayChupAnhxmobileK06.jpg', N'Gậy tự sướng', N'Phụ kiện'
+EXEC sp_AddSP N'Gậy Chụp Ảnh Bluetooth Cosano HD-P7', null, 20, 120000, null, 'gayChupAnhCosanoP7.jpg', N'Gậy tự sướng', N'Phụ kiện'
+EXEC sp_AddSP N'Gậy Chụp Ảnh Xmobile Hình Cô gái CSA005', null, 20, 72000, null, 'gayChupAnhCoGaiHong.jpg', N'Gậy tự sướng', N'Phụ kiện'
+EXEC sp_AddSP N'Gậy Chụp Ảnh Osmia OW5', null, 20, 70000, null, 'gayChupAnhOw5.jpg', N'Gậy tự sướng', N'Phụ kiện'
 
 --Đế móc điện thoại
 EXEC sp_AddSP N'Dây đeo điện thoại OSMIA silicon CRS', null, 20, 24000, null, '.jpg', N'Đế móc điện thoại', N'Phụ kiện'
