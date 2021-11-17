@@ -727,6 +727,7 @@ GO
 CREATE PROC sp_ReportHD
 @nam int
 AS
+	set dateformat dmy
 	SELECT HOADON.*, DBO.fn_Ten(NHANVIEN.ID_TK) TENNV, DBO.fn_Ten(KHACHHANG.ID_TK) TENKH FROM HOADON JOIN NHANVIEN 
 		ON HOADON.ID_NV=NHANVIEN.ID JOIN KHACHHANG
 		ON KHACHHANG.ID=HOADON.ID_KH
@@ -1532,10 +1533,12 @@ select nv.id, tk.id idtk, hoten, tinhtrang, ngsinh, gtinh, ngtao, email, sdt, dc
 tìm kiếm nhân viên
 select nv.id, hoten, tinhtrang, ngsinh, gtinh, ngtao, email, sdt, dchi from nhanvien nv join taikhoan tk on nv.id_tk=tk.id join thongtintaikhoan tttk on tttk.id_taikhoan=tk.id where nv.id = 'nv001'
 
+select * from sanpham join danhmuc on sanpham.id_danhmuc=danhmuc.id left join dongia on dongia.id_sp=sanpham.id where dongia.id=(select top 1 dg.id from dongia dg where dg.id_sp=sanpham.id order by dg.id desc)
+
 delete taikhoan where username = 'abc'
 
 
-select * from sanpham left join cauhinh on cauhinh.id_SP=sanpham.id left join dongia on dongia.id_sp=sanpham.id where sanpham.id=N'SP001' and dongia.id=(select top 1 dg.id from dongia dg where dg.id_sp=sanpham.id)
+select * from sanpham left join dongia on dongia.id_sp=sanpham.id where dongia.id=(select top 1 dg.id from dongia dg where dg.id_sp=sanpham.id)
 
 
 REPORT
