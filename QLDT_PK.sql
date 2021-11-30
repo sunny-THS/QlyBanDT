@@ -180,6 +180,43 @@ BEGIN
 END
 GO
 
+--------------------------------------------------------------------------------------
+
+CREATE  FUNCTION fn_ConvertFirstLetterinCapital(@Text NVARCHAR(MAX)) 
+RETURNS NVARCHAR(MAX) 
+AS 
+	BEGIN
+		DECLARE @Index INT;
+		DECLARE @FirstChar NCHAR(1);
+		DECLARE @LastChar NCHAR(1);
+		DECLARE @String NVARCHAR(MAX);
+
+		SET @String = LOWER(@Text);
+		SET @Index = 1;
+		WHILE @Index <= LEN(@Text)
+			BEGIN
+				SET @FirstChar = SUBSTRING(@Text, @Index, 1);
+				SET @LastChar = CASE
+									WHEN @Index = 1
+									THEN ' '
+									ELSE SUBSTRING(@Text, @Index - 1, 1)
+								END;
+				IF @LastChar IN(' ', ';', ':', '!', '?', ',', '.', '_', '-', '/', '&', '''', '(', '#', '*', '$', '@')
+					BEGIN
+						IF @FirstChar != ''''
+							OR UPPER(@FirstChar) != 'S'
+							SET @String = STUFF(@String, @Index, 1, UPPER(@FirstChar));
+				END;
+				SET @Index = @Index + 1;
+			END;
+				RETURN @String;
+	END;
+GO
+
+
+
+---------------------------------------------------------------------------------------
+
 CREATE FUNCTION fn_Ten(@idTK VARCHAR(15)) -- TRẢ VỀ CODE GR
 RETURNS NVARCHAR(50)
 AS
@@ -187,7 +224,7 @@ BEGIN
     DECLARE @TEN NVARCHAR(50)
     SELECT @TEN = HOTEN FROM THONGTINTAIKHOAN WHERE ID_TAIKHOAN = @idTK
 
-    RETURN @TEN
+    RETURN DBO.fn_ConvertFirstLetterinCapital(@TEN)
 END
 GO
 
@@ -353,6 +390,7 @@ BEGIN
 	RETURN @ID
 END
 GO
+
 -- proc 
 CREATE PROC sp_getIDGR -- TRẢ VỀ ID GR
 @tenGr NVARCHAR(50)
@@ -421,9 +459,9 @@ AS
 			INSERT HOADON(ID) SELECT @maHD
 
 			-- LẤY MÃ NHÂN VIÊN
-			SELECT @maNV = ID FROM NHANVIEN WHERE ID_TK = (SELECT ID_TAIKHOAN FROM THONGTINTAIKHOAN WHERE HOTEN = @tenNV)
+			SELECT @maNV = NHANVIEN.ID FROM NHANVIEN JOIN THONGTINTAIKHOAN on THONGTINTAIKHOAN.ID_TAIKHOAN = NHANVIEN.ID_TK WHERE HOTEN = @tenNV
 			-- LẤY MÃ KHÁCH HÀNG
-			SELECT @maKH = ID FROM KHACHHANG WHERE ID_TK = (SELECT ID_TAIKHOAN FROM THONGTINTAIKHOAN WHERE HOTEN = @tenKH)
+			SELECT @maKH = KHACHHANG.ID FROM KHACHHANG JOIN THONGTINTAIKHOAN on THONGTINTAIKHOAN.ID_TAIKHOAN = KHACHHANG.ID_TK WHERE HOTEN = @tenKH
 
 			-- ADD MÃ KHÁCH HÀNG VÀ NHÂN VIÊN VÀO HÓA ĐƠN
 			UPDATE HOADON SET ID_KH = @maKH, ID_NV = @maNV WHERE ID = @maHD
@@ -727,8 +765,7 @@ GO
 CREATE PROC sp_ReportHD
 @nam int
 AS
-	set dateformat dmy
-	SELECT HOADON.*, DBO.fn_Ten(NHANVIEN.ID_TK) TENNV, DBO.fn_Ten(KHACHHANG.ID_TK) TENKH FROM HOADON JOIN NHANVIEN 
+	SELECT HOADON.ID, CONVERT(varchar,NGTAO,103) NGTAO, DONGIA, DBO.fn_Ten(NHANVIEN.ID_TK) TENNV, DBO.fn_Ten(KHACHHANG.ID_TK) TENKH FROM HOADON JOIN NHANVIEN 
 		ON HOADON.ID_NV=NHANVIEN.ID JOIN KHACHHANG
 		ON KHACHHANG.ID=HOADON.ID_KH
 		WHERE YEAR(NGTAO) = @nam
@@ -1542,7 +1579,7 @@ select * from sanpham left join dongia on dongia.id_sp=sanpham.id where dongia.i
 
 
 REPORT
-sp_ReportHD 2021
+exec sp_ReportHD 2021
 
 
 select * from hoadon
