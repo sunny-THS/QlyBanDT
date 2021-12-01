@@ -830,19 +830,19 @@ EXEC sp_AddAcc 'lytuong', 'lytuong@123456789', N'Nhân viên', N'Lý Tường', 
 EXEC sp_AddAcc 'tranvu', 'tranvu@123456789', N'Nhân viên', N'Trần Vũ', '2-15-2001', N'nam', 'tranvu@gmail.com', '000000000', ''
 EXEC sp_AddAcc 'doquyen', 'doquyen@123456789', N'Nhân viên', N'Đỗ Quyên', '3-15-2001', N'nữ', 'doquyen@gmail.com', '000000000', ''
 EXEC sp_AddAcc 'daokimhue', 'daokimhue@123456789', N'Nhân viên', N'Đào kim huệ', '3-15-2001', N'nữ', 'daokimhue@gmail.com', '000000000', ''
-EXEC sp_AddAcc 'hogiacat', 'daokimhue@123456789', N'Nhân viên', N'hồ gia cát', '5-15-2001', N'nam', 'hogiacat@gmail.com', '000000000', ''
+EXEC sp_AddAcc 'hogiacat', 'hogiacat@123456789', N'Nhân viên', N'hồ gia cát', '5-15-2001', N'nam', 'hogiacat@gmail.com', '000000000', ''
 EXEC sp_AddAcc 'vuthanhlong', 'vuthanhlong@123456789', N'Nhân viên', N'vũ thanh long', '3-15-2001', N'nam', 'vuthanhlong@gmail.com', '000000000', ''
 -- khách hàng
-EXEC sp_AddAcc '', '', N'Khách hàng', N'Khách hàng 1', '12-4-2001', N'nam', 'khachHang1@gmail.com', '000000000', ''
-EXEC sp_AddAcc 'khachhang2', 'khachHang2@gmail.com', N'Khách hàng', N'Khách hàng 2', '12-3-2001', N'nam', 'khachHang2@gmail.com', '000000000', ''
-EXEC sp_AddAcc 'khachhang3', 'khachHang3@gmail.com', N'Khách hàng', N'Khách hàng 3', '2-13-2001', N'Nữ', 'khachHang3@gmail.com', '000000000', ''
-EXEC sp_AddAcc 'khachhang4', 'khachHang4@gmail.com', N'Khách hàng', N'Khách hàng 4', '4-13-2001', N'Nữ', 'khachHang4@gmail.com', '000000000', ''
-EXEC sp_AddAcc 'khachhang5', 'khachHang5@gmail.com', N'Khách hàng', N'Khách hàng 5', '3-30-2001', N'Nữ', 'khachHang5@gmail.com', '000000000', ''
-EXEC sp_AddAcc 'khachhang6', 'khachHang6@gmail.com', N'Khách hàng', N'Khách hàng 6', '7-24-2001', N'Nữ', 'khachHang6@gmail.com', '000000000', ''
-EXEC sp_AddAcc 'khachhang7', 'khachHang7@gmail.com', N'Khách hàng', N'Khách hàng 7', '11-4-2001', N'nam', 'khachHang7@gmail.com', '000000000', ''
-EXEC sp_AddAcc 'khachhang8', 'khachHang8@gmail.com', N'Khách hàng', N'Khách hàng 8', '12-3-2001', N'nam', 'khachHang8@gmail.com', '000000000', ''
-EXEC sp_AddAcc 'khachhang9', 'khachHang9@gmail.com', N'Khách hàng', N'Khách hàng 9', '2-13-2001', N'Nữ', 'khachHang9@gmail.com', '000000000', ''
-EXEC sp_AddAcc 'khachhang10', 'khachHang10@gmail.com', N'Khách hàng', N'Khách hàng 10', '4-13-2001', N'Nữ', 'khachHang10@gmail.com', '000000000', ''
+EXEC sp_AddAcc '', '', N'Khách hàng', N'Lê Thị Linh', '12-4-2001', N'nữ', 'lethilinh@gmail.com', '000000000', ''
+EXEC sp_AddAcc '', '', N'Khách hàng', N'Hồ Minh Ngọc', '12-3-2001', N'nam', 'hominhngoc@gmail.com', '000000000', ''
+EXEC sp_AddAcc '', '', N'Khách hàng', N'Lý Gia Huy', '2-13-2001', N'nam', 'lygiahuy@gmail.com', '000000000', ''
+EXEC sp_AddAcc '', '', N'Khách hàng', N'Nguyễn Thị Thương', '4-13-2001', N'Nữ', 'thuongnguyen@gmail.com', '000000000', ''
+EXEC sp_AddAcc '', '', N'Khách hàng', N'Trần Ngọc Sang', '3-30-2001', N'nam', 'sangtran@gmail.com', '000000000', ''
+EXEC sp_AddAcc '', '', N'Khách hàng', N'Huỳnh Ái Linh', '7-24-2001', N'Nữ', 'linh247@gmail.com', '000000000', ''
+EXEC sp_AddAcc '', '', N'Khách hàng', N'Đỗ Ái Vy', '11-4-2001', N'nữ', 'vydo@gmail.com', '000000000', ''
+EXEC sp_AddAcc '', '', N'Khách hàng', N'Cao Gia Vinh', '12-3-2001', N'nữ', 'vinh123@gmail.com', '000000000', ''
+EXEC sp_AddAcc '', '', N'Khách hàng', N'Lê Hồng Đào', '2-13-2001', N'Nữ', 'daole132@gmail.com', '000000000', ''
+EXEC sp_AddAcc '', '', N'Khách hàng', N'Nguyễn Văn Cao', '4-13-2001', N'nam', 'caonguyen134@gmail.com', '000000000', ''
 
 -- BẢNG DANH MỤC
 INSERT DANHMUC SELECT N'Điện Thoại'
@@ -1475,69 +1475,74 @@ EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000 mAh Type C PD Samsung 
 EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000 mAh Type C PD Samsung EB-P3300', N'Kích thước', N'Dài 14 cm - Ngang 7 cm - Dày 1.3 cm'
 EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 10.000 mAh Type C PD Samsung EB-P3300', N'Trọng lượng', N'240 g'
 
-EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ ', N'Hiệu suất sạc', N'64%'
-EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ ', N'Dung lượng pin', N'20.000 mAh'
-EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ ', N'Thời gian sạc đầy pin', N'12 - 14 giờ (dùng Adapter 2A)'
-EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ ', N'Nguồn vào', N'Micro USB: 5V - 2AType-C: 5V - 2A, 9V - 2A'
-EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ ', N'Nguồn ra', N'Type C: 5V - 2A, 9V - 2A, 12V - 1.5AUSB: 5V - 4.5A, 9V - 2A, 12V - 1.5A'
-EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ ', N'Lõi pin', N'Polymer'
-EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ ', N'Công nghệ/Tiện ích', N'Auto Voltage Sensing Power Delivery'
-EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ ', N'Kích thước', N'Dài 14 cm - Rộng 6.9 cm - Dày 2.8 cm'
-EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ ', N'Trọng lượng', N'415 g'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ', N'Hiệu suất sạc', N'64%'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ', N'Dung lượng pin', N'20.000 mAh'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ', N'Thời gian sạc đầy pin', N'12 - 14 giờ (dùng Adapter 2A)'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ', N'Nguồn vào', N'Micro USB: 5V - 2AType-C: 5V - 2A, 9V - 2A'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ', N'Nguồn ra', N'Type C: 5V - 2A, 9V - 2A, 12V - 1.5AUSB: 5V - 4.5A, 9V - 2A, 12V - 1.5A'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ', N'Lõi pin', N'Polymer'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ', N'Công nghệ/Tiện ích', N'Auto Voltage Sensing Power Delivery'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ', N'Kích thước', N'Dài 14 cm - Rộng 6.9 cm - Dày 2.8 cm'
+EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ', N'Trọng lượng', N'415 g'
 
 -- BẢNG HÓA ĐƠN VÀ CHITIETHD
 DECLARE @maHD_ VARCHAR(10)
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
-EXEC sp_AddHD @maHD_, N'Khách hàng 1', N'Từ Huệ Sơn', N'iPhone XR 128GB', 2
-EXEC sp_AddHD @maHD_, N'Khách hàng 1', N'Từ Huệ Sơn', N'iPhone 12 64GB', 1
-EXEC sp_AddHD @maHD_, N'Khách hàng 1', N'Từ Huệ Sơn', N'iPhone 13 Pro Max 1TB', 2
+EXEC sp_AddHD @maHD_, N'Lê Thị Linh', N'Từ Huệ Sơn', N'iPhone XR 128GB', 2
+EXEC sp_AddHD @maHD_, N'Lê Thị Linh', N'Từ Huệ Sơn', N'iPhone 12 64GB', 1
+EXEC sp_AddHD @maHD_, N'Lê Thị Linh', N'Từ Huệ Sơn', N'iPhone 13 Pro Max 1TB', 2
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
-EXEC sp_AddHD @maHD_, N'Khách hàng 2', N'Lê Đức Tài', N'iPhone 13 Pro Max 512GB', 1
-EXEC sp_AddHD @maHD_, N'Khách hàng 2', N'Lê Đức Tài', N'iPhone 12 Pro Max 512GB', 1
-EXEC sp_AddHD @maHD_, N'Khách hàng 2', N'Lê Đức Tài', N'iPhone 13 Pro 1TB', 1
+EXEC sp_AddHD @maHD_, N'Hồ Minh Ngọc', N'Lê Đức Tài', N'iPhone 13 Pro Max 512GB', 1
+EXEC sp_AddHD @maHD_, N'Hồ Minh Ngọc', N'Lê Đức Tài', N'iPhone 12 Pro Max 512GB', 1
+EXEC sp_AddHD @maHD_, N'Hồ Minh Ngọc', N'Lê Đức Tài', N'iPhone 13 Pro 1TB', 1
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
-EXEC sp_AddHD @maHD_, N'Khách hàng 3', N'Lê Đức Tài', N'Samsung Galaxy Z Flip3 5G 256GB', 1
-EXEC sp_AddHD @maHD_, N'Khách hàng 3', N'Lê Đức Tài', N'Samsung Galaxy A03s', 1
-EXEC sp_AddHD @maHD_, N'Khách hàng 3', N'Lê Đức Tài', N'iPhone 13 Pro 1TB', 1
+EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Lê Đức Tài', N'Samsung Galaxy Z Flip3 5G 256GB', 1
+EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Lê Đức Tài', N'Samsung Galaxy A03s', 1
+EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Lê Đức Tài', N'iPhone 13 Pro 1TB', 1
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
-EXEC sp_AddHD @maHD_, N'Khách hàng 4', N'Từ Huệ Sơn', N'iPhone 13 Pro 1TB', 2
-EXEC sp_AddHD @maHD_, N'Khách hàng 4', N'Từ Huệ Sơn', N'Realme 6 Pro', 1
-EXEC sp_AddHD @maHD_, N'Khách hàng 4', N'Từ Huệ Sơn', N'Pin sạc dự phòng Polymer 10.000 mAh Type C Xiaomi Power Bank 3 Ultra Compact', 2
+EXEC sp_AddHD @maHD_, N'Nguyễn Thị Thương', N'Từ Huệ Sơn', N'iPhone 13 Pro 1TB', 2
+EXEC sp_AddHD @maHD_, N'Nguyễn Thị Thương', N'Từ Huệ Sơn', N'Realme 6 Pro', 1
+EXEC sp_AddHD @maHD_, N'Nguyễn Thị Thương', N'Từ Huệ Sơn', N'Pin sạc dự phòng Polymer 10.000 mAh Type C Xiaomi Power Bank 3 Ultra Compact', 2
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
-EXEC sp_AddHD @maHD_, N'Khách hàng 5', N'Lê Đức Tài', N'Adapter Sạc Type C PD 25W Samsung EP-TA800N', 1
-EXEC sp_AddHD @maHD_, N'Khách hàng 5', N'Lê Đức Tài', N'Samsung Galaxy Z Fold3 5G 512GB', 1
-EXEC sp_AddHD @maHD_, N'Khách hàng 5', N'Lê Đức Tài', N'OPPO Reno6 Z 5G', 1
+EXEC sp_AddHD @maHD_, N'Trần Ngọc Sang', N'Lê Đức Tài', N'Adapter Sạc Type C PD 25W Samsung EP-TA800N', 1
+EXEC sp_AddHD @maHD_, N'Trần Ngọc Sang', N'Lê Đức Tài', N'Samsung Galaxy Z Fold3 5G 512GB', 1
+EXEC sp_AddHD @maHD_, N'Trần Ngọc Sang', N'Lê Đức Tài', N'OPPO Reno6 Z 5G', 1
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
-EXEC sp_AddHD @maHD_, N'Khách hàng 6', N'Lê Đức Tài', N'Samsung Galaxy Z Flip3 5G 256GB', 1
-EXEC sp_AddHD @maHD_, N'Khách hàng 6', N'Lê Đức Tài', N'Ốp lưng iPhone 13 Silicon OSMIA Cam', 1
-EXEC sp_AddHD @maHD_, N'Khách hàng 6', N'Lê Đức Tài', N'Dây đeo điện thoại OSMIA silicon CRS', 1
+EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Lê Đức Tài', N'Samsung Galaxy Z Flip3 5G 256GB', 1
+EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Lê Đức Tài', N'Ốp lưng iPhone 13 Silicon OSMIA Cam', 1
+EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Lê Đức Tài', N'Dây đeo điện thoại OSMIA silicon CRS', 1
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
-EXEC sp_AddHD @maHD_, N'Khách hàng 7', N'Từ Huệ Sơn', N'Samsung Galaxy M51', 2
-EXEC sp_AddHD @maHD_, N'Khách hàng 7', N'Từ Huệ Sơn', N'Xiaomi Redmi Note 10S', 1
-EXEC sp_AddHD @maHD_, N'Khách hàng 7', N'Từ Huệ Sơn', N'Nokia 6300 4G', 2
+EXEC sp_AddHD @maHD_, N'Đỗ Ái Vy', N'Từ Huệ Sơn', N'Samsung Galaxy M51', 2
+EXEC sp_AddHD @maHD_, N'Đỗ Ái Vy', N'Từ Huệ Sơn', N'Xiaomi Redmi Note 10S', 1
+EXEC sp_AddHD @maHD_, N'Đỗ Ái Vy', N'Từ Huệ Sơn', N'Nokia 6300 4G', 2
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
-EXEC sp_AddHD @maHD_, N'Khách hàng 8', N'Lê Đức Tài', N'OPPO A74', 1
-EXEC sp_AddHD @maHD_, N'Khách hàng 8', N'Lê Đức Tài', N'Túi chống nước Cosano 5 inch Vàng Chanh', 1
-EXEC sp_AddHD @maHD_, N'Khách hàng 8', N'Lê Đức Tài', N'Cáp Type-C 1.2 m Energizer C41C2AGBKT Đen', 1
+EXEC sp_AddHD @maHD_, N'Cao Gia Vinh', N'Lê Đức Tài', N'OPPO A74', 1
+EXEC sp_AddHD @maHD_, N'Cao Gia Vinh', N'Lê Đức Tài', N'Túi chống nước Cosano 5 inch Vàng Chanh', 1
+EXEC sp_AddHD @maHD_, N'Cao Gia Vinh', N'Lê Đức Tài', N'Cáp Type-C 1.2 m Energizer C41C2AGBKT Đen', 1
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
-EXEC sp_AddHD @maHD_, N'Khách hàng 9', N'Lê Đức Tài', N'Masstel Fami P20', 1
-EXEC sp_AddHD @maHD_, N'Khách hàng 9', N'Lê Đức Tài', N'Mobell Rock 3', 1
-EXEC sp_AddHD @maHD_, N'Khách hàng 9', N'Lê Đức Tài', N'Xiaomi Redmi Note 9', 1
+EXEC sp_AddHD @maHD_, N'Lê Hồng Đào', N'Lê Đức Tài', N'Masstel Fami P20', 1
+EXEC sp_AddHD @maHD_, N'Lê Hồng Đào', N'Lê Đức Tài', N'Mobell Rock 3', 1
+EXEC sp_AddHD @maHD_, N'Lê Hồng Đào', N'Lê Đức Tài', N'Xiaomi Redmi Note 9', 1
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
-EXEC sp_AddHD @maHD_, N'Khách hàng 10', N'Từ Huệ Sơn', N'Vivo X70 Pro 5G', 2
-EXEC sp_AddHD @maHD_, N'Khách hàng 10', N'Từ Huệ Sơn', N'Bộ 2 móc điện thoại OSMIA CK-CRS10 Mèo cá heo xanh', 1
-EXEC sp_AddHD @maHD_, N'Khách hàng 10', N'Từ Huệ Sơn', N'Túi chống nước Cosano JMG-C-20 Xanh lá', 2
+EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Từ Huệ Sơn', N'Vivo X70 Pro 5G', 2
+EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Từ Huệ Sơn', N'Bộ 2 móc điện thoại OSMIA CK-CRS10 Mèo cá heo xanh', 1
+EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Từ Huệ Sơn', N'Túi chống nước Cosano JMG-C-20 Xanh lá', 2
 
+EXEC sp_GetMaHD @maHD_ OUTPUT
+EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Từ Huệ Sơn', N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ', 2
+EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Từ Huệ Sơn', N'Bộ 2 móc điện thoại OSMIA CK-CRS10 Mèo cá heo xanh', 1
+EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Từ Huệ Sơn', N'Xiaomi Redmi Note 9', 2
+UPDATE HOADON set NGTAO = '1/2/2020' WHERE ID = @maHD_
 ------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------
 -------------------------------------    DEBUG     ---------------------------------------------------
