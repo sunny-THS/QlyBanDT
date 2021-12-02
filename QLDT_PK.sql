@@ -771,6 +771,23 @@ AS
 		WHERE YEAR(NGTAO) = @nam
 GO
 
+CREATE PROC sp_ReportBill
+@idHD VARCHAR(10),
+@tienKH float
+AS
+	SELECT HOADON.ID, CONVERT(varchar,NGTAO,103) NGTAO, DONGIA, (@tienKH - DONGIA) TIENTHUA, DBO.fn_Ten(NHANVIEN.ID_TK) TENNV, DBO.fn_Ten(KHACHHANG.ID_TK) TENKH, TENSP, CHITIETHD.SOLUONG, GIA GIASP FROM HOADON JOIN NHANVIEN 
+		ON HOADON.ID_NV=NHANVIEN.ID JOIN KHACHHANG
+		ON KHACHHANG.ID=HOADON.ID_KH JOIN CHITIETHD
+		ON CHITIETHD.ID_HD = HOADON.ID JOIN SANPHAM
+		ON SANPHAM.ID = CHITIETHD.ID_SP JOIN DONGIA DG
+		ON DG.ID_SP = SANPHAM.ID
+	WHERE HOADON.ID = @idHD AND
+		  DG.ID = (SELECT TOP 1 DONGIA.ID
+						FROM DONGIA
+						WHERE ID_SP = SANPHAM.ID
+						ORDER BY NGCAPNHAT DESC)
+GO
+
 -- TẠO RÀNG BUỘC
 ALTER TABLE THONGTINTAIKHOAN
 ADD CONSTRAINT DF_NGTAO_TTTK DEFAULT GETDATE() FOR NGTAO
@@ -1543,6 +1560,28 @@ EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Từ Huệ Sơn', N'Pin sạc dự
 EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Từ Huệ Sơn', N'Bộ 2 móc điện thoại OSMIA CK-CRS10 Mèo cá heo xanh', 1
 EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Từ Huệ Sơn', N'Xiaomi Redmi Note 9', 2
 UPDATE HOADON set NGTAO = '1/2/2020' WHERE ID = @maHD_
+
+EXEC sp_GetMaHD @maHD_ OUTPUT
+EXEC sp_AddHD @maHD_, N'Lê Hồng Đào', N'Từ Huệ Sơn', N'Cáp Type-C 1.2 m Energizer C41C2AGBKT Đen', 2
+EXEC sp_AddHD @maHD_, N'Lê Hồng Đào', N'Từ Huệ Sơn', N'Túi chống nước Cosano 5 inch Vàng Chanh', 3
+EXEC sp_AddHD @maHD_, N'Lê Hồng Đào', N'Từ Huệ Sơn', N'Xiaomi Redmi Note 10S', 1
+UPDATE HOADON set NGTAO = '2/21/2020' WHERE ID = @maHD_
+
+EXEC sp_GetMaHD @maHD_ OUTPUT
+EXEC sp_AddHD @maHD_, N'Đỗ Ái Vy', N'Nguyễn văn Tèo', N'Cáp Type-C 1.2 m Energizer C41C2AGBKT Đen', 2
+EXEC sp_AddHD @maHD_, N'Đỗ Ái Vy', N'Nguyễn văn Tèo', N'OPPO A74', 1
+EXEC sp_AddHD @maHD_, N'Đỗ Ái Vy', N'Nguyễn văn Tèo', N'Dây đeo điện thoại OSMIA silicon CRS', 1
+EXEC sp_AddHD @maHD_, N'Đỗ Ái Vy', N'Nguyễn văn Tèo', N'Túi chống nước Cosano 5 inch Vàng Chanh', 1
+UPDATE HOADON set NGTAO = '12/3/2020' WHERE ID = @maHD_
+
+EXEC sp_GetMaHD @maHD_ OUTPUT
+EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Đỗ Gia Nguyên', N'Adapter Sạc Type C PD 25W Samsung EP-TA800N', 2
+EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Đỗ Gia Nguyên', N'OPPO A74', 1
+EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Đỗ Gia Nguyên', N'Samsung Galaxy M51', 1
+EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Đỗ Gia Nguyên', N'Pin sạc dự phòng Polymer 10.000 mAh Type C Xiaomi Power Bank 3 Ultra Compact', 1
+UPDATE HOADON set NGTAO = '2/21/2020' WHERE ID = @maHD_
+
+
 ------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------
 -------------------------------------    DEBUG     ---------------------------------------------------
@@ -1585,6 +1624,8 @@ select * from sanpham left join dongia on dongia.id_sp=sanpham.id where dongia.i
 
 REPORT
 exec sp_ReportHD 2021
+
+sp_ReportBill 'HD001', 153450000
 
 
 select * from hoadon
