@@ -117,7 +117,6 @@ CREATE TABLE PHIEUNHAP (
     ID VARCHAR(10) NOT NULL, -- CREATE AUTO
     NGTAO DATE, -- NGÀY TẠO PHIẾU NHẬP
     DONGIA FLOAT, -- TỔNG (SỐ LƯỢNG * ĐƠN GIÁ)
-    ID_NV VARCHAR(10) REFERENCES NHANVIEN(ID),
     CONSTRAINT PK_PN PRIMARY KEY (ID)
 )
 CREATE TABLE CHITIETPN (
@@ -436,7 +435,6 @@ GO
 --ID VARCHAR(10) NOT NULL, -- CREATE AUTO
 --NGTAO DATE, -- NGÀY TẠO HÓA ĐƠN
 --DONGIA FLOAT, -- TỔNG (SỐ LƯỢNG * ĐƠN GIÁ)
---TINHTRANG NVARCHAR(50), -- CHƯA GIAO, ĐÃ GIAO
 --ID_KH VARCHAR(10) REFERENCES KHACHHANG(ID),
 --ID_NV VARCHAR(10) REFERENCES NHANVIEN(ID)
 
@@ -491,6 +489,60 @@ AS
 		ORDER BY NGCAPNHAT DESC
 		
 		UPDATE HOADON SET DONGIA = DONGIA + @donGia WHERE ID = @maHD
+	END TRY
+	BEGIN CATCH
+		EXEC sp_GetErrorInfo;
+	END CATCH
+GO
+
+--ID VARCHAR(10) NOT NULL, -- CREATE AUTO
+--NGTAO DATE, -- NGÀY TẠO HÓA ĐƠN
+--DONGIA FLOAT, -- TỔNG (SỐ LƯỢNG * ĐƠN GIÁ)
+
+--ID INT IDENTITY NOT NULL,
+--ID_HD VARCHAR(10) REFERENCES HOADON(ID),
+--ID_SP VARCHAR(5) REFERENCES SANPHAM(ID),
+--SOLUONG INT, -- SỐ LƯỢNG > 0, số lượng bán
+CREATE PROC sp_AddPN
+@maPN VARCHAR(10),
+@tenSP NVARCHAR(MAX),
+@soLuong INT,
+@gia FLOAT,
+@hinhAnh VARCHAR(50)
+AS
+	BEGIN TRY
+		DECLARE @maSP VARCHAR(5)
+
+		IF NOT EXISTS (SELECT * FROM PHIEUNHAP WHERE ID = @maPN)
+		BEGIN
+			INSERT PHIEUNHAP(ID) SELECT @maPN
+		END
+
+		IF NOT EXISTS(SELECT * FROM SANPHAM WHERE TENSP = @tenSP)
+		BEGIN
+			EXEC sp_AddSP @tenSP, N'', 0, @gia, '', @hinhAnh, N'', N''
+			-- GO
+		END
+		-- LẤY MÃ SẢN PHẨM 
+		SELECT @maSP = ID FROM SANPHAM WHERE TENSP = @tenSP
+
+		-- THÊM THÔNG TIN CHO HÓA ĐƠN
+		INSERT CHITIETPN(ID_PN, ID_SP, SOLUONG) SELECT @maPN, @maSP, @soLuong
+
+
+		-- cập nhật lại số lượng sản phẩm
+		UPDATE SANPHAM SET SOLUONG = SOLUONG + @soLuong WHERE ID = @maSP
+
+		-- CẬP NHẬT ĐƠN GIÁ ---------------------- kiểm tra ngày mới nhất trong đơn giá
+		DECLARE @donGia FLOAT -- đơn giá của sản phẩm x
+
+		SELECT TOP 1 @donGia = SUM(@soLuong * GIA)
+		FROM DONGIA
+		WHERE ID_SP = @maSP
+		GROUP BY NGCAPNHAT
+		ORDER BY NGCAPNHAT DESC
+		
+		UPDATE PHIEUNHAP SET DONGIA = DONGIA + @donGia WHERE ID = @maPN
 	END TRY
 	BEGIN CATCH
 		EXEC sp_GetErrorInfo;
@@ -916,97 +968,97 @@ INSERT HANG (TENHANG) SELECT N'MASSTEL'
 INSERT HANG (TENHANG) SELECT N'Energizer'
 
 -- BẢNG SẢN PHẨM
-EXEC sp_AddSP N'iPhone 12 64GB', N'iPhone', 20, 20490000, null, 'iPhone12_64.jpg', N'iPhone(iOS)', N'Điện Thoại' --
-EXEC sp_AddSP N'iPhone 13 Pro Max 1TB', N'iPhone', 20, 49990000, null, 'iPhone13ProMax_1.jpg', N'iPhone(iOS)', N'Điện Thoại' --
-EXEC sp_AddSP N'iPhone 13 Pro 1TB', N'iPhone', 20, 46990000, null, 'iPhone13Pro_1.jpg', N'iPhone(iOS)', N'Điện Thoại' --
-EXEC sp_AddSP N'iPhone 13 Pro Max 512GB', N'iPhone', 20, 43990000, null, 'iPhone13ProMax_512.jpg', N'iPhone(iOS)', N'Điện Thoại' --
-EXEC sp_AddSP N'iPhone 13 Pro 512GB', N'iPhone', 20, 40990000, null, 'iPhone13Pro_512.jpg', N'iPhone(iOS)', N'Điện Thoại' --
-EXEC sp_AddSP N'iPhone 12 Pro Max 512GB', N'iPhone', 20, 39990000, null, 'iPhone12Pro_512.jpg', N'iPhone(iOS)', N'Điện Thoại' --
-EXEC sp_AddSP N'iPhone 13 mini 256GB', N'iPhone', 20, 24990000, null, 'iPhone13Mini_256.jpg', N'iPhone(iOS)', N'Điện Thoại' --
-EXEC sp_AddSP N'iPhone 11 128GB', N'iPhone', 20, 18990000, null, 'iPhone11_128.jpg', N'iPhone(iOS)', N'Điện Thoại' --
-EXEC sp_AddSP N'iPhone XR 128GB', N'iPhone', 20, 16490000, null, 'iPhoneXR_128.jpg', N'iPhone(iOS)', N'Điện Thoại' --
-EXEC sp_AddSP N'Samsung Galaxy Z Fold3 5G 512GB', N'SAMSUNG', 20, 43990000, null, 'samsungGalaxyZFold3_512.jpg', N'Android', N'Điện Thoại'
-EXEC sp_AddSP N'Samsung Galaxy A03s', N'SAMSUNG', 20, 3690000, null, 'samsungGalaxyA03s.jpg', N'Android', N'Điện Thoại'
-EXEC sp_AddSP N'Samsung Galaxy M51', N'SAMSUNG', 20, 9490000, null, 'samsungGalaxyM51.jpg', N'Android', N'Điện Thoại'
-EXEC sp_AddSP N'Samsung Galaxy Z Flip3 5G 256GB', N'SAMSUNG', 20, 25990000, null, 'samsungGalaxyZFlip3_256.jpg', N'Android', N'Điện Thoại'
-EXEC sp_AddSP N'OPPO Reno6 Z 5G', N'OPPO', 20, 9490000, null, 'oppoReno6Z.jpg', N'Android', N'Điện Thoại'
-EXEC sp_AddSP N'OPPO A74', N'OPPO', 20, 6690000, null, 'oppoA74.jpg', N'Android', N'Điện Thoại'
-EXEC sp_AddSP N'OPPO A55', N'OPPO', 20, 4990000, null, 'oppoA55.jpg', N'Android', N'Điện Thoại'
-EXEC sp_AddSP N'OPPO Reno5 Marvel', N'OPPO', 20, 9190000, null, 'oppoReno5Marvel.jpg', N'Android', N'Điện Thoại'
-EXEC sp_AddSP N'Vivo Y21', N'VIVO', 20, 4290000, null, 'vivoY21.jpg', N'Android', N'Điện Thoại'
-EXEC sp_AddSP N'Vivo X70 Pro 5G', N'VIVO', 20, 18990000, null, 'vivoX70Pro.jpg', N'Android', N'Điện Thoại'
-EXEC sp_AddSP N'Vivo Y72 5G', N'VIVO', 20, 7590000, null, 'vivoY72.jpg', N'Android', N'Điện Thoại'
-EXEC sp_AddSP N'Vivo V20 SE', N'VIVO', 20, 6490000, null, 'vivoV20SE.jpg', N'Android', N'Điện Thoại'
-EXEC sp_AddSP N'Xiaomi 11T 5G 256GB', N'XIAOMI', 20, 11990000, null, 'xiaomi11T_256.jpg', N'Android', N'Điện Thoại'
-EXEC sp_AddSP N'Xiaomi 11 Lite 5G NE', N'XIAOMI', 20, 9490000, null, 'xiaomi11Lite.jpg', N'Android', N'Điện Thoại'
-EXEC sp_AddSP N'Xiaomi Redmi Note 10S', N'XIAOMI', 20, 6490000, null, 'xiaomiRedmiNote10s.jpg', N'Android', N'Điện Thoại'
-EXEC sp_AddSP N'Xiaomi Redmi Note 9', N'XIAOMI', 20, 4490000, null, 'xiaomiRedmiNote9.jpg', N'Android', N'Điện Thoại'
-EXEC sp_AddSP N'Realme C21Y 4GB', N'REALME', 20, 3990000, null, 'realmeC21Y.jpg', N'Android', N'Điện Thoại'
-EXEC sp_AddSP N'Realme 7 Pro', N'REALME', 20, 8540000, null, 'realme7Pro.jpg', N'Android', N'Điện Thoại'
-EXEC sp_AddSP N'Realme 8 Pro Vàng Rực Rỡ', N'REALME', 20, 8240000, null, 'realme8ProVang.jpg', N'Android', N'Điện Thoại'
-EXEC sp_AddSP N'Realme 6 Pro', N'REALME', 20, 6990000, null, 'realme6Pro.jpg', N'Android', N'Điện Thoại'
-EXEC sp_AddSP N'Nokia 3.4', N'NOKIA', 20, 3290000, null, 'nokia34Android.jpg', N'Android', N'Điện Thoại'
-EXEC sp_AddSP N'Nokia C30', N'NOKIA', 20, 2790000, null, 'nokiaC30.jpg', N'Android', N'Điện Thoại'
-EXEC sp_AddSP N'Nokia 210', N'NOKIA', 20, 790000, null, 'nokia210.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
-EXEC sp_AddSP N'Nokia 6300 4G', N'NOKIA', 20, 1090000, null, 'nokia6300.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
-EXEC sp_AddSP N'Mobell P41', N'MOBELL', 20, 990000, null, 'mobellP41.jpg', N'Android', N'Điện Thoại'
-EXEC sp_AddSP N'Mobell Rock 3', N'MOBELL', 20, 590000, null, 'mobellRock3.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
-EXEC sp_AddSP N'Mobell C310', N'MOBELL', 20, 230000, null, 'mobellC310.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
-EXEC sp_AddSP N'Mobell M729', N'MOBELL', 20, 450000, null, 'mobellM729.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
-EXEC sp_AddSP N'Itel L6006', N'INTEL', 20, 2190000, null, 'itelL6006.jpg', N'Android', N'Điện Thoại'
-EXEC sp_AddSP N'Itel it9200 4G', N'INTEL', 20, 700000, null, 'itelIt9200.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
-EXEC sp_AddSP N'Itel it2590', N'INTEL', 20, 450000, null, 'itelIt2590.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
-EXEC sp_AddSP N'Itel it5071', N'INTEL', 20, 330000, null, 'itelIt5071.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
-EXEC sp_AddSP N'Masstel Fami P20', N'MASSTEL', 20, 550000, null, 'masstelFamiP20.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
-EXEC sp_AddSP N'Masstel Play 50', N'MASSTEL', 20, 500000, null, 'masstelPlay50.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
-EXEC sp_AddSP N'Masstel IZI 300', N'MASSTEL', 20, 450000, null, 'masstelIzi300.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
-EXEC sp_AddSP N'Masstel IZI 230', N'MASSTEL', 20, 380000, null, 'masstelIzi230.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
-EXEC sp_AddSP N'Energizer E241S', N'Energizer', 20, 890000, null, 'energizerE241s.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
-EXEC sp_AddSP N'Energizer E20', N'Energizer', 20, 650000, null, 'energizerE20.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
-EXEC sp_AddSP N'Energizer P20', N'Energizer', 20, 590000, null, 'energizerP20.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
-EXEC sp_AddSP N'Energizer E100', N'Energizer', 20, 490000, null, 'energizerE100.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
+EXEC sp_AddSP N'iPhone 12 64GB', N'iPhone', 50, 20490000, null, 'iPhone12_64.jpg', N'iPhone(iOS)', N'Điện Thoại' --
+EXEC sp_AddSP N'iPhone 13 Pro Max 1TB', N'iPhone', 50, 49990000, null, 'iPhone13ProMax_1.jpg', N'iPhone(iOS)', N'Điện Thoại' --
+EXEC sp_AddSP N'iPhone 13 Pro 1TB', N'iPhone', 50, 46990000, null, 'iPhone13Pro_1.jpg', N'iPhone(iOS)', N'Điện Thoại' --
+EXEC sp_AddSP N'iPhone 13 Pro Max 512GB', N'iPhone', 50, 43990000, null, 'iPhone13ProMax_512.jpg', N'iPhone(iOS)', N'Điện Thoại' --
+EXEC sp_AddSP N'iPhone 13 Pro 512GB', N'iPhone', 50, 40990000, null, 'iPhone13Pro_512.jpg', N'iPhone(iOS)', N'Điện Thoại' --
+EXEC sp_AddSP N'iPhone 12 Pro Max 512GB', N'iPhone', 50, 39990000, null, 'iPhone12Pro_512.jpg', N'iPhone(iOS)', N'Điện Thoại' --
+EXEC sp_AddSP N'iPhone 13 mini 256GB', N'iPhone', 50, 24990000, null, 'iPhone13Mini_256.jpg', N'iPhone(iOS)', N'Điện Thoại' --
+EXEC sp_AddSP N'iPhone 11 128GB', N'iPhone', 50, 18990000, null, 'iPhone11_128.jpg', N'iPhone(iOS)', N'Điện Thoại' --
+EXEC sp_AddSP N'iPhone XR 128GB', N'iPhone', 50, 16490000, null, 'iPhoneXR_128.jpg', N'iPhone(iOS)', N'Điện Thoại' --
+EXEC sp_AddSP N'Samsung Galaxy Z Fold3 5G 512GB', N'SAMSUNG', 50, 43990000, null, 'samsungGalaxyZFold3_512.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Samsung Galaxy A03s', N'SAMSUNG', 50, 3690000, null, 'samsungGalaxyA03s.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Samsung Galaxy M51', N'SAMSUNG', 50, 9490000, null, 'samsungGalaxyM51.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Samsung Galaxy Z Flip3 5G 256GB', N'SAMSUNG', 50, 25990000, null, 'samsungGalaxyZFlip3_256.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'OPPO Reno6 Z 5G', N'OPPO', 50, 9490000, null, 'oppoReno6Z.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'OPPO A74', N'OPPO', 50, 6690000, null, 'oppoA74.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'OPPO A55', N'OPPO', 50, 4990000, null, 'oppoA55.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'OPPO Reno5 Marvel', N'OPPO', 50, 9190000, null, 'oppoReno5Marvel.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Vivo Y21', N'VIVO', 50, 4290000, null, 'vivoY21.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Vivo X70 Pro 5G', N'VIVO', 50, 18990000, null, 'vivoX70Pro.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Vivo Y72 5G', N'VIVO', 50, 7590000, null, 'vivoY72.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Vivo V20 SE', N'VIVO', 50, 6490000, null, 'vivoV20SE.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Xiaomi 11T 5G 256GB', N'XIAOMI', 50, 11990000, null, 'xiaomi11T_256.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Xiaomi 11 Lite 5G NE', N'XIAOMI', 50, 9490000, null, 'xiaomi11Lite.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Xiaomi Redmi Note 10S', N'XIAOMI', 50, 6490000, null, 'xiaomiRedmiNote10s.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Xiaomi Redmi Note 9', N'XIAOMI', 50, 4490000, null, 'xiaomiRedmiNote9.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Realme C21Y 4GB', N'REALME', 50, 3990000, null, 'realmeC21Y.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Realme 7 Pro', N'REALME', 50, 8540000, null, 'realme7Pro.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Realme 8 Pro Vàng Rực Rỡ', N'REALME', 50, 8240000, null, 'realme8ProVang.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Realme 6 Pro', N'REALME', 50, 6990000, null, 'realme6Pro.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Nokia 3.4', N'NOKIA', 50, 3290000, null, 'nokia34Android.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Nokia C30', N'NOKIA', 50, 2790000, null, 'nokiaC30.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Nokia 210', N'NOKIA', 50, 790000, null, 'nokia210.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
+EXEC sp_AddSP N'Nokia 6300 4G', N'NOKIA', 50, 1090000, null, 'nokia6300.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
+EXEC sp_AddSP N'Mobell P41', N'MOBELL', 50, 990000, null, 'mobellP41.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Mobell Rock 3', N'MOBELL', 50, 590000, null, 'mobellRock3.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
+EXEC sp_AddSP N'Mobell C310', N'MOBELL', 50, 230000, null, 'mobellC310.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
+EXEC sp_AddSP N'Mobell M729', N'MOBELL', 50, 450000, null, 'mobellM729.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
+EXEC sp_AddSP N'Itel L6006', N'INTEL', 50, 2190000, null, 'itelL6006.jpg', N'Android', N'Điện Thoại'
+EXEC sp_AddSP N'Itel it9200 4G', N'INTEL', 50, 700000, null, 'itelIt9200.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
+EXEC sp_AddSP N'Itel it2590', N'INTEL', 50, 450000, null, 'itelIt2590.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
+EXEC sp_AddSP N'Itel it5071', N'INTEL', 50, 330000, null, 'itelIt5071.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
+EXEC sp_AddSP N'Masstel Fami P20', N'MASSTEL', 50, 550000, null, 'masstelFamiP20.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
+EXEC sp_AddSP N'Masstel Play 50', N'MASSTEL', 50, 500000, null, 'masstelPlay50.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
+EXEC sp_AddSP N'Masstel IZI 300', N'MASSTEL', 50, 450000, null, 'masstelIzi300.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
+EXEC sp_AddSP N'Masstel IZI 230', N'MASSTEL', 50, 380000, null, 'masstelIzi230.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
+EXEC sp_AddSP N'Energizer E241S', N'Energizer', 50, 890000, null, 'energizerE241s.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
+EXEC sp_AddSP N'Energizer E20', N'Energizer', 50, 650000, null, 'energizerE20.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
+EXEC sp_AddSP N'Energizer P20', N'Energizer', 50, 590000, null, 'energizerP20.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
+EXEC sp_AddSP N'Energizer E100', N'Energizer', 50, 490000, null, 'energizerE100.jpg', N'Điện thoại phổ thông', N'Điện Thoại'
 
 --SẠC DỰ PHÒNG
-EXEC sp_AddSP N'Pin sạc dự phòng Polymer 10.000 mAh Type C Xiaomi Power Bank 3 Ultra Compact', N'XIAOMI', 20, 474000, N'Trung Quốc', 'polymerXiaomiUltraCompact.jpg', N'Pin sạc dự phòng', N'Phụ kiện'
-EXEC sp_AddSP N'Pin sạc dự phòng Polymer 10.000mAh Type C Fast Charge Xiaomi Mi Power Bank 3', N'XIAOMI', 20, 374000, N'Trung Quốc', 'pinsacduphongpolymer.jpg', N'Pin sạc dự phòng', N'Phụ kiện'
-EXEC sp_AddSP N'Pin sạc dự phòng Polymer 10.000 mAh Type C PD Samsung EB-P3300', N'SAMSUNG', 20, 693000, N'Trung Quốc', 'polymersamsungebP3300.jpg', N'Pin sạc dự phòng', N'Phụ kiện'
-EXEC sp_AddSP N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ', N'Energizer', 20, 770000, N'Trung Quốc', 'energizerfix2.jpg', N'Pin sạc dự phòng', N'Phụ kiện'
+EXEC sp_AddSP N'Pin sạc dự phòng Polymer 10.000 mAh Type C Xiaomi Power Bank 3 Ultra Compact', N'XIAOMI', 50, 474000, N'Trung Quốc', 'polymerXiaomiUltraCompact.jpg', N'Pin sạc dự phòng', N'Phụ kiện'
+EXEC sp_AddSP N'Pin sạc dự phòng Polymer 10.000mAh Type C Fast Charge Xiaomi Mi Power Bank 3', N'XIAOMI', 50, 374000, N'Trung Quốc', 'pinsacduphongpolymer.jpg', N'Pin sạc dự phòng', N'Phụ kiện'
+EXEC sp_AddSP N'Pin sạc dự phòng Polymer 10.000 mAh Type C PD Samsung EB-P3300', N'SAMSUNG', 50, 693000, N'Trung Quốc', 'polymersamsungebP3300.jpg', N'Pin sạc dự phòng', N'Phụ kiện'
+EXEC sp_AddSP N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ', N'Energizer', 50, 770000, N'Trung Quốc', 'energizerfix2.jpg', N'Pin sạc dự phòng', N'Phụ kiện'
 
 --Sạc, cáp
-EXEC sp_AddSP N'Adapter Sạc Type C PD 25W Samsung EP-TA800N', N'SAMSUNG', 20, 490000, N'Việt Nam', 'type-c-pdsamsungTa800n.jpg', N'Sạc, cáp', N'Phụ kiện'
-EXEC sp_AddSP N'Cáp chuyển đổi Type C sang 3.5mm Samsung EE-UC10JUW Trắng', N'SAMSUNG', 20, 220000, N'Việt Nam', 'capChuyenDoisamsungeeUc10juw.jpg', N'Sạc, cáp', N'Phụ kiện'
-EXEC sp_AddSP N'Cáp Type-C 1.2 m Energizer C41C2AGBKT Đen', N'Energizer', 20, 175000, N'Trung Quốc', 'captypecEnergizec41c2agbkt.jpg', N'Sạc, cáp', N'Phụ kiện'
-EXEC sp_AddSP N'Sạc không dây xe hơi 20W Xiaomi GDS4127GL Đen', N'XIAOMI', 20, 774000, N'Trung Quốc', 'sacKhongDayXiaomiGds4127gl.jpg', N'Sạc, cáp', N'Phụ kiện'
+EXEC sp_AddSP N'Adapter Sạc Type C PD 25W Samsung EP-TA800N', N'SAMSUNG', 50, 490000, N'Việt Nam', 'type-c-pdsamsungTa800n.jpg', N'Sạc, cáp', N'Phụ kiện'
+EXEC sp_AddSP N'Cáp chuyển đổi Type C sang 3.5mm Samsung EE-UC10JUW Trắng', N'SAMSUNG', 50, 220000, N'Việt Nam', 'capChuyenDoisamsungeeUc10juw.jpg', N'Sạc, cáp', N'Phụ kiện'
+EXEC sp_AddSP N'Cáp Type-C 1.2 m Energizer C41C2AGBKT Đen', N'Energizer', 50, 175000, N'Trung Quốc', 'captypecEnergizec41c2agbkt.jpg', N'Sạc, cáp', N'Phụ kiện'
+EXEC sp_AddSP N'Sạc không dây xe hơi 20W Xiaomi GDS4127GL Đen', N'XIAOMI', 50, 774000, N'Trung Quốc', 'sacKhongDayXiaomiGds4127gl.jpg', N'Sạc, cáp', N'Phụ kiện'
 
 --Miếng dán màn hình
-EXEC sp_AddSP N'Miếng dán màn hình iPhone 13 Pro Max', N'iPhone', 20, 50000, null, '.jpg', N'Miếng dán màn hình', N'Phụ kiện'
-EXEC sp_AddSP N'Miếng dán kính iPhone 13 Pro Max JCPAL', N'iPhone', 20, 390000, null, '.jpg', N'Miếng dán màn hình', N'Phụ kiện'
-EXEC sp_AddSP N'Miếng dán full màn hình TA SHT31 Galaxy S21 Ultra', N'SAMSUNG', 20, 100000, null, '.jpg', N'Miếng dán màn hình', N'Phụ kiện'
-EXEC sp_AddSP N'Miếng dán màn hình Galaxy S21', N'SAMSUNG', 20, 50000, null, '.jpg', N'Miếng dán màn hình', N'Phụ kiện'
+EXEC sp_AddSP N'Miếng dán màn hình iPhone 13 Pro Max', N'iPhone', 50, 50000, null, '.jpg', N'Miếng dán màn hình', N'Phụ kiện'
+EXEC sp_AddSP N'Miếng dán kính iPhone 13 Pro Max JCPAL', N'iPhone', 50, 390000, null, '.jpg', N'Miếng dán màn hình', N'Phụ kiện'
+EXEC sp_AddSP N'Miếng dán full màn hình TA SHT31 Galaxy S21 Ultra', N'SAMSUNG', 50, 100000, null, '.jpg', N'Miếng dán màn hình', N'Phụ kiện'
+EXEC sp_AddSP N'Miếng dán màn hình Galaxy S21', N'SAMSUNG', 50, 50000, null, '.jpg', N'Miếng dán màn hình', N'Phụ kiện'
 
 --Ốp lưng điện thoại
-EXEC sp_AddSP N'Ốp lưng iPhone 13 Silicon OSMIA Cam', null, 20, 70000, null, 'oplungiphone13cam.jpg', N'Ốp lưng điện thoại', N'Phụ kiện'
-EXEC sp_AddSP N'Ốp lưng iPhone 13 Pro Max Nhựa cứng viền dẻo Magnets KingxBar Trắng', null, 20, 245000, null, 'iphone13proMaxNhuaCung.jpg', N'Ốp lưng điện thoại', N'Phụ kiện'
-EXEC sp_AddSP N'Ốp lưng Galaxy A71 nhựa dẻo Woven OSMIA Xanh Đậm', null, 20, 49000, null, 'oplunggalaxya71XanhDam.jpg', N'Ốp lưng điện thoại', N'Phụ kiện'
-EXEC sp_AddSP N'Ốp lưng Galaxy A71 nhựa dẻo TPU Electroplating Triple COSANO Bạc', null, 20, 70000, null, 'oplunggalaxy-a71nhuadeo.jpg', N'Ốp lưng điện thoại', N'Phụ kiện'
+EXEC sp_AddSP N'Ốp lưng iPhone 13 Silicon OSMIA Cam', null, 50, 70000, null, 'oplungiphone13cam.jpg', N'Ốp lưng điện thoại', N'Phụ kiện'
+EXEC sp_AddSP N'Ốp lưng iPhone 13 Pro Max Nhựa cứng viền dẻo Magnets KingxBar Trắng', null, 50, 245000, null, 'iphone13proMaxNhuaCung.jpg', N'Ốp lưng điện thoại', N'Phụ kiện'
+EXEC sp_AddSP N'Ốp lưng Galaxy A71 nhựa dẻo Woven OSMIA Xanh Đậm', null, 50, 49000, null, 'oplunggalaxya71XanhDam.jpg', N'Ốp lưng điện thoại', N'Phụ kiện'
+EXEC sp_AddSP N'Ốp lưng Galaxy A71 nhựa dẻo TPU Electroplating Triple COSANO Bạc', null, 50, 70000, null, 'oplunggalaxy-a71nhuadeo.jpg', N'Ốp lưng điện thoại', N'Phụ kiện'
 
 --Gậy tự sướng
-EXEC sp_AddSP N'Gậy chụp ảnh Bluetooth Tripod Xmobile K06 Đen', null, 20, 240000, null, 'gayChupAnhxmobileK06.jpg', N'Gậy tự sướng', N'Phụ kiện'
-EXEC sp_AddSP N'Gậy Chụp Ảnh Bluetooth Cosano HD-P7', null, 20, 120000, null, 'gayChupAnhCosanoP7.jpg', N'Gậy tự sướng', N'Phụ kiện'
-EXEC sp_AddSP N'Gậy Chụp Ảnh Xmobile Hình Cô gái CSA005', null, 20, 72000, null, 'gayChupAnhCoGaiHong.jpg', N'Gậy tự sướng', N'Phụ kiện'
-EXEC sp_AddSP N'Gậy Chụp Ảnh Osmia OW5', null, 20, 70000, null, 'gayChupAnhOw5.jpg', N'Gậy tự sướng', N'Phụ kiện'
+EXEC sp_AddSP N'Gậy chụp ảnh Bluetooth Tripod Xmobile K06 Đen', null, 50, 240000, null, 'gayChupAnhxmobileK06.jpg', N'Gậy tự sướng', N'Phụ kiện'
+EXEC sp_AddSP N'Gậy Chụp Ảnh Bluetooth Cosano HD-P7', null, 50, 120000, null, 'gayChupAnhCosanoP7.jpg', N'Gậy tự sướng', N'Phụ kiện'
+EXEC sp_AddSP N'Gậy Chụp Ảnh Xmobile Hình Cô gái CSA005', null, 50, 72000, null, 'gayChupAnhCoGaiHong.jpg', N'Gậy tự sướng', N'Phụ kiện'
+EXEC sp_AddSP N'Gậy Chụp Ảnh Osmia OW5', null, 50, 70000, null, 'gayChupAnhOw5.jpg', N'Gậy tự sướng', N'Phụ kiện'
 
 --Đế móc điện thoại
-EXEC sp_AddSP N'Dây đeo điện thoại OSMIA silicon CRS', null, 20, 24000, null, '.jpg', N'Đế móc điện thoại', N'Phụ kiện'
-EXEC sp_AddSP N'Bộ 2 móc điện thoại OSMIA CK-CRS10 Mèo cá heo xanh', null, 20, 48000, null, '.jpg', N'Đế móc điện thoại', N'Phụ kiện'
-EXEC sp_AddSP N'Bộ 2 móc điện thoại OSMIA CK-CRS11 Hươu cánh cụt vàng', null, 20, 48000, null, '.jpg', N'Đế móc điện thoại', N'Phụ kiện'
-EXEC sp_AddSP N'Bộ 2 móc điện thoại nhựa dẻo OSMIA CK-CRS3 Nai Mèo Đen', null, 20, 32000, null, '.jpg', N'Đế móc điện thoại', N'Phụ kiện'
+EXEC sp_AddSP N'Dây đeo điện thoại OSMIA silicon CRS', null, 50, 24000, null, '.jpg', N'Đế móc điện thoại', N'Phụ kiện'
+EXEC sp_AddSP N'Bộ 2 móc điện thoại OSMIA CK-CRS10 Mèo cá heo xanh', null, 50, 48000, null, '.jpg', N'Đế móc điện thoại', N'Phụ kiện'
+EXEC sp_AddSP N'Bộ 2 móc điện thoại OSMIA CK-CRS11 Hươu cánh cụt vàng', null, 50, 48000, null, '.jpg', N'Đế móc điện thoại', N'Phụ kiện'
+EXEC sp_AddSP N'Bộ 2 móc điện thoại nhựa dẻo OSMIA CK-CRS3 Nai Mèo Đen', null, 50, 32000, null, '.jpg', N'Đế móc điện thoại', N'Phụ kiện'
 
 --Túi chống nước
-EXEC sp_AddSP N'Túi chống nước Cosano JMG-C-20 Xanh lá', null, 20, 40000, null, '.jpg', N'Túi chống nước', N'Phụ kiện'
-EXEC sp_AddSP N'Túi chống nước Cosano JMG-C-21 Xanh biển', null, 20, 40000, null, '.jpg', N'Túi chống nước', N'Phụ kiện'
-EXEC sp_AddSP N'Túi chống nước Cosano 5 inch Vàng Chanh', null, 20, 40000, null, '.jpg', N'Túi chống nước', N'Phụ kiện'
-EXEC sp_AddSP N'Túi chống nước 5 inch Cosano Hình Chú mèo', null, 20, 40000, null, '.jpg', N'Túi chống nước', N'Phụ kiện'
+EXEC sp_AddSP N'Túi chống nước Cosano JMG-C-20 Xanh lá', null, 50, 40000, null, '.jpg', N'Túi chống nước', N'Phụ kiện'
+EXEC sp_AddSP N'Túi chống nước Cosano JMG-C-21 Xanh biển', null, 50, 40000, null, '.jpg', N'Túi chống nước', N'Phụ kiện'
+EXEC sp_AddSP N'Túi chống nước Cosano 5 inch Vàng Chanh', null, 50, 40000, null, '.jpg', N'Túi chống nước', N'Phụ kiện'
+EXEC sp_AddSP N'Túi chống nước 5 inch Cosano Hình Chú mèo', null, 50, 40000, null, '.jpg', N'Túi chống nước', N'Phụ kiện'
 
 -- Bảng cấu hình(thông tin sản phẩm)
 EXEC sp_AddCauHinh N'Energizer E100', N'Màn hình', N'TFT LCD, 2.4", 65.536 màu'
@@ -1530,9 +1582,19 @@ EXEC sp_AddCauHinh N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energize
 DECLARE @maHD_ VARCHAR(10)
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
-EXEC sp_AddHD @maHD_, N'Lê Thị Linh', N'Từ Huệ Sơn', N'iPhone XR 128GB', 2
-EXEC sp_AddHD @maHD_, N'Lê Thị Linh', N'Từ Huệ Sơn', N'iPhone 12 64GB', 1
-EXEC sp_AddHD @maHD_, N'Lê Thị Linh', N'Từ Huệ Sơn', N'iPhone 13 Pro Max 1TB', 2
+EXEC sp_AddHD @maHD_, N'Lê Thị Linh', N'Đỗ Gia Nguyên', N'iPhone XR 128GB', 1
+EXEC sp_AddHD @maHD_, N'Lê Thị Linh', N'Đỗ Gia Nguyên', N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ', 1
+EXEC sp_AddHD @maHD_, N'Lê Thị Linh', N'Đỗ Gia Nguyên', N'iPhone 13 Pro Max 1TB', 1
+
+EXEC sp_GetMaHD @maHD_ OUTPUT
+EXEC sp_AddHD @maHD_, N'Cao Gia Vinh', N'Đỗ Gia Nguyên', N'iPhone XR 128GB', 1
+EXEC sp_AddHD @maHD_, N'Cao Gia Vinh', N'Đỗ Gia Nguyên', N'iPhone 12 64GB', 1
+EXEC sp_AddHD @maHD_, N'Cao Gia Vinh', N'Đỗ Gia Nguyên', N'Vivo Y21', 2
+
+EXEC sp_GetMaHD @maHD_ OUTPUT
+EXEC sp_AddHD @maHD_, N'Nguyễn Thị Thương', N'Từ Huệ Sơn', N'OPPO Reno6 Z 5G', 1
+EXEC sp_AddHD @maHD_, N'Nguyễn Thị Thương', N'Từ Huệ Sơn', N'Gậy chụp ảnh Bluetooth Tripod Xmobile K06 Đen', 1
+EXEC sp_AddHD @maHD_, N'Nguyễn Thị Thương', N'Từ Huệ Sơn', N'Vivo Y21', 1
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
 EXEC sp_AddHD @maHD_, N'Hồ Minh Ngọc', N'Lê Đức Tài', N'iPhone 13 Pro Max 512GB', 1
@@ -1540,9 +1602,20 @@ EXEC sp_AddHD @maHD_, N'Hồ Minh Ngọc', N'Lê Đức Tài', N'iPhone 12 Pro M
 EXEC sp_AddHD @maHD_, N'Hồ Minh Ngọc', N'Lê Đức Tài', N'iPhone 13 Pro 1TB', 1
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
-EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Lê Đức Tài', N'Samsung Galaxy Z Flip3 5G 256GB', 1
-EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Lê Đức Tài', N'Samsung Galaxy A03s', 1
-EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Lê Đức Tài', N'iPhone 13 Pro 1TB', 1
+EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Nguyễn văn Tèo', N'iPhone 13 Pro Max 512GB', 1
+EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Nguyễn văn Tèo', N'Realme 8 Pro Vàng Rực Rỡ', 1
+EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Nguyễn văn Tèo', N'Cáp Type-C 1.2 m Energizer C41C2AGBKT Đen', 1
+
+EXEC sp_GetMaHD @maHD_ OUTPUT
+EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Nguyễn văn Tèo', N'iPhone 13 Pro Max 512GB', 1
+EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Nguyễn văn Tèo', N'Nokia 3.4', 1
+EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Nguyễn văn Tèo', N'Cáp Type-C 1.2 m Energizer C41C2AGBKT Đen', 1
+EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Nguyễn văn Tèo', N'Pin sạc dự phòng Polymer 10.000 mAh Type C PD Samsung EB-P3300', 1
+
+EXEC sp_GetMaHD @maHD_ OUTPUT
+EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Lê Đức Tài', N'Samsung Galaxy Z Flip3 5G 256GB', 1
+EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Lê Đức Tài', N'Samsung Galaxy A03s', 1
+EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Lê Đức Tài', N'iPhone 13 Pro 1TB', 1
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
 EXEC sp_AddHD @maHD_, N'Nguyễn Thị Thương', N'Từ Huệ Sơn', N'iPhone 13 Pro 1TB', 2
@@ -1568,44 +1641,84 @@ EXEC sp_GetMaHD @maHD_ OUTPUT
 EXEC sp_AddHD @maHD_, N'Cao Gia Vinh', N'Lê Đức Tài', N'OPPO A74', 1
 EXEC sp_AddHD @maHD_, N'Cao Gia Vinh', N'Lê Đức Tài', N'Túi chống nước Cosano 5 inch Vàng Chanh', 1
 EXEC sp_AddHD @maHD_, N'Cao Gia Vinh', N'Lê Đức Tài', N'Cáp Type-C 1.2 m Energizer C41C2AGBKT Đen', 1
+EXEC sp_AddHD @maHD_, N'Cao Gia Vinh', N'Lê Đức Tài', N'Pin sạc dự phòng Polymer 10.000mAh Type C Fast Charge Xiaomi Mi Power Bank 3', 1
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
 EXEC sp_AddHD @maHD_, N'Lê Hồng Đào', N'Lê Đức Tài', N'Masstel Fami P20', 1
 EXEC sp_AddHD @maHD_, N'Lê Hồng Đào', N'Lê Đức Tài', N'Mobell Rock 3', 1
 EXEC sp_AddHD @maHD_, N'Lê Hồng Đào', N'Lê Đức Tài', N'Xiaomi Redmi Note 9', 1
+EXEC sp_AddHD @maHD_, N'Lê Hồng Đào', N'Lê Đức Tài', N'Gậy Chụp Ảnh Osmia OW5', 1
+EXEC sp_AddHD @maHD_, N'Lê Hồng Đào', N'Lê Đức Tài', N'Dây đeo điện thoại OSMIA silicon CRS', 2
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
 EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Từ Huệ Sơn', N'Vivo X70 Pro 5G', 2
 EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Từ Huệ Sơn', N'Bộ 2 móc điện thoại OSMIA CK-CRS10 Mèo cá heo xanh', 1
 EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Từ Huệ Sơn', N'Túi chống nước Cosano JMG-C-20 Xanh lá', 2
+EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Từ Huệ Sơn', N'Gậy chụp ảnh Bluetooth Tripod Xmobile K06 Đen', 2
+
+EXEC sp_GetMaHD @maHD_ OUTPUT
+EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Lý Tường', N'iPhone 12 64GB', 2
+EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Lý Tường', N'Sạc không dây xe hơi 20W Xiaomi GDS4127GL Đen', 1
+EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Lý Tường', N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ', 1
+EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Lý Tường', N'Túi chống nước Cosano JMG-C-20 Xanh lá', 3
+
+EXEC sp_GetMaHD @maHD_ OUTPUT
+EXEC sp_AddHD @maHD_, N'Nguyễn Thị Thương', N'vũ thanh long', N'iPhone 13 Pro Max 1TB', 2
+EXEC sp_AddHD @maHD_, N'Nguyễn Thị Thương', N'vũ thanh long', N'Ốp lưng iPhone 13 Silicon OSMIA Cam', 2
+EXEC sp_AddHD @maHD_, N'Nguyễn Thị Thương', N'vũ thanh long', N'Sạc không dây xe hơi 20W Xiaomi GDS4127GL Đen', 1
+EXEC sp_AddHD @maHD_, N'Nguyễn Thị Thương', N'vũ thanh long', N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ', 2
+EXEC sp_AddHD @maHD_, N'Nguyễn Thị Thương', N'vũ thanh long', N'Túi chống nước Cosano JMG-C-20 Xanh lá', 3
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
 EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Từ Huệ Sơn', N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ', 2
 EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Từ Huệ Sơn', N'Bộ 2 móc điện thoại OSMIA CK-CRS10 Mèo cá heo xanh', 1
 EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Từ Huệ Sơn', N'Xiaomi Redmi Note 9', 2
+EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Từ Huệ Sơn', N'Gậy chụp ảnh Bluetooth Tripod Xmobile K06 Đen', 2
 UPDATE HOADON set NGTAO = '1/2/2020' WHERE ID = @maHD_
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
-EXEC sp_AddHD @maHD_, N'Lê Hồng Đào', N'Từ Huệ Sơn', N'Cáp Type-C 1.2 m Energizer C41C2AGBKT Đen', 2
-EXEC sp_AddHD @maHD_, N'Lê Hồng Đào', N'Từ Huệ Sơn', N'Túi chống nước Cosano 5 inch Vàng Chanh', 3
-EXEC sp_AddHD @maHD_, N'Lê Hồng Đào', N'Từ Huệ Sơn', N'Xiaomi Redmi Note 10S', 1
+EXEC sp_AddHD @maHD_, N'Lê Hồng Đào', N'Trần Vũ', N'Cáp Type-C 1.2 m Energizer C41C2AGBKT Đen', 2
+EXEC sp_AddHD @maHD_, N'Lê Hồng Đào', N'Trần Vũ', N'Túi chống nước Cosano 5 inch Vàng Chanh', 3
+EXEC sp_AddHD @maHD_, N'Lê Hồng Đào', N'Trần Vũ', N'OPPO A74', 1
+EXEC sp_AddHD @maHD_, N'Lê Hồng Đào', N'Trần Vũ', N'Pin sạc dự phòng Polymer 10.000 mAh Type C PD Samsung EB-P3300', 2
 UPDATE HOADON set NGTAO = '2/21/2020' WHERE ID = @maHD_
+
+EXEC sp_GetMaHD @maHD_ OUTPUT
+EXEC sp_AddHD @maHD_, N'Hồ Minh Ngọc', N'Từ Huệ Sơn', N'Cáp Type-C 1.2 m Energizer C41C2AGBKT Đen', 2
+EXEC sp_AddHD @maHD_, N'Hồ Minh Ngọc', N'Từ Huệ Sơn', N'Túi chống nước Cosano 5 inch Vàng Chanh', 3
+EXEC sp_AddHD @maHD_, N'Hồ Minh Ngọc', N'Từ Huệ Sơn', N'Xiaomi Redmi Note 10S', 1
+UPDATE HOADON set NGTAO = '3/11/2020' WHERE ID = @maHD_
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
 EXEC sp_AddHD @maHD_, N'Đỗ Ái Vy', N'Nguyễn văn Tèo', N'Cáp Type-C 1.2 m Energizer C41C2AGBKT Đen', 2
 EXEC sp_AddHD @maHD_, N'Đỗ Ái Vy', N'Nguyễn văn Tèo', N'OPPO A74', 1
 EXEC sp_AddHD @maHD_, N'Đỗ Ái Vy', N'Nguyễn văn Tèo', N'Dây đeo điện thoại OSMIA silicon CRS', 1
 EXEC sp_AddHD @maHD_, N'Đỗ Ái Vy', N'Nguyễn văn Tèo', N'Túi chống nước Cosano 5 inch Vàng Chanh', 1
-UPDATE HOADON set NGTAO = '12/3/2020' WHERE ID = @maHD_
+UPDATE HOADON set NGTAO = '4/3/2020' WHERE ID = @maHD_
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
 EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Đỗ Gia Nguyên', N'Adapter Sạc Type C PD 25W Samsung EP-TA800N', 2
 EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Đỗ Gia Nguyên', N'OPPO A74', 1
 EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Đỗ Gia Nguyên', N'Samsung Galaxy M51', 1
 EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Đỗ Gia Nguyên', N'Pin sạc dự phòng Polymer 10.000 mAh Type C Xiaomi Power Bank 3 Ultra Compact', 1
-UPDATE HOADON set NGTAO = '2/21/2020' WHERE ID = @maHD_
+UPDATE HOADON set NGTAO = '5/17/2020' WHERE ID = @maHD_
 
+EXEC sp_GetMaHD @maHD_ OUTPUT
+EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Đào kim huệ', N'Adapter Sạc Type C PD 25W Samsung EP-TA800N', 2
+EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Đào kim huệ', N'OPPO A74', 1
+EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Đào kim huệ', N'iPhone 11 128GB', 1
+EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Đào kim huệ', N'Pin sạc dự phòng Polymer 10.000 mAh Type C Xiaomi Power Bank 3 Ultra Compact', 1
+EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Đào kim huệ', N'Gậy Chụp Ảnh Bluetooth Cosano HD-P7', 1
+UPDATE HOADON set NGTAO = '5/27/2020' WHERE ID = @maHD_
 
+EXEC sp_GetMaHD @maHD_ OUTPUT
+EXEC sp_AddHD @maHD_, N'Đỗ Ái Vy', N'Lê Đức Tài', N'Adapter Sạc Type C PD 25W Samsung EP-TA800N', 2
+EXEC sp_AddHD @maHD_, N'Đỗ Ái Vy', N'Lê Đức Tài', N'iPhone 13 Pro Max 1TB', 1
+EXEC sp_AddHD @maHD_, N'Đỗ Ái Vy', N'Lê Đức Tài', N'Miếng dán kính iPhone 13 Pro Max JCPAL', 1
+EXEC sp_AddHD @maHD_, N'Đỗ Ái Vy', N'Lê Đức Tài', N'Ốp lưng iPhone 13 Silicon OSMIA Cam', 1
+EXEC sp_AddHD @maHD_, N'Đỗ Ái Vy', N'Lê Đức Tài', N'iPhone 11 128GB', 1
+EXEC sp_AddHD @maHD_, N'Đỗ Ái Vy', N'Lê Đức Tài', N'Pin sạc dự phòng Polymer 10.000 mAh Type C Xiaomi Power Bank 3 Ultra Compact', 1
+UPDATE HOADON set NGTAO = '5/27/2020' WHERE ID = @maHD_
 ------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------
 -------------------------------------    DEBUG     ---------------------------------------------------
