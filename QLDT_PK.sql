@@ -864,6 +864,25 @@ AS
 	ORDER BY DOANHTHU DESC
 GO
 
+CREATE PROC sp_ChartDoanhThu
+@nam int
+AS
+	DECLARE @tbDoanhThu TABLE (THANG INT, DOANHTHU FLOAT)
+	INSERT @tbDoanhThu
+		SELECT m, SUM(DONGIA) DOANHTHU
+		FROM (SELECT * FROM HOADON WHERE YEAR(NGTAO) = @nam) dtn RIGHT JOIN (
+			SELECT m
+			FROM (VALUES (1), (2), (3), (4), (5), (6), (7), (8), (9), (10), (11), (12))
+			[1 to 12](m)
+		) listMonth
+			ON MONTH(NGTAO)=listMonth.m
+		GROUP BY m
+		ORDER BY m
+	
+	UPDATE @tbDoanhThu SET DOANHTHU = 0 WHERE DOANHTHU IS NULL
+	SELECT * FROM @tbDoanhThu
+GO
+
 -- TẠO RÀNG BUỘC
 ALTER TABLE THONGTINTAIKHOAN
 ADD CONSTRAINT DF_NGTAO_TTTK DEFAULT GETDATE() FOR NGTAO
@@ -1585,63 +1604,81 @@ EXEC sp_GetMaHD @maHD_ OUTPUT
 EXEC sp_AddHD @maHD_, N'Lê Thị Linh', N'Đỗ Gia Nguyên', N'iPhone XR 128GB', 1
 EXEC sp_AddHD @maHD_, N'Lê Thị Linh', N'Đỗ Gia Nguyên', N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ', 1
 EXEC sp_AddHD @maHD_, N'Lê Thị Linh', N'Đỗ Gia Nguyên', N'iPhone 13 Pro Max 1TB', 1
+UPDATE HOADON set NGTAO = '1/12/2021' WHERE ID = @maHD_
+
+EXEC sp_GetMaHD @maHD_ OUTPUT
+EXEC sp_AddHD @maHD_, N'Cao Gia Vinh', N'Từ Huệ Sơn', N'iPhone XR 128GB', 1
+EXEC sp_AddHD @maHD_, N'Cao Gia Vinh', N'Từ Huệ Sơn', N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ', 1
+EXEC sp_AddHD @maHD_, N'Cao Gia Vinh', N'Từ Huệ Sơn', N'iPhone 13 Pro Max 1TB', 1
+UPDATE HOADON set NGTAO = '1/13/2021' WHERE ID = @maHD_
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
 EXEC sp_AddHD @maHD_, N'Cao Gia Vinh', N'Đỗ Gia Nguyên', N'iPhone XR 128GB', 1
 EXEC sp_AddHD @maHD_, N'Cao Gia Vinh', N'Đỗ Gia Nguyên', N'iPhone 12 64GB', 1
 EXEC sp_AddHD @maHD_, N'Cao Gia Vinh', N'Đỗ Gia Nguyên', N'Vivo Y21', 2
+UPDATE HOADON set NGTAO = '1/22/2021' WHERE ID = @maHD_
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
 EXEC sp_AddHD @maHD_, N'Nguyễn Thị Thương', N'Từ Huệ Sơn', N'OPPO Reno6 Z 5G', 1
-EXEC sp_AddHD @maHD_, N'Nguyễn Thị Thương', N'Từ Huệ Sơn', N'Gậy chụp ảnh Bluetooth Tripod Xmobile K06 Đen', 1
-EXEC sp_AddHD @maHD_, N'Nguyễn Thị Thương', N'Từ Huệ Sơn', N'Vivo Y21', 1
+EXEC sp_AddHD @maHD_, N'Nguyễn Thị Thương', N'Từ Huệ Sơn', N'Gậy chụp ảnh Bluetooth Tripod Xmobile K06 Đen', 3
+EXEC sp_AddHD @maHD_, N'Nguyễn Thị Thương', N'Từ Huệ Sơn', N'Vivo Y21', 2
+UPDATE HOADON set NGTAO = '2/21/2021' WHERE ID = @maHD_
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
 EXEC sp_AddHD @maHD_, N'Hồ Minh Ngọc', N'Lê Đức Tài', N'iPhone 13 Pro Max 512GB', 1
 EXEC sp_AddHD @maHD_, N'Hồ Minh Ngọc', N'Lê Đức Tài', N'iPhone 12 Pro Max 512GB', 1
 EXEC sp_AddHD @maHD_, N'Hồ Minh Ngọc', N'Lê Đức Tài', N'iPhone 13 Pro 1TB', 1
+UPDATE HOADON set NGTAO = '2/22/2021' WHERE ID = @maHD_
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
 EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Nguyễn văn Tèo', N'iPhone 13 Pro Max 512GB', 1
 EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Nguyễn văn Tèo', N'Realme 8 Pro Vàng Rực Rỡ', 1
 EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Nguyễn văn Tèo', N'Cáp Type-C 1.2 m Energizer C41C2AGBKT Đen', 1
+UPDATE HOADON set NGTAO = '3/3/2021' WHERE ID = @maHD_
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
 EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Nguyễn văn Tèo', N'iPhone 13 Pro Max 512GB', 1
 EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Nguyễn văn Tèo', N'Nokia 3.4', 1
 EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Nguyễn văn Tèo', N'Cáp Type-C 1.2 m Energizer C41C2AGBKT Đen', 1
 EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Nguyễn văn Tèo', N'Pin sạc dự phòng Polymer 10.000 mAh Type C PD Samsung EB-P3300', 1
+UPDATE HOADON set NGTAO = '3/23/2021' WHERE ID = @maHD_
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
-EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Lê Đức Tài', N'Samsung Galaxy Z Flip3 5G 256GB', 1
+EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Lê Đức Tài', N'Samsung Galaxy Z Flip3 5G 256GB', 2
 EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Lê Đức Tài', N'Samsung Galaxy A03s', 1
 EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Lê Đức Tài', N'iPhone 13 Pro 1TB', 1
+UPDATE HOADON set NGTAO = '4/22/2021' WHERE ID = @maHD_
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
 EXEC sp_AddHD @maHD_, N'Nguyễn Thị Thương', N'Từ Huệ Sơn', N'iPhone 13 Pro 1TB', 2
 EXEC sp_AddHD @maHD_, N'Nguyễn Thị Thương', N'Từ Huệ Sơn', N'Realme 6 Pro', 1
 EXEC sp_AddHD @maHD_, N'Nguyễn Thị Thương', N'Từ Huệ Sơn', N'Pin sạc dự phòng Polymer 10.000 mAh Type C Xiaomi Power Bank 3 Ultra Compact', 2
+UPDATE HOADON set NGTAO = '5/12/2021' WHERE ID = @maHD_
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
 EXEC sp_AddHD @maHD_, N'Trần Ngọc Sang', N'Lê Đức Tài', N'Adapter Sạc Type C PD 25W Samsung EP-TA800N', 1
 EXEC sp_AddHD @maHD_, N'Trần Ngọc Sang', N'Lê Đức Tài', N'Samsung Galaxy Z Fold3 5G 512GB', 1
 EXEC sp_AddHD @maHD_, N'Trần Ngọc Sang', N'Lê Đức Tài', N'OPPO Reno6 Z 5G', 1
+UPDATE HOADON set NGTAO = '6/4/2021' WHERE ID = @maHD_
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
 EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Lê Đức Tài', N'Samsung Galaxy Z Flip3 5G 256GB', 1
 EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Lê Đức Tài', N'Ốp lưng iPhone 13 Silicon OSMIA Cam', 1
 EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Lê Đức Tài', N'Dây đeo điện thoại OSMIA silicon CRS', 1
+UPDATE HOADON set NGTAO = '7/2/2021' WHERE ID = @maHD_
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
 EXEC sp_AddHD @maHD_, N'Đỗ Ái Vy', N'Từ Huệ Sơn', N'Samsung Galaxy M51', 2
 EXEC sp_AddHD @maHD_, N'Đỗ Ái Vy', N'Từ Huệ Sơn', N'Xiaomi Redmi Note 10S', 1
 EXEC sp_AddHD @maHD_, N'Đỗ Ái Vy', N'Từ Huệ Sơn', N'Nokia 6300 4G', 2
+UPDATE HOADON set NGTAO = '8/2/2021' WHERE ID = @maHD_
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
 EXEC sp_AddHD @maHD_, N'Cao Gia Vinh', N'Lê Đức Tài', N'OPPO A74', 1
 EXEC sp_AddHD @maHD_, N'Cao Gia Vinh', N'Lê Đức Tài', N'Túi chống nước Cosano 5 inch Vàng Chanh', 1
 EXEC sp_AddHD @maHD_, N'Cao Gia Vinh', N'Lê Đức Tài', N'Cáp Type-C 1.2 m Energizer C41C2AGBKT Đen', 1
 EXEC sp_AddHD @maHD_, N'Cao Gia Vinh', N'Lê Đức Tài', N'Pin sạc dự phòng Polymer 10.000mAh Type C Fast Charge Xiaomi Mi Power Bank 3', 1
+UPDATE HOADON set NGTAO = '9/2/2021' WHERE ID = @maHD_
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
 EXEC sp_AddHD @maHD_, N'Lê Hồng Đào', N'Lê Đức Tài', N'Masstel Fami P20', 1
@@ -1649,18 +1686,21 @@ EXEC sp_AddHD @maHD_, N'Lê Hồng Đào', N'Lê Đức Tài', N'Mobell Rock 3',
 EXEC sp_AddHD @maHD_, N'Lê Hồng Đào', N'Lê Đức Tài', N'Xiaomi Redmi Note 9', 1
 EXEC sp_AddHD @maHD_, N'Lê Hồng Đào', N'Lê Đức Tài', N'Gậy Chụp Ảnh Osmia OW5', 1
 EXEC sp_AddHD @maHD_, N'Lê Hồng Đào', N'Lê Đức Tài', N'Dây đeo điện thoại OSMIA silicon CRS', 2
+UPDATE HOADON set NGTAO = '10/2/2021' WHERE ID = @maHD_
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
 EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Từ Huệ Sơn', N'Vivo X70 Pro 5G', 2
 EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Từ Huệ Sơn', N'Bộ 2 móc điện thoại OSMIA CK-CRS10 Mèo cá heo xanh', 1
 EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Từ Huệ Sơn', N'Túi chống nước Cosano JMG-C-20 Xanh lá', 2
 EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Từ Huệ Sơn', N'Gậy chụp ảnh Bluetooth Tripod Xmobile K06 Đen', 2
+UPDATE HOADON set NGTAO = '11/2/2021' WHERE ID = @maHD_
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
 EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Lý Tường', N'iPhone 12 64GB', 2
 EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Lý Tường', N'Sạc không dây xe hơi 20W Xiaomi GDS4127GL Đen', 1
 EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Lý Tường', N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ', 1
 EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Lý Tường', N'Túi chống nước Cosano JMG-C-20 Xanh lá', 3
+UPDATE HOADON set NGTAO = '12/2/2021' WHERE ID = @maHD_
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
 EXEC sp_AddHD @maHD_, N'Nguyễn Thị Thương', N'vũ thanh long', N'iPhone 13 Pro Max 1TB', 2
@@ -1668,6 +1708,7 @@ EXEC sp_AddHD @maHD_, N'Nguyễn Thị Thương', N'vũ thanh long', N'Ốp lưn
 EXEC sp_AddHD @maHD_, N'Nguyễn Thị Thương', N'vũ thanh long', N'Sạc không dây xe hơi 20W Xiaomi GDS4127GL Đen', 1
 EXEC sp_AddHD @maHD_, N'Nguyễn Thị Thương', N'vũ thanh long', N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ', 2
 EXEC sp_AddHD @maHD_, N'Nguyễn Thị Thương', N'vũ thanh long', N'Túi chống nước Cosano JMG-C-20 Xanh lá', 3
+UPDATE HOADON set NGTAO = '12/21/2021' WHERE ID = @maHD_
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
 EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Từ Huệ Sơn', N'Pin sạc dự phòng Polymer 20.000 mAh Type C PD Energizer UE20011PQ', 2
@@ -1765,8 +1806,12 @@ exec sp_ReportHD 2021
 sp_ReportBill 'HD001', 153450000
 
 
+select ngtao, sum(dongia) from hoadon where year(ngtao)=2020 group by ngtao
+
+
 sp_ChartSanPham 2021
 sp_ChartNhanVien 2020
+sp_ChartDoanhThu 2020
 
 select * from hoadon
 exec sp_CKUsername 's', N'Nhân Viên'
