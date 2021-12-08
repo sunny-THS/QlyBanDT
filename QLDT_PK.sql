@@ -1855,11 +1855,11 @@ EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Đỗ Gia Nguyên', N'Pin sạc d�
 UPDATE HOADON set NGTAO = '11/22/2020' WHERE ID = @maHD_
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
-EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Lê Đức Tài', N'iPhone 13 mini 256GB', 2
-EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Lê Đức Tài', N'Xiaomi Redmi Note 9', 1
-EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Lê Đức Tài', N'Ốp lưng iPhone 13 Silicon OSMIA Cam', 1
-EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Lê Đức Tài', N'Túi chống nước Cosano JMG-C-21 Xanh biển', 2
-EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Lê Đức Tài', N'Pin sạc dự phòng Polymer 10.000 mAh Type C PD Samsung EB-P3300', 2
+EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Lê Đức Tài', N'iPhone 13 mini 256GB', 1
+EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Lê Đức Tài', N'Vivo V20 SE', 1
+EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Lê Đức Tài', N'Ốp lưng iPhone 13 Silicon OSMIA Cam', 1
+EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Lê Đức Tài', N'Túi chống nước Cosano JMG-C-21 Xanh biển', 2
+EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Lê Đức Tài', N'Pin sạc dự phòng Polymer 10.000 mAh Type C PD Samsung EB-P3300', 2
 UPDATE HOADON set NGTAO = '12/2/2020' WHERE ID = @maHD_
 ------------------------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------------------------
