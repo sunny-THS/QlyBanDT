@@ -1662,26 +1662,47 @@ EXEC sp_GetMaHD @maHD_ OUTPUT
 EXEC sp_AddHD @maHD_, N'Trần Ngọc Sang', N'Lê Đức Tài', N'Adapter Sạc Type C PD 25W Samsung EP-TA800N', 1
 EXEC sp_AddHD @maHD_, N'Trần Ngọc Sang', N'Lê Đức Tài', N'Samsung Galaxy Z Fold3 5G 512GB', 1
 EXEC sp_AddHD @maHD_, N'Trần Ngọc Sang', N'Lê Đức Tài', N'OPPO Reno6 Z 5G', 1
-UPDATE HOADON set NGTAO = '6/4/2021' WHERE ID = @maHD_
+UPDATE HOADON set NGTAO = '6/14/2021' WHERE ID = @maHD_
+
+EXEC sp_GetMaHD @maHD_ OUTPUT
+EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Nguyễn văn Tèo', N'Adapter Sạc Type C PD 25W Samsung EP-TA800N', 1
+EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Nguyễn văn Tèo', N'Samsung Galaxy Z Fold3 5G 512GB', 1
+EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Nguyễn văn Tèo', N'iPhone 13 Pro 1TB', 1
+UPDATE HOADON set NGTAO = '6/20/2021' WHERE ID = @maHD_
+
+EXEC sp_GetMaHD @maHD_ OUTPUT
+EXEC sp_AddHD @maHD_, N'Nguyễn Thị Thương', N'Trần Vũ', N'Samsung Galaxy Z Flip3 5G 256GB', 1
+EXEC sp_AddHD @maHD_, N'Nguyễn Thị Thương', N'Trần Vũ', N'iPhone 13 Pro Max 512GB', 1
+EXEC sp_AddHD @maHD_, N'Nguyễn Thị Thương', N'Trần Vũ', N'Ốp lưng iPhone 13 Silicon OSMIA Cam', 1
+EXEC sp_AddHD @maHD_, N'Nguyễn Thị Thương', N'Trần Vũ', N'Dây đeo điện thoại OSMIA silicon CRS', 3
+UPDATE HOADON set NGTAO = '7/12/2021' WHERE ID = @maHD_
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
 EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Lê Đức Tài', N'Samsung Galaxy Z Flip3 5G 256GB', 1
 EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Lê Đức Tài', N'Ốp lưng iPhone 13 Silicon OSMIA Cam', 1
 EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Lê Đức Tài', N'Dây đeo điện thoại OSMIA silicon CRS', 1
-UPDATE HOADON set NGTAO = '7/2/2021' WHERE ID = @maHD_
+UPDATE HOADON set NGTAO = '7/21/2021' WHERE ID = @maHD_
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
 EXEC sp_AddHD @maHD_, N'Đỗ Ái Vy', N'Từ Huệ Sơn', N'Samsung Galaxy M51', 2
 EXEC sp_AddHD @maHD_, N'Đỗ Ái Vy', N'Từ Huệ Sơn', N'Xiaomi Redmi Note 10S', 1
 EXEC sp_AddHD @maHD_, N'Đỗ Ái Vy', N'Từ Huệ Sơn', N'Nokia 6300 4G', 2
-UPDATE HOADON set NGTAO = '8/2/2021' WHERE ID = @maHD_
+UPDATE HOADON set NGTAO = '8/12/2021' WHERE ID = @maHD_
+
+EXEC sp_GetMaHD @maHD_ OUTPUT
+EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Lý Tường', N'Samsung Galaxy M51', 2
+EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Lý Tường', N'Pin sạc dự phòng Polymer 10.000mAh Type C Fast Charge Xiaomi Mi Power Bank 3', 1
+EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Lý Tường', N'Xiaomi Redmi Note 10S', 1
+EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Lý Tường', N'Cáp Type-C 1.2 m Energizer C41C2AGBKT Đen', 2
+EXEC sp_AddHD @maHD_, N'Lý Gia Huy', N'Lý Tường', N'Nokia 6300 4G', 2
+UPDATE HOADON set NGTAO = '8/19/2021' WHERE ID = @maHD_
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
 EXEC sp_AddHD @maHD_, N'Cao Gia Vinh', N'Lê Đức Tài', N'OPPO A74', 1
 EXEC sp_AddHD @maHD_, N'Cao Gia Vinh', N'Lê Đức Tài', N'Túi chống nước Cosano 5 inch Vàng Chanh', 1
 EXEC sp_AddHD @maHD_, N'Cao Gia Vinh', N'Lê Đức Tài', N'Cáp Type-C 1.2 m Energizer C41C2AGBKT Đen', 1
 EXEC sp_AddHD @maHD_, N'Cao Gia Vinh', N'Lê Đức Tài', N'Pin sạc dự phòng Polymer 10.000mAh Type C Fast Charge Xiaomi Mi Power Bank 3', 1
-UPDATE HOADON set NGTAO = '9/2/2021' WHERE ID = @maHD_
+UPDATE HOADON set NGTAO = '9/23/2021' WHERE ID = @maHD_
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
 EXEC sp_AddHD @maHD_, N'Lê Hồng Đào', N'Lê Đức Tài', N'Masstel Fami P20', 1
@@ -1689,14 +1710,14 @@ EXEC sp_AddHD @maHD_, N'Lê Hồng Đào', N'Lê Đức Tài', N'Mobell Rock 3',
 EXEC sp_AddHD @maHD_, N'Lê Hồng Đào', N'Lê Đức Tài', N'Xiaomi Redmi Note 9', 1
 EXEC sp_AddHD @maHD_, N'Lê Hồng Đào', N'Lê Đức Tài', N'Gậy Chụp Ảnh Osmia OW5', 1
 EXEC sp_AddHD @maHD_, N'Lê Hồng Đào', N'Lê Đức Tài', N'Dây đeo điện thoại OSMIA silicon CRS', 2
-UPDATE HOADON set NGTAO = '10/2/2021' WHERE ID = @maHD_
+UPDATE HOADON set NGTAO = '10/22/2021' WHERE ID = @maHD_
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
 EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Từ Huệ Sơn', N'Vivo X70 Pro 5G', 2
 EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Từ Huệ Sơn', N'Bộ 2 móc điện thoại OSMIA CK-CRS10 Mèo cá heo xanh', 1
 EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Từ Huệ Sơn', N'Túi chống nước Cosano JMG-C-20 Xanh lá', 2
 EXEC sp_AddHD @maHD_, N'Nguyễn Văn Cao', N'Từ Huệ Sơn', N'Gậy chụp ảnh Bluetooth Tripod Xmobile K06 Đen', 2
-UPDATE HOADON set NGTAO = '11/2/2021' WHERE ID = @maHD_
+UPDATE HOADON set NGTAO = '11/21/2021' WHERE ID = @maHD_
 
 EXEC sp_GetMaHD @maHD_ OUTPUT
 EXEC sp_AddHD @maHD_, N'Huỳnh Ái Linh', N'Lý Tường', N'iPhone 12 64GB', 2
