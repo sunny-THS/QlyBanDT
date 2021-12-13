@@ -2014,6 +2014,8 @@ sp_ReportBill 'HD001', 153450000
 
 select ngtao, sum(dongia) from hoadon where year(ngtao)=2020 group by ngtao
 
+select * from KhachHang
+
 
 sp_ChartSanPham 2021
 sp_ChartNhanVien 2020
