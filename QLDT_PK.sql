@@ -885,6 +885,21 @@ AS
 	SELECT * FROM @tbDoanhThu
 GO
 
+CREATE PROC sp_GetKhachHang
+AS
+	DECLARE @tbKH TABLE(ID VARCHAR(6), HOTEN NVARCHAR(50), SDT VARCHAR(11), EMAIL VARCHAR(40), TONGGIAODICH FLOAT)
+
+	INSERT @tbKH SELECT KH.ID, DBO.fn_Ten(KH.ID_TK) HOTEN, SDT, EMAIL, SUM(DONGIA) TONGGIAODICH
+	FROM KHACHHANG KH JOIN THONGTINTAIKHOAN TTTK
+		ON KH.ID_TK = TTTK.ID_TAIKHOAN LEFT JOIN HOADON HD
+		ON HD.ID_KH = KH.ID
+	GROUP BY KH.ID, KH.ID_TK, SDT, EMAIL
+
+	UPDATE @tbKH SET TONGGIAODICH = 0 WHERE TONGGIAODICH IS NULL
+
+	SELECT * FROM @tbKH
+GO
+
 -- TẠO RÀNG BUỘC
 ALTER TABLE THONGTINTAIKHOAN
 ADD CONSTRAINT DF_NGTAO_TTTK DEFAULT GETDATE() FOR NGTAO
@@ -947,16 +962,17 @@ EXEC sp_AddAcc 'daokimhue', 'daokimhue@123456789', N'Nhân viên', N'Đào kim h
 EXEC sp_AddAcc 'hogiacat', 'hogiacat@123456789', N'Nhân viên', N'hồ gia cát', '5-15-2001', N'nam', 'hogiacat@gmail.com', '000000000', ''
 EXEC sp_AddAcc 'vuthanhlong', 'vuthanhlong@123456789', N'Nhân viên', N'vũ thanh long', '3-15-2001', N'nam', 'vuthanhlong@gmail.com', '000000000', ''
 -- khách hàng
-EXEC sp_AddAcc '', '', N'Khách hàng', N'Lê Thị Linh', '12-4-2001', N'nữ', 'lethilinh@gmail.com', '000000000', ''
-EXEC sp_AddAcc '', '', N'Khách hàng', N'Hồ Minh Ngọc', '12-3-2001', N'nam', 'hominhngoc@gmail.com', '000000000', ''
-EXEC sp_AddAcc '', '', N'Khách hàng', N'Lý Gia Huy', '2-13-2001', N'nam', 'lygiahuy@gmail.com', '000000000', ''
-EXEC sp_AddAcc '', '', N'Khách hàng', N'Nguyễn Thị Thương', '4-13-2001', N'Nữ', 'thuongnguyen@gmail.com', '000000000', ''
-EXEC sp_AddAcc '', '', N'Khách hàng', N'Trần Ngọc Sang', '3-30-2001', N'nam', 'sangtran@gmail.com', '000000000', ''
-EXEC sp_AddAcc '', '', N'Khách hàng', N'Huỳnh Ái Linh', '7-24-2001', N'Nữ', 'linh247@gmail.com', '000000000', ''
-EXEC sp_AddAcc '', '', N'Khách hàng', N'Đỗ Ái Vy', '11-4-2001', N'nữ', 'vydo@gmail.com', '000000000', ''
-EXEC sp_AddAcc '', '', N'Khách hàng', N'Cao Gia Vinh', '12-3-2001', N'nữ', 'vinh123@gmail.com', '000000000', ''
-EXEC sp_AddAcc '', '', N'Khách hàng', N'Lê Hồng Đào', '2-13-2001', N'Nữ', 'daole132@gmail.com', '000000000', ''
-EXEC sp_AddAcc '', '', N'Khách hàng', N'Nguyễn Văn Cao', '4-13-2001', N'nam', 'caonguyen134@gmail.com', '000000000', ''
+EXEC sp_AddAcc '', '', N'Khách hàng', N'Lê Thị Linh', '12-4-2001', N'nữ', 'lethilinh@gmail.com', '0938252524', ''
+EXEC sp_AddAcc '', '', N'Khách hàng', N'Hồ Minh Ngọc', '12-3-2001', N'nam', 'hominhngoc@gmail.com', '0935252528', ''
+EXEC sp_AddAcc '', '', N'Khách hàng', N'Lý Gia Huy', '2-13-2001', N'nam', 'lygiahuy@gmail.com', '0937151518', ''
+EXEC sp_AddAcc '', '', N'Khách hàng', N'Nguyễn Thị Thương', '4-13-2001', N'Nữ', 'thuongnguyen@gmail.com', '0935262628', ''
+EXEC sp_AddAcc '', '', N'Khách hàng', N'Trần Ngọc Sang', '3-30-2001', N'nam', 'sangtran@gmail.com', '0915236268', ''
+EXEC sp_AddAcc '', '', N'Khách hàng', N'Huỳnh Ái Linh', '7-24-2001', N'Nữ', 'linh247@gmail.com', '0926352528', ''
+EXEC sp_AddAcc '', '', N'Khách hàng', N'Đỗ Ái Vy', '11-4-2001', N'nữ', 'vydo@gmail.com', '0925362624', ''
+EXEC sp_AddAcc '', '', N'Khách hàng', N'Cao Gia Vinh', '12-3-2001', N'nữ', 'vinh123@gmail.com', '0932562315', ''
+EXEC sp_AddAcc '', '', N'Khách hàng', N'Lê Hồng Đào', '2-13-2001', N'Nữ', 'daole132@gmail.com', '0925216358', ''
+EXEC sp_AddAcc '', '', N'Khách hàng', N'Nguyễn Văn Cao', '4-13-2001', N'nam', 'caonguyen134@gmail.com', '0935626248', ''
+EXEC sp_AddAcc '', '', N'Khách hàng', N'Từ Huệ Sơn', '2-5-2001', N'nam', 'tuhueson@gmail.com', '0938252793', ''
 
 -- BẢNG DANH MỤC
 INSERT DANHMUC SELECT N'Điện Thoại'
@@ -1977,11 +1993,12 @@ SELECT * FROM danhmuc
 select * from loaisp
 SELECT * FROM HOADON
 SELECT * FROM CHITIETHD
-SELECT * FROM KHACHHANG
 SELECT * FROM DONGIA
 select * from thongtintaikhoan
 select * from KHACHHANG
 select * from nhanvien
+
+select * from thongtintaikhoan join khachhang on thongtintaikhoan.id_TaiKhoan=khachhang.id_tk
 
 select * from sanpham join cauhinh on cauhinh.id_SP=sanpham.id
 
@@ -1989,6 +2006,8 @@ select * from taikhoan
 select * from nhanvien nv join taikhoan tk on nv.id_tk=tk.id join thongtintaikhoan tttk on tttk.id_taikhoan=tk.id
 
 EXEC sp_UpTTTK 'NV001', N'Từ Huệ Sơn', '2-5-2001', N'nam', 'tuhueson@gmail.com', '0938252793', ''
+
+EXEC sp_GetKhachHang
 
 exec sp_CKAcc 'tuhueson', '123', N'Nhân Viên'
 EXEC sp_ChangeAcc 'admin', '123', N'Admin'
