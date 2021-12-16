@@ -1988,6 +1988,7 @@ UPDATE HOADON set NGTAO = '12/21/2021' WHERE ID = @maHD_
 ------------------------------------------------------------------------------------------------------
 /* 
 SELECT * FROM SANPHAM
+update SANPHAM set hinhanh='' where id = 'sp078'
 SELECT * FROM CauHinh
 SELECT * FROM danhmuc
 select * from loaisp
